@@ -614,7 +614,7 @@ export function SpatialEntityGraph({
       {/* Main 3D WebGL Canvas Mount Container */}
       <div
         ref={mountRef}
-        className="w-full h-[520px] sm:h-[580px] lg:h-[620px] select-none"
+        className="w-full h-[540px] sm:h-[620px] lg:h-[700px] select-none"
         role="region"
         aria-label="3D Spatial Intelligence Network Canvas"
       />
