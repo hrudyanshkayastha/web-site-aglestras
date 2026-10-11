@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Mail, ShieldCheck, MapPin, Copy, Check, Send, AlertTriangle, ExternalLink } from "lucide-react";
 import { companyData } from "@/data/company";
 import { servicesData } from "@/data/services";
+import { SocialLinks } from "@/components/ui/SocialLinks";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -322,6 +323,22 @@ Transmitted directly to AGLETRAS Research Team.`;
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Connect with Agletras */}
+            <div className="p-8 rounded-3xl bg-[#031714] border border-[#B7E4D5]/15 space-y-4">
+              <div className="flex items-center justify-between border-b border-[#073B32] pb-3">
+                <h3 className="text-base font-editorial font-semibold text-[#F4F2EA]">
+                  Connect with Agletras
+                </h3>
+                <span className="text-[10px] font-mono uppercase tracking-wider text-[#8DA99E]">
+                  Official Links
+                </span>
+              </div>
+              <p className="text-xs text-[#A1B8B0] font-light leading-relaxed">
+                Explore our official developer repositories on GitHub and follow executive intelligence briefs on LinkedIn.
+              </p>
+              <SocialLinks variant="cards" />
             </div>
 
             {/* Mandatory Discrepancy Transparency Box */}

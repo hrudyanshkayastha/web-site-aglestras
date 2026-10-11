@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Mail, ShieldCheck, ArrowUpRight, MapPin } from "lucide-react";
 import { companyData } from "@/data/company";
+import { SocialLinks } from "@/components/ui/SocialLinks";
 
 export function Footer() {
   return (
@@ -59,6 +60,14 @@ export function Footer() {
                 <ShieldCheck size={14} className="text-[#2FA885]" />
                 <span>Udyam Reg: {companyData.registration.number}</span>
               </div>
+            </div>
+
+            {/* Official Social & Developer Channels */}
+            <div className="pt-3">
+              <span className="block text-[11px] font-mono uppercase tracking-widest text-[#8DA99E] mb-3">
+                Connect With Agletras
+              </span>
+              <SocialLinks variant="icon-buttons" />
             </div>
           </div>
 

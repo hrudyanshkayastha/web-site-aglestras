@@ -107,6 +107,10 @@ export default function RootLayout({
       "Business Due Diligence",
       "Information Correlation Systems",
     ],
+    sameAs: [
+      "https://github.com/Agletras",
+      "https://www.linkedin.com/company/agletras/posts/?viewAsMember=true",
+    ],
   };
 
   return (

@@ -39,6 +39,10 @@ export const companyData = {
     registeredOwnerEmail: "pranavbpawar13@gmail.com", // Disclosed from official MSME certificate
     jurisdiction: "Nashik, Maharashtra, India",
     domain: "https://agletras.com",
+    socials: {
+      github: "https://github.com/Agletras",
+      linkedin: "https://www.linkedin.com/company/agletras/posts/?viewAsMember=true",
+    },
   },
   principles: [
     {
