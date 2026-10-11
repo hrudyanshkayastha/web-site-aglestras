@@ -98,7 +98,17 @@ export function CompactServicesSection() {
                         isPrimary ? "text-[#C5D9D2]" : "text-[#4E635D]"
                       }`}
                     >
-                      {service.shortTagline}
+                      {service.id === "external-threat-intelligence"
+                        ? "Research and analyze publicly available cyber-threat information, indicators, infrastructure and campaigns to produce actionable security intelligence."
+                        : service.id === "business-due-diligence"
+                        ? "Research publicly available information about companies, founders, directors, and vendors to support informed business decisions."
+                        : service.id === "recruitment-verification"
+                        ? "Verify publicly available professional and digital information against records supplied for recruitment workflows."
+                        : service.id === "brand-impersonation-research"
+                        ? "Identify and analyze publicly visible indicators of brand impersonation, fraudulent activity and suspicious digital assets."
+                        : service.id === "research-automation"
+                        ? "Build automation workflows that reduce repetitive information collection, processing, analysis and reporting tasks."
+                        : "Research lawfully accessible public information and transform fragmented records into structured, defensible intelligence."}
                     </p>
                   </div>
                 </div>

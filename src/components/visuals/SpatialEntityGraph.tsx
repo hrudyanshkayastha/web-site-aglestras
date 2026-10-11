@@ -12,7 +12,7 @@ import {
 } from "@/data/entityGraphData";
 import { EntityDetailsPanel } from "./EntityDetailsPanel";
 import { AccessibleGraphFallback } from "./AccessibleGraphFallback";
-import { RotateCcw, Shield, Layers, Eye, Info, Sparkles, Filter } from "lucide-react";
+import { RotateCcw, Shield } from "lucide-react";
 
 interface SpatialEntityGraphProps {
   className?: string;
@@ -34,21 +34,24 @@ export function SpatialEntityGraph({
   const [isReducedMotion, setIsReducedMotion] = useState<boolean>(false);
   const [cameraMode, setCameraMode] = useState<"orbit" | "focus">("orbit");
 
-  // Three.js instance references held in ref to avoid React re-renders
+  // Three.js instance references
   const sceneRef = useRef<THREE.Scene | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const nodeMeshesRef = useRef<Map<string, THREE.Group>>(new Map());
   const edgeMeshesRef = useRef<Map<string, { line: THREE.Line; curve: THREE.CatmullRomCurve3 }>>(new Map());
+  const photonParticlesRef = useRef<{ mesh: THREE.Mesh; curve: THREE.CatmullRomCurve3; speed: number; progress: number }[]>([]);
   const animationFrameIdRef = useRef<number | null>(null);
   const isIntersectingRef = useRef<boolean>(true);
 
   // Target camera position for smooth interpolation
-  const targetCameraPosRef = useRef<THREE.Vector3>(new THREE.Vector3(0, 0, 7.8));
+  const defaultCameraPos = new THREE.Vector3(1.6, 1.8, 7.6);
+  const targetCameraPosRef = useRef<THREE.Vector3>(defaultCameraPos.clone());
   const targetLookAtRef = useRef<THREE.Vector3>(new THREE.Vector3(0, 0, 0));
   const currentLookAtRef = useRef<THREE.Vector3>(new THREE.Vector3(0, 0, 0));
 
-  // Mouse orbit dragging tracking
+  // Pointer parallax tracking
+  const pointerNormRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const isDraggingRef = useRef<boolean>(false);
   const previousPointerPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const rotationAnglesRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -56,7 +59,7 @@ export function SpatialEntityGraph({
   // Currently selected node object
   const selectedNode = ILLUSTRATIVE_GRAPH_NODES.find((n) => n.id === selectedNodeId) || null;
 
-  // Handle external node selection callback
+  // Handle node selection
   const handleSelectNode = useCallback(
     (id: string | null) => {
       setSelectedNodeId(id);
@@ -65,21 +68,20 @@ export function SpatialEntityGraph({
 
       if (node && cameraRef.current) {
         setCameraMode("focus");
-        // Frame camera smoothly toward selected node
+        // Frame camera toward selected node with depth offset
         const [nx, ny, nz] = node.position;
-        targetCameraPosRef.current.set(nx + 0.6, ny + 0.3, nz + 4.2);
+        targetCameraPosRef.current.set(nx + 0.8, ny + 0.4, nz + 4.2);
         targetLookAtRef.current.set(nx, ny, nz);
       } else {
         setCameraMode("orbit");
-        // Reset camera to default wide overview
-        targetCameraPosRef.current.set(0, 0, 7.8);
+        // Reset camera to angled 3D perspective
+        targetCameraPosRef.current.copy(defaultCameraPos);
         targetLookAtRef.current.set(0, 0, 0);
       }
     },
     [onNodeSelect]
   );
 
-  // Reset view to default
   const handleResetOverview = useCallback(() => {
     handleSelectNode(null);
     rotationAnglesRef.current = { x: 0, y: 0 };
@@ -90,9 +92,7 @@ export function SpatialEntityGraph({
     try {
       const canvas = document.createElement("canvas");
       const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-      if (!gl) {
-        setHasWebGL(false);
-      }
+      if (!gl) setHasWebGL(false);
     } catch {
       setHasWebGL(false);
     }
@@ -104,24 +104,25 @@ export function SpatialEntityGraph({
     return () => motionQuery.removeEventListener("change", motionListener);
   }, []);
 
-  // Main Three.js setup and lifecycle
+  // Three.js scene setup and lifecycle
   useEffect(() => {
     if (!hasWebGL || isReducedMotion || !mountRef.current) return;
 
     const container = mountRef.current;
-    let width = container.clientWidth || 800;
-    let height = container.clientHeight || 560;
+    let width = container.clientWidth || 900;
+    let height = container.clientHeight || 640;
 
-    // 1. Scene
+    // 1. Scene with atmospheric depth fog
     const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x041f1b, 0.052);
     sceneRef.current = scene;
 
-    // 2. Camera
+    // 2. Camera with 42° FOV for natural spatial depth perspective
     const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
     camera.position.copy(targetCameraPosRef.current);
     cameraRef.current = camera;
 
-    // 3. Renderer with high-performance settings & transparent background
+    // 3. High-performance WebGL Renderer with alpha transparency
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
       alpha: true,
@@ -130,38 +131,45 @@ export function SpatialEntityGraph({
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.2;
+    renderer.toneMappingExposure = 1.35;
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // 4. Lighting (Controlled, matte, architectural)
-    const ambientLight = new THREE.AmbientLight(0xdcfce7, 0.9);
+    // 4. Sophisticated Multi-Tier Lighting
+    const ambientLight = new THREE.AmbientLight(0x073b32, 1.6);
     scene.add(ambientLight);
 
-    const directionalLight1 = new THREE.DirectionalLight(0xb7e4d5, 2.0);
-    directionalLight1.position.set(5, 8, 6);
-    scene.add(directionalLight1);
+    const keyLight = new THREE.DirectionalLight(0xe2f4ee, 2.8);
+    keyLight.position.set(6, 10, 8);
+    scene.add(keyLight);
 
-    const directionalLight2 = new THREE.DirectionalLight(0x2fa885, 1.2);
-    directionalLight2.position.set(-6, -4, 4);
-    scene.add(directionalLight2);
+    const rimLight = new THREE.DirectionalLight(0x2fa885, 2.0);
+    rimLight.position.set(-8, -4, 5);
+    scene.add(rimLight);
 
-    // Deep subtle floor grid for spatial depth reference
-    const gridHelper = new THREE.GridHelper(12, 16, 0x2fa885, 0x073b32);
-    gridHelper.position.y = -3.2;
-    // Set low opacity on grid lines
-    if (Array.isArray(gridHelper.material)) {
-      gridHelper.material.forEach((m) => {
-        m.transparent = true;
-        m.opacity = 0.15;
+    // Central interior point radiance
+    const centerRadiance = new THREE.PointLight(0xb7e4d5, 2.4, 14);
+    centerRadiance.position.set(0, 0, 0);
+    scene.add(centerRadiance);
+
+    // Floor coordinate reference latitude circles
+    const floorGroup = new THREE.Group();
+    floorGroup.position.y = -3.2;
+    for (let r = 2; r <= 8; r += 2) {
+      const ringGeom = new THREE.RingGeometry(r - 0.015, r + 0.015, 64);
+      const ringMat = new THREE.MeshBasicMaterial({
+        color: 0x2fa885,
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: 0.08,
       });
-    } else {
-      gridHelper.material.transparent = true;
-      gridHelper.material.opacity = 0.15;
+      const ring = new THREE.Mesh(ringGeom, ringMat);
+      ring.rotation.x = Math.PI / 2;
+      floorGroup.add(ring);
     }
-    scene.add(gridHelper);
+    scene.add(floorGroup);
 
-    // 5. Build Graph Nodes
+    // 5. Build Spatial Graph Nodes
     const nodeMeshes = new Map<string, THREE.Group>();
     nodeMeshesRef.current = nodeMeshes;
 
@@ -171,58 +179,74 @@ export function SpatialEntityGraph({
       nodeGroup.userData = { nodeId: node.id, nodeData: node };
 
       const baseColor = new THREE.Color(node.color);
+      const isCentral = node.id === "target-enterprise";
 
-      // Node core geometry based on category
+      // Core Polyhedron Geometry based on Category Semantics
       let coreGeometry: THREE.BufferGeometry;
       switch (node.category) {
         case "ORGANIZATION":
-          coreGeometry = new THREE.DodecahedronGeometry(0.32);
+          coreGeometry = isCentral
+            ? new THREE.DodecahedronGeometry(0.44)
+            : new THREE.DodecahedronGeometry(0.32);
           break;
         case "DOMAIN":
-          coreGeometry = new THREE.IcosahedronGeometry(0.28);
+          coreGeometry = new THREE.IcosahedronGeometry(0.3);
           break;
         case "INFRASTRUCTURE":
-          coreGeometry = new THREE.BoxGeometry(0.38, 0.38, 0.38);
+          coreGeometry = new THREE.CylinderGeometry(0.24, 0.24, 0.42, 8);
           break;
         case "DIGITAL_IDENTITY":
-          coreGeometry = new THREE.OctahedronGeometry(0.3);
+          coreGeometry = new THREE.OctahedronGeometry(0.32);
           break;
         case "EVIDENCE_RECORD":
         default:
-          coreGeometry = new THREE.ConeGeometry(0.26, 0.44, 5);
+          coreGeometry = new THREE.OctahedronGeometry(0.26);
           break;
       }
 
       const coreMaterial = new THREE.MeshStandardMaterial({
         color: baseColor,
-        roughness: 0.25,
+        roughness: 0.2,
         metalness: 0.8,
         emissive: baseColor,
-        emissiveIntensity: 0.3,
+        emissiveIntensity: isCentral ? 0.6 : 0.35,
       });
 
       const coreMesh = new THREE.Mesh(coreGeometry, coreMaterial);
       nodeGroup.add(coreMesh);
 
-      // Outer Orbital Halo Ring
-      const ringGeometry = new THREE.RingGeometry(0.48, 0.52, 32);
-      const ringMaterial = new THREE.MeshBasicMaterial({
+      // Primary Orbital Ring
+      const ringGeom = new THREE.TorusGeometry(isCentral ? 0.68 : 0.48, 0.015, 16, 64);
+      const ringMat = new THREE.MeshBasicMaterial({
         color: baseColor,
-        side: THREE.DoubleSide,
         transparent: true,
-        opacity: 0.45,
+        opacity: isCentral ? 0.75 : 0.45,
       });
-      const ringMesh = new THREE.Mesh(ringGeometry, ringMaterial);
-      ringMesh.rotation.x = Math.PI / 2;
+      const ringMesh = new THREE.Mesh(ringGeom, ringMat);
+      ringMesh.rotation.x = isCentral ? Math.PI / 4 : Math.PI / 2;
       nodeGroup.add(ringMesh);
+
+      // Secondary inclined ring for central target entity
+      if (isCentral) {
+        const ring2Geom = new THREE.TorusGeometry(0.78, 0.012, 16, 64);
+        const ring2Mat = new THREE.MeshBasicMaterial({
+          color: 0xf4f2ea,
+          transparent: true,
+          opacity: 0.5,
+        });
+        const ring2 = new THREE.Mesh(ring2Geom, ring2Mat);
+        ring2.rotation.y = Math.PI / 3;
+        nodeGroup.add(ring2);
+      }
 
       scene.add(nodeGroup);
       nodeMeshes.set(node.id, nodeGroup);
     });
 
-    // 6. Build Connecting Edges (Smooth Curved 3D Arcs)
+    // 6. Build Curved 3D Spline Edges and Active Signal Photons
     const edgeMeshes = new Map<string, { line: THREE.Line; curve: THREE.CatmullRomCurve3 }>();
     edgeMeshesRef.current = edgeMeshes;
+    const photons: { mesh: THREE.Mesh; curve: THREE.CatmullRomCurve3; speed: number; progress: number }[] = [];
 
     ILLUSTRATIVE_GRAPH_EDGES.forEach((edge) => {
       const sourceNode = ILLUSTRATIVE_GRAPH_NODES.find((n) => n.id === edge.source);
@@ -232,28 +256,48 @@ export function SpatialEntityGraph({
       const p1 = new THREE.Vector3(...sourceNode.position);
       const p2 = new THREE.Vector3(...targetNode.position);
 
-      // Arc midpoint displaced slightly outward for 3D curved depth
+      // Deflect midpoint outward and upward for true 3D volumetric curve
       const midPoint = new THREE.Vector3().addVectors(p1, p2).multiplyScalar(0.5);
       const normal = new THREE.Vector3().crossVectors(p1, p2).normalize();
-      midPoint.addScaledVector(normal, 0.45);
+      if (normal.length() === 0) normal.set(0, 1, 0);
+      midPoint.addScaledVector(normal, 0.55);
+      midPoint.y += 0.2;
 
       const curve = new THREE.CatmullRomCurve3([p1, midPoint, p2]);
-      const points = curve.getPoints(40);
+      const points = curve.getPoints(48);
       const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
 
       const lineMaterial = new THREE.LineBasicMaterial({
         color: 0xb7e4d5,
         transparent: true,
-        opacity: 0.3,
+        opacity: 0.35,
       });
 
       const line = new THREE.Line(lineGeometry, lineMaterial);
       line.userData = { edgeId: edge.id, edgeData: edge };
       scene.add(line);
       edgeMeshes.set(edge.id, { line, curve });
+
+      // Signal Flow Photon traveling along this spline
+      const photonGeom = new THREE.SphereGeometry(0.045, 12, 12);
+      const photonMat = new THREE.MeshBasicMaterial({
+        color: 0x2fa885,
+        transparent: true,
+        opacity: 0.85,
+      });
+      const photonMesh = new THREE.Mesh(photonGeom, photonMat);
+      scene.add(photonMesh);
+      photons.push({
+        mesh: photonMesh,
+        curve,
+        speed: 0.18 + Math.random() * 0.12,
+        progress: Math.random(),
+      });
     });
 
-    // 7. Raycasting for Interaction
+    photonParticlesRef.current = photons;
+
+    // 7. Raycasting & Interaction Listeners
     const raycaster = new THREE.Raycaster();
     const pointer = new THREE.Vector2();
 
@@ -263,9 +307,10 @@ export function SpatialEntityGraph({
       const y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
       pointer.set(x, y);
 
+      pointerNormRef.current = { x, y };
       setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
 
-      // Handle drag rotation
+      // Drag Orbit
       if (isDraggingRef.current) {
         const deltaX = e.clientX - previousPointerPosRef.current.x;
         const deltaY = e.clientY - previousPointerPosRef.current.y;
@@ -273,29 +318,27 @@ export function SpatialEntityGraph({
 
         rotationAnglesRef.current.y += deltaX * 0.005;
         rotationAnglesRef.current.x = Math.max(
-          -0.4,
-          Math.min(0.4, rotationAnglesRef.current.x + deltaY * 0.005)
+          -0.35,
+          Math.min(0.35, rotationAnglesRef.current.x + deltaY * 0.005)
         );
       }
 
-      // Check hover intersections on node groups
+      // Check hover on nodes
       raycaster.setFromCamera(pointer, camera);
-      const interactableMeshes: THREE.Object3D[] = [];
-      nodeMeshes.forEach((group) => {
-        interactableMeshes.push(...group.children);
-      });
+      const hitCandidates: THREE.Object3D[] = [];
+      nodeMeshes.forEach((g) => hitCandidates.push(...g.children));
 
-      const intersects = raycaster.intersectObjects(interactableMeshes, false);
+      const intersects = raycaster.intersectObjects(hitCandidates, false);
       if (intersects.length > 0) {
-        let parentGroup = intersects[0].object.parent;
-        if (parentGroup && parentGroup.userData.nodeData) {
-          setHoveredNode(parentGroup.userData.nodeData as GraphNode);
+        const group = intersects[0].object.parent;
+        if (group && group.userData.nodeData) {
+          setHoveredNode(group.userData.nodeData as GraphNode);
           container.style.cursor = "pointer";
           return;
         }
       }
       setHoveredNode(null);
-      container.style.cursor = isDraggingRef.current ? "grabbing" : "grab";
+      container.style.cursor = isDraggingRef.current ? "grabbing" : "default";
     };
 
     const handlePointerDown = (e: MouseEvent) => {
@@ -311,16 +354,14 @@ export function SpatialEntityGraph({
       pointer.set(x, y);
 
       raycaster.setFromCamera(pointer, camera);
-      const interactableMeshes: THREE.Object3D[] = [];
-      nodeMeshes.forEach((group) => {
-        interactableMeshes.push(...group.children);
-      });
+      const hitCandidates: THREE.Object3D[] = [];
+      nodeMeshes.forEach((g) => hitCandidates.push(...g.children));
 
-      const intersects = raycaster.intersectObjects(interactableMeshes, false);
+      const intersects = raycaster.intersectObjects(hitCandidates, false);
       if (intersects.length > 0) {
-        const parentGroup = intersects[0].object.parent;
-        if (parentGroup && parentGroup.userData.nodeId) {
-          handleSelectNode(parentGroup.userData.nodeId);
+        const group = intersects[0].object.parent;
+        if (group && group.userData.nodeId) {
+          handleSelectNode(group.userData.nodeId);
           return;
         }
       }
@@ -348,7 +389,7 @@ export function SpatialEntityGraph({
     });
     intersectionObserver.observe(container);
 
-    // 10. Animation Loop
+    // 10. Main Animation Loop
     let clock = new THREE.Clock();
 
     const animate = () => {
@@ -356,32 +397,56 @@ export function SpatialEntityGraph({
 
       if (!isIntersectingRef.current) return;
 
+      const delta = clock.getDelta();
       const elapsedTime = clock.getElapsedTime();
 
-      // Smooth camera interpolation
-      camera.position.lerp(targetCameraPosRef.current, 0.05);
-      currentLookAtRef.current.lerp(targetLookAtRef.current, 0.05);
+      // Camera Smooth Interpolation & Dynamic Parallax
+      if (cameraMode === "orbit") {
+        // Physical parallax based on pointer position
+        const parallaxX = pointerNormRef.current.x * 0.45;
+        const parallaxY = pointerNormRef.current.y * 0.35;
+        const targetPos = new THREE.Vector3(
+          defaultCameraPos.x + parallaxX,
+          defaultCameraPos.y + parallaxY,
+          defaultCameraPos.z
+        );
+        camera.position.lerp(targetPos, 0.05);
+      } else {
+        camera.position.lerp(targetCameraPosRef.current, 0.06);
+      }
+
+      currentLookAtRef.current.lerp(targetLookAtRef.current, 0.06);
       camera.lookAt(currentLookAtRef.current);
 
-      // Node autonomous subtle breathing & ring rotation
+      // Autonomous breathing & rotation for nodes
       nodeMeshes.forEach((group, id) => {
-        const ring = group.children[1];
-        if (ring) {
-          ring.rotation.z += 0.008;
-        }
-
-        // Slight hover elevation
         const core = group.children[0] as THREE.Mesh;
+        const ring1 = group.children[1] as THREE.Mesh;
+        const ring2 = group.children[2] as THREE.Mesh;
+
         if (core) {
-          core.rotation.y += 0.005;
+          core.rotation.y += 0.006;
           core.rotation.x += 0.003;
+        }
+        if (ring1) {
+          ring1.rotation.z += 0.009;
+        }
+        if (ring2) {
+          ring2.rotation.x += 0.007;
         }
       });
 
-      // Subtle scene ambient rotation when not dragging and in overview mode
+      // Update traveling signal photons along splines
+      photonParticlesRef.current.forEach((photon) => {
+        photon.progress = (photon.progress + photon.speed * delta * 0.3) % 1.0;
+        const pt = photon.curve.getPointAt(photon.progress);
+        photon.mesh.position.copy(pt);
+      });
+
+      // Scene gentle idle drift when in overview mode
       if (!isDraggingRef.current && cameraMode === "orbit") {
-        scene.rotation.y = rotationAnglesRef.current.y + Math.sin(elapsedTime * 0.2) * 0.08;
-        scene.rotation.x = rotationAnglesRef.current.x + Math.cos(elapsedTime * 0.25) * 0.04;
+        scene.rotation.y = rotationAnglesRef.current.y + Math.sin(elapsedTime * 0.15) * 0.06;
+        scene.rotation.x = rotationAnglesRef.current.x + Math.cos(elapsedTime * 0.2) * 0.03;
       } else {
         scene.rotation.y = rotationAnglesRef.current.y;
         scene.rotation.x = rotationAnglesRef.current.x;
@@ -392,7 +457,7 @@ export function SpatialEntityGraph({
 
     animate();
 
-    // Cleanup resources cleanly on unmount
+    // Clean resource disposal
     return () => {
       if (animationFrameIdRef.current) {
         cancelAnimationFrame(animationFrameIdRef.current);
@@ -403,27 +468,26 @@ export function SpatialEntityGraph({
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
 
-      // Dispose Three.js objects
       nodeMeshes.forEach((group) => {
         group.traverse((obj) => {
           if (obj instanceof THREE.Mesh) {
             obj.geometry?.dispose();
-            if (Array.isArray(obj.material)) {
-              obj.material.forEach((m) => m.dispose());
-            } else {
-              obj.material?.dispose();
-            }
+            if (Array.isArray(obj.material)) obj.material.forEach((m) => m.dispose());
+            else obj.material?.dispose();
           }
         });
       });
 
       edgeMeshes.forEach(({ line }) => {
         line.geometry?.dispose();
-        if (Array.isArray(line.material)) {
-          line.material.forEach((m) => m.dispose());
-        } else {
-          line.material?.dispose();
-        }
+        if (Array.isArray(line.material)) line.material.forEach((m) => m.dispose());
+        else line.material?.dispose();
+      });
+
+      photonParticlesRef.current.forEach((p) => {
+        p.mesh.geometry?.dispose();
+        if (Array.isArray(p.mesh.material)) p.mesh.material.forEach((m) => m.dispose());
+        else p.mesh.material?.dispose();
       });
 
       renderer.dispose();
@@ -433,11 +497,10 @@ export function SpatialEntityGraph({
     };
   }, [hasWebGL, isReducedMotion, handleSelectNode, cameraMode]);
 
-  // Update visual highlighting on selection changes
+  // Update visual focus highlighting on selection
   useEffect(() => {
     if (!sceneRef.current) return;
 
-    // Direct connected node IDs for the selected node
     const connectedNodeIds = new Set<string>();
     if (selectedNodeId) {
       connectedNodeIds.add(selectedNodeId);
@@ -447,7 +510,7 @@ export function SpatialEntityGraph({
       });
     }
 
-    // Update nodes opacity & scale
+    // Nodes opacity & scale
     nodeMeshesRef.current.forEach((group, id) => {
       const isSelected = id === selectedNodeId;
       const isConnected = connectedNodeIds.has(id);
@@ -466,46 +529,42 @@ export function SpatialEntityGraph({
 
       if (coreMesh && coreMesh.material instanceof THREE.MeshStandardMaterial) {
         if (!selectedNodeId) {
-          // Default unselected state
           coreMesh.scale.set(1, 1, 1);
-          coreMesh.material.opacity = 1.0;
           coreMesh.material.transparent = false;
-          coreMesh.material.emissiveIntensity = 0.3;
+          coreMesh.material.opacity = 1.0;
+          coreMesh.material.emissiveIntensity = id === "target-enterprise" ? 0.6 : 0.35;
           if (ringMesh && ringMesh.material instanceof THREE.MeshBasicMaterial) {
-            ringMesh.material.opacity = 0.45;
+            ringMesh.material.opacity = id === "target-enterprise" ? 0.75 : 0.45;
           }
         } else if (isSelected) {
-          // Selected node: scaled up with high emissive boost
           coreMesh.scale.set(1.4, 1.4, 1.4);
-          coreMesh.material.opacity = 1.0;
           coreMesh.material.transparent = false;
-          coreMesh.material.emissiveIntensity = 1.0;
+          coreMesh.material.opacity = 1.0;
+          coreMesh.material.emissiveIntensity = 1.1;
           if (ringMesh && ringMesh.material instanceof THREE.MeshBasicMaterial) {
-            ringMesh.material.opacity = 0.9;
+            ringMesh.material.opacity = 0.95;
           }
         } else if (isConnected) {
-          // Directly linked neighbor
           coreMesh.scale.set(1.15, 1.15, 1.15);
-          coreMesh.material.opacity = 0.9;
           coreMesh.material.transparent = false;
-          coreMesh.material.emissiveIntensity = 0.6;
+          coreMesh.material.opacity = 0.9;
+          coreMesh.material.emissiveIntensity = 0.65;
           if (ringMesh && ringMesh.material instanceof THREE.MeshBasicMaterial) {
             ringMesh.material.opacity = 0.6;
           }
         } else {
-          // Unconnected background node: softly dimmed
-          coreMesh.scale.set(0.85, 0.85, 0.85);
+          coreMesh.scale.set(0.82, 0.82, 0.82);
           coreMesh.material.transparent = true;
-          coreMesh.material.opacity = 0.15;
+          coreMesh.material.opacity = 0.12;
           coreMesh.material.emissiveIntensity = 0.05;
           if (ringMesh && ringMesh.material instanceof THREE.MeshBasicMaterial) {
-            ringMesh.material.opacity = 0.08;
+            ringMesh.material.opacity = 0.06;
           }
         }
       }
     });
 
-    // Update edges opacity & color
+    // Edges opacity & color
     edgeMeshesRef.current.forEach(({ line }, edgeId) => {
       const edgeData = line.userData.edgeData as GraphEdge;
       const isConnected =
@@ -515,18 +574,18 @@ export function SpatialEntityGraph({
       const mat = line.material as THREE.LineBasicMaterial;
       if (!selectedNodeId) {
         mat.color.setHex(0xb7e4d5);
-        mat.opacity = 0.3;
+        mat.opacity = 0.35;
       } else if (isConnected) {
         mat.color.setHex(0x2fa885);
         mat.opacity = 0.95;
       } else {
         mat.color.setHex(0xb7e4d5);
-        mat.opacity = 0.08;
+        mat.opacity = 0.06;
       }
     });
   }, [selectedNodeId, activeCategoryFilter]);
 
-  // Fallback if WebGL unavailable or reduced-motion requested
+  // Fallback for non-WebGL / reduced-motion
   if (!hasWebGL || isReducedMotion) {
     return (
       <div className={`space-y-6 ${className}`}>
@@ -550,23 +609,23 @@ export function SpatialEntityGraph({
   return (
     <div
       ref={containerRef}
-      className={`relative w-full rounded-3xl bg-[#041F1B] border border-[#B7E4D5]/20 overflow-hidden shadow-3d-card ${className}`}
-      aria-label="Interactive 3D OSINT Spatial Entity Graph"
+      className={`relative w-full overflow-hidden select-none ${className}`}
+      aria-label="Interactive 3D OSINT Spatial Intelligence Network"
     >
-      {/* Top Overlay Bar: Category Filters & View Reset */}
-      <div className="absolute top-4 left-4 right-4 z-20 flex flex-wrap items-center justify-between gap-3 pointer-events-auto">
-        {/* Left: Category Filters */}
-        <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-full bg-[#031714]/80 border border-[#B7E4D5]/20 backdrop-blur-md text-[11px] font-mono">
+      {/* Top Floating Controls: Clean & Unobtrusive */}
+      <div className="absolute top-4 left-4 right-4 z-20 flex items-center justify-between pointer-events-none">
+        {/* Category Filter Pills */}
+        <div className="flex items-center gap-1.5 p-1 rounded-full bg-[#031714]/80 border border-[#B7E4D5]/20 backdrop-blur-md text-[11px] font-mono pointer-events-auto">
           <button
             type="button"
             onClick={() => setActiveCategoryFilter("ALL")}
             className={`px-3 py-1 rounded-full transition-all ${
               activeCategoryFilter === "ALL"
-                ? "bg-[#2FA885] text-[#041F1B] font-semibold shadow-sm"
+                ? "bg-[#2FA885] text-[#041F1B] font-semibold"
                 : "text-[#8DA99E] hover:text-[#FFFFFF]"
             }`}
           >
-            All Nodes ({ILLUSTRATIVE_GRAPH_NODES.length})
+            All ({ILLUSTRATIVE_GRAPH_NODES.length})
           </button>
           {(Object.keys(ENTITY_CATEGORIES) as EntityCategory[]).map((cat) => {
             const meta = ENTITY_CATEGORIES[cat];
@@ -577,7 +636,7 @@ export function SpatialEntityGraph({
                 onClick={() => setActiveCategoryFilter(cat)}
                 className={`px-2.5 py-1 rounded-full transition-all flex items-center gap-1.5 ${
                   activeCategoryFilter === cat
-                    ? "bg-[#2FA885] text-[#041F1B] font-semibold shadow-sm"
+                    ? "bg-[#2FA885] text-[#041F1B] font-semibold"
                     : "text-[#8DA99E] hover:text-[#FFFFFF]"
                 }`}
               >
@@ -585,41 +644,38 @@ export function SpatialEntityGraph({
                   className="w-1.5 h-1.5 rounded-full"
                   style={{ backgroundColor: meta.color }}
                 />
-                <span className="hidden sm:inline">{meta.label}</span>
+                <span className="hidden md:inline">{meta.label}</span>
               </button>
             );
           })}
         </div>
 
-        {/* Right: Reset Overview Button */}
-        <div className="flex items-center gap-2">
-          {selectedNodeId && (
-            <button
-              type="button"
-              onClick={handleResetOverview}
-              className="px-3 py-1.5 rounded-full bg-[#073B32] hover:bg-[#0A4D3F] border border-[#B7E4D5]/30 text-xs font-mono text-[#F4F2EA] flex items-center gap-1.5 shadow-sm transition-all focus:outline-none focus:ring-1 focus:ring-[#2FA885]"
-            >
-              <RotateCcw size={12} className="text-[#2FA885]" />
-              <span>Reset Overview</span>
-            </button>
-          )}
-
-          <div className="px-2.5 py-1 rounded-full bg-[#021310]/70 border border-[#B7E4D5]/15 text-[10px] font-mono text-[#8DA99E] hidden md:flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#2FA885] animate-pulse" />
-            <span>Click node to inspect</span>
-          </div>
-        </div>
+        {/* Reset Overview Button (Appears only when node is focused) */}
+        {selectedNodeId && (
+          <button
+            type="button"
+            onClick={handleResetOverview}
+            className="px-3.5 py-1.5 rounded-full bg-[#073B32] hover:bg-[#0A4D3F] border border-[#B7E4D5]/40 text-xs font-mono text-[#F4F2EA] flex items-center gap-1.5 shadow-md transition-all pointer-events-auto"
+          >
+            <RotateCcw size={12} className="text-[#2FA885]" />
+            <span>Reset Overview</span>
+          </button>
+        )}
       </div>
 
-      {/* Main 3D WebGL Canvas Mount Container */}
+      {/* Main 3D Canvas Mount Container with Seamless Radial Vignette */}
       <div
         ref={mountRef}
-        className="w-full h-[540px] sm:h-[620px] lg:h-[700px] select-none"
+        className="w-full h-[580px] sm:h-[660px] lg:h-[720px] select-none"
+        style={{
+          maskImage: "radial-gradient(ellipse at center, black 65%, transparent 100%)",
+          WebkitMaskImage: "radial-gradient(ellipse at center, black 65%, transparent 100%)",
+        }}
         role="region"
         aria-label="3D Spatial Intelligence Network Canvas"
       />
 
-      {/* Floating Hover Tooltip (Tracks cursor position) */}
+      {/* Floating Hover Tooltip */}
       {hoveredNode && !selectedNode && (
         <div
           className="absolute z-30 pointer-events-none transform -translate-x-1/2 -translate-y-full mb-3 px-3 py-1.5 rounded-xl bg-[#031714]/95 border border-[#B7E4D5]/30 shadow-3d-card backdrop-blur-md transition-opacity"
@@ -643,7 +699,7 @@ export function SpatialEntityGraph({
         </div>
       )}
 
-      {/* Slide-in / Floating Entity Details Inspector Panel */}
+      {/* Floating Entity Details Inspector Panel */}
       {selectedNode && (
         <div className="absolute top-4 right-4 bottom-4 z-40 max-w-sm flex items-start overflow-y-auto">
           <EntityDetailsPanel
@@ -654,17 +710,15 @@ export function SpatialEntityGraph({
         </div>
       )}
 
-      {/* Bottom Status & Methodology Disclaimer Strip */}
-      <div className="absolute bottom-3 left-4 right-4 z-20 flex flex-col sm:flex-row items-center justify-between gap-2 pointer-events-none text-[10px] font-mono text-[#718E84]">
-        <div className="flex items-center gap-2 bg-[#031714]/80 px-2.5 py-1 rounded-full border border-[#B7E4D5]/10 backdrop-blur-sm pointer-events-auto">
+      {/* Bottom Status & Methodology Disclaimer */}
+      <div className="absolute bottom-3 left-4 right-4 z-20 flex items-center justify-between pointer-events-none text-[10px] font-mono text-[#718E84]">
+        <div className="flex items-center gap-1.5 bg-[#031714]/80 px-2.5 py-1 rounded-full border border-[#B7E4D5]/10 backdrop-blur-sm pointer-events-auto">
           <Shield size={11} className="text-[#2FA885]" />
-          <span>Illustrative Demonstration — Fictitious Topology</span>
+          <span>Demonstration Topology — Fictitious Entities</span>
         </div>
 
-        <div className="hidden md:flex items-center gap-2 bg-[#031714]/80 px-2.5 py-1 rounded-full border border-[#B7E4D5]/10 backdrop-blur-sm pointer-events-auto">
-          <span>Click & Drag to Orbit</span>
-          <span>•</span>
-          <span>Click Node to Inspect</span>
+        <div className="hidden sm:flex items-center gap-2 bg-[#031714]/80 px-2.5 py-1 rounded-full border border-[#B7E4D5]/10 backdrop-blur-sm pointer-events-auto">
+          <span>Click node to inspect relationships</span>
         </div>
       </div>
     </div>
