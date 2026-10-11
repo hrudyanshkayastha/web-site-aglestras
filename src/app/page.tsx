@@ -1,6 +1,7 @@
 import { HeroSection } from "@/components/sections/HeroSection";
 import { ProblemSection } from "@/components/sections/ProblemSection";
 import { WorkflowSection } from "@/components/sections/WorkflowSection";
+import { ResearchDomainsSection } from "@/components/sections/ResearchDomainsSection";
 import { FeaturedThreatSection } from "@/components/sections/FeaturedThreatSection";
 import { CapabilitiesGrid } from "@/components/sections/CapabilitiesGrid";
 import { MethodologySection } from "@/components/sections/MethodologySection";
@@ -15,6 +16,7 @@ export default function HomePage() {
       <HeroSection />
       <ProblemSection />
       <WorkflowSection />
+      <ResearchDomainsSection />
       <FeaturedThreatSection />
       <CapabilitiesGrid />
       <MethodologySection />
