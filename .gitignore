@@ -29,3 +29,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Next.js auto-generated rules
+AGENTS.md
+CLAUDE.md
