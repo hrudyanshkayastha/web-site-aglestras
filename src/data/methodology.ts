@@ -20,7 +20,7 @@ export const epistemicStandards: EpistemicStandard[] = [
       "Information directly verified through primary, authoritative public records or official filings. Must be attributable to a specific source.",
     example:
       "Entity registered in California Secretary of State registry on March 14, 2021 with filing ID C4718290.",
-    confidenceRange: "95% – 100% (High Confidence)",
+    confidenceRange: "Primary Record Attributed — High Confidence",
     colorScheme: {
       bg: "bg-emerald-950/40",
       border: "border-emerald-500/30",
@@ -35,7 +35,7 @@ export const epistemicStandards: EpistemicStandard[] = [
       "An observable, timestamped technical or behavioral signal with contextual relevance to the investigation objective.",
     example:
       "Lookalike domain 'auth-agletras-secure[.]com' registered via privacy proxy 48 hours following corporate brand announcement.",
-    confidenceRange: "80% – 90% (Observable Signal)",
+    confidenceRange: "Empirically Observable — Direct Telemetry",
     colorScheme: {
       bg: "bg-teal-950/40",
       border: "border-teal-500/30",
@@ -50,7 +50,7 @@ export const epistemicStandards: EpistemicStandard[] = [
       "A logical analytical deduction drawn from the correlation of multiple distinct indicators and verified facts.",
     example:
       "Infrastructure clustering and matching SSL certificates suggest domain is intended for phishing campaigns against corporate employees.",
-    confidenceRange: "60% – 80% (Analytical Assessment)",
+    confidenceRange: "Corroborated Analysis — Evaluative Assessment",
     colorScheme: {
       bg: "bg-amber-950/30",
       border: "border-amber-500/30",
@@ -65,7 +65,7 @@ export const epistemicStandards: EpistemicStandard[] = [
       "An explicitly stated working hypothesis or operating condition required to proceed with analysis, pending empirical verification.",
     example:
       "Assumed that target corporate entity operates as a single operational parent rather than decentralized autonomous franchises.",
-    confidenceRange: "Unweighted (Requires Testing)",
+    confidenceRange: "Operational Hypothesis — Requires Empirical Testing",
     colorScheme: {
       bg: "bg-slate-900/60",
       border: "border-slate-500/30",
@@ -80,7 +80,7 @@ export const epistemicStandards: EpistemicStandard[] = [
       "An identified knowledge gap or open investigative question that could not be resolved within current public boundaries.",
     example:
       "Beneficial owner behind offshore holding vehicle remains obscured behind nominee directors in non-public jurisdiction.",
-    confidenceRange: "Open Question (Boundary Disclosed)",
+    confidenceRange: "Identified Gap — Boundary Explicitly Disclosed",
     colorScheme: {
       bg: "bg-rose-950/30",
       border: "border-rose-500/30",
@@ -168,7 +168,7 @@ export const sampleBriefData = {
       id: "EVD-03",
       category: "INFERENCE",
       observation: "Page title and CSS asset references closely mirror corporate single-sign-on portal, indicating intent for employee credential collection.",
-      source: "Analyst DOM Comparison & Visual Similarity Metric (94% match)",
+      source: "Analyst Structural DOM & Layout Comparison (High Overlap Matrix)",
       confidence: "Moderate-High (Inference)",
     },
     {
