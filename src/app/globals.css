@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+@theme {
+  --color-forest: #073B32;
+  --color-forest-dark: #041F1B;
+  --color-forest-deep: #031714;
+  --color-ivory: #F4F2EA;
+  --color-ivory-light: #FCFCF8;
+  --color-ivory-card: #FFFFFF;
+  --color-mint: #B7E4D5;
+  --color-mint-light: #E8F7F2;
+  --color-sage: #8DA99E;
+  --color-emerald-accent: #2FA885;
+  --color-emerald-soft: #38C29A;
+  
+  --font-serif: var(--font-editorial), "Newsreader", Georgia, serif;
+  --font-sans: var(--font-sans), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-mono), "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+:root {
+  --bg-dark: #041F1B;
+  --bg-forest: #073B32;
+  --bg-ivory: #F4F2EA;
+  --bg-light: #FCFCF8;
+  --text-dark: #041F1B;
+  --text-light: #F4F2EA;
+  --accent-emerald: #2FA885;
+  --accent-mint: #B7E4D5;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  background-color: #041F1B;
+  color: #F4F2EA;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Accessible focus ring */
+*:focus-visible {
+  outline: 2px solid #2FA885;
+  outline-offset: 3px;
+}
+
+/* Nature-inspired botanical subtle backdrop */
+.bg-botanical-mesh {
+  background-image: 
+    radial-gradient(circle at 15% 25%, rgba(47, 168, 133, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 85% 75%, rgba(183, 228, 213, 0.05) 0%, transparent 45%);
+}
+
+.bg-ivory-mesh {
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(47, 168, 133, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(7, 59, 50, 0.03) 0%, transparent 50%);
+}
+
+/* Organic delicate border styling */
+.border-organic {
+  border-color: rgba(183, 228, 213, 0.15);
+}
+
+.border-organic-light {
+  border-color: rgba(7, 59, 50, 0.12);
+}
+
+/* Editorial typography classes */
+.font-editorial {
+  font-family: var(--font-serif), Georgia, serif;
+  letter-spacing: -0.015em;
+}
+
+.text-editorial-hero {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(2.5rem, 5.5vw, 4.75rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  font-weight: 500;
+}
+
+.text-editorial-title {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+}
+
+.text-editorial-sub {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
