@@ -120,7 +120,7 @@ Because the website compiles to pure static HTML (`output: 'export'` with `trail
 ## 7. Credibility & Verification Audit
 
 - **No Fabricated Data**: Zero simulated clients, fake customer logos, fabricated testimonials, or unverified statistics (e.g. lab counts).
-- **Statutory Transparency**: Agletras is documented as an enterprise registered under the Ministry of Micro, Small and Medium Enterprises (MSME), Government of India (Udyam Registration: `UDYAM-MH-23-0424751`), incorporated on August 1, 2026 in Nashik, Maharashtra, India.
+- **Statutory Transparency**: Agletras is documented as an enterprise registered under the Ministry of Micro, Small and Medium Enterprises (MSME), Government of India, incorporated on August 1, 2026 in Nashik, Maharashtra, India.
 - **Contact Transparency**: Business inquiries are routed through verified domain emails (`contact@agletras.com` / `hello@agletras.com`), while the administrative filing email from the government certificate (`pranavbpawar13@gmail.com`) is disclosed openly.
 - **Truthful Intake Form**: The contact form does not pretend to hit a non-existent database or use a fake success timer. Instead, it validates required fields, formats a structured scoping brief, and launches direct business email channels or copies the formatted brief.
 - **Repository Isolation**: The reference repository `Agletras.github.io` remains 100% clean and untouched.

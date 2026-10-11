@@ -105,7 +105,7 @@ Discovered in `src/components/sections/ProjectsSection.tsx`:
 ### Discovered Contact Records:
 1. **Corporate Domain Email**: `hello@agletras.com` (found in `Footer.tsx#L25`).
 2. **Placeholder Email**: `hello@yourdomain.com` (found in `ContactSection.tsx#L28` — flagged and eliminated).
-3. **Statutory Administrative Email**: `pranavbpawar13@gmail.com` (documented in official Government of India Udyam MSME Certificate `UDYAM-MH-23-0424751`, incorporated August 1, 2026, Nashik, Maharashtra, India).
+3. **Statutory Administrative Email**: `pranavbpawar13@gmail.com` (documented in official Government of India statutory certificate, incorporated August 1, 2026, Nashik, Maharashtra, India).
 4. **Social Links**: `https://linkedin.com/company/agletras` and `https://github.com/agletras` (`layout.tsx#L51-L52`).
 5. **Dead Anchors**: Dead `#` links in Footer navigation (`Footer.tsx#L19-L22`).
 

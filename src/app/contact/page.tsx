@@ -315,8 +315,8 @@ Transmitted directly to AGLETRAS Research Team.`;
                 <div className="flex items-start gap-3">
                   <ShieldCheck size={16} className="text-[#2FA885] shrink-0 mt-0.5" />
                   <div>
-                    <span className="text-[#8DA99E] block uppercase">Enterprise Registration:</span>
-                    <span className="text-[#2FA885]">{companyData.registration.number}</span>
+                    <span className="text-[#8DA99E] block uppercase">Enterprise Status:</span>
+                    <span className="text-[#2FA885]">Registered Micro Enterprise</span>
                     <span className="text-[#718E84] block text-[10px]">
                       Ministry of MSME, Government of India
                     </span>
@@ -350,7 +350,7 @@ Transmitted directly to AGLETRAS Research Team.`;
               <p className="text-xs text-[#A1B8B0] leading-relaxed font-light">
                 To maintain full transparency: While prospective client engagements are coordinated via
                 our primary domain email (<span className="text-[#F4F2EA]">{companyData.contacts.corporateEmail}</span>),
-                our official statutory Udyam registration records the administrative filing address
+                our official statutory enterprise filing records the administrative filing address
                 (<span className="text-[#F4F2EA]">{companyData.contacts.registeredOwnerEmail}</span>). Both are
                 verified channels corresponding to the same enterprise entity.
               </p>

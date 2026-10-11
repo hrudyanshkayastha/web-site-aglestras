@@ -89,13 +89,13 @@ export default function AboutPage() {
               <strong className="text-[#F4F2EA] text-sm font-medium block">
                 Ministry of MSME, Govt of India
               </strong>
-              <span className="text-[11px] text-[#A1B8B0]">Udyam Registration</span>
+              <span className="text-[11px] text-[#A1B8B0]">Statutory Enterprise Filing</span>
             </div>
 
             <div className="p-5 rounded-2xl bg-[#073B32]/30 border border-[#B7E4D5]/15 space-y-1.5">
-              <span className="text-[#8DA99E] uppercase block">Registration Certificate ID</span>
+              <span className="text-[#8DA99E] uppercase block">Enterprise Status</span>
               <strong className="text-[#2FA885] text-sm font-medium block">
-                {companyData.registration.number}
+                Active Micro Enterprise
               </strong>
               <span className="text-[11px] text-[#A1B8B0]">Incorporated: August 1, 2026</span>
             </div>

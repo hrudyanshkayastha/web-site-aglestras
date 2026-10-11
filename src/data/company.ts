@@ -2,8 +2,7 @@ export const companyData = {
   name: "AGLETRAS",
   legalName: "AGLETRAS",
   registration: {
-    authority: "Ministry of Micro, Small and Medium Enterprises, Government of India (Udyam)",
-    number: "UDYAM-MH-23-0424751",
+    authority: "Ministry of Micro, Small and Medium Enterprises, Government of India",
     classification: "Micro Enterprise (Services)",
     incorporationDate: "2026-08-01",
     location: "Nashik, Maharashtra, India, PIN 422003",

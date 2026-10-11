@@ -58,7 +58,7 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-2">
                 <ShieldCheck size={14} className="text-[#2FA885]" />
-                <span>Udyam Reg: {companyData.registration.number}</span>
+                <span>Lawful Open-Source Intelligence</span>
               </div>
             </div>
 
