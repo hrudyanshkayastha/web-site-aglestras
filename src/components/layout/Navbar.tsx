@@ -48,7 +48,7 @@ export function Navbar() {
           className="flex items-center gap-3.5 group focus:outline-none"
           aria-label="Agletras Home"
         >
-          <div className="relative w-9 h-9 rounded-full bg-[#073B32] p-1 border border-[#B7E4D5]/30 flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105">
+          <div className="relative w-9 h-9 rounded-full bg-gradient-to-b from-[#0a4237] to-[#041F1B] p-1 border border-[#B7E4D5]/40 shadow-[0_2px_8px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(183,228,213,0.3)] flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105">
             <Image
               src="/logo.png"
               alt="Agletras Logo"

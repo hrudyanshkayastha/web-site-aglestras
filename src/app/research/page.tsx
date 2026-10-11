@@ -84,7 +84,7 @@ export default function ResearchPage() {
             return (
               <div
                 key={index}
-                className="p-8 rounded-3xl bg-[#073B32]/30 border border-[#B7E4D5]/15 flex flex-col justify-between space-y-6 hover:border-[#2FA885]/40 transition-all"
+                className="p-8 rounded-3xl bg-[#073B32]/30 border border-[#B7E4D5]/15 shadow-3d-card backdrop-blur-sm flex flex-col justify-between space-y-6 hover:border-[#2FA885]/40 transition-all duration-300 hover:-translate-y-1"
               >
                 <div className="space-y-4">
                   <div className="w-12 h-12 rounded-2xl bg-[#073B32] border border-[#B7E4D5]/20 flex items-center justify-center text-[#2FA885]">

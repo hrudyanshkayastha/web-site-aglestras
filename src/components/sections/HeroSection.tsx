@@ -1,15 +1,21 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight, ArrowRight, ShieldCheck, Sparkles, UserCheck } from "lucide-react";
+import { ArrowUpRight, ArrowRight, ShieldCheck, Sparkles, UserCheck, Shield, Network } from "lucide-react";
 import { LivingKnowledgeSystem } from "@/components/visuals/LivingKnowledgeSystem";
+import { DimensionalEmblem } from "@/components/visuals/DimensionalEmblem";
 import { BotanicalMotif } from "@/components/ui/BotanicalMotif";
 
 export function HeroSection() {
+  const [activeHeroVisual, setActiveHeroVisual] = useState<"emblem" | "network">("emblem");
+
   return (
     <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-gradient-to-b from-[#041F1B] via-[#073B32]/40 to-[#041F1B]">
       {/* Background organic light accents */}
       <div className="absolute top-1/4 left-0 w-96 h-96 bg-[#2FA885]/10 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-[500px] h-[500px] bg-[#B7E4D5]/5 rounded-full blur-[160px] pointer-events-none" />
-      
+
       {/* Subtle decorative motif */}
       <BotanicalMotif
         variant="leaf-vein"
@@ -23,8 +29,8 @@ export function HeroSection() {
             {/* Eyebrow */}
             <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#073B32] border border-[#B7E4D5]/25">
               <span className="w-2 h-2 rounded-full bg-[#2FA885]" />
-              <span className="text-xs uppercase tracking-[0.2em] font-mono text-[#B7E4D5] font-medium">
-                Evidence-First Intelligence
+              <span className="text-xs uppercase tracking-[0.2em] font-mono text-[#B7E4D5] font-semibold">
+                EVIDENCE-FIRST OSINT RESEARCH
               </span>
             </div>
 
@@ -38,8 +44,9 @@ export function HeroSection() {
 
             {/* Supporting Copy */}
             <p className="text-lg md:text-xl text-[#C5D9D2] max-w-2xl leading-relaxed font-light">
-              AGLETRAS helps organizations investigate markets, understand external threats,
-              evaluate business risk, and turn fragmented public information into evidence-backed decisions.
+              AGLETRAS investigates external digital risk, analyzes public adversary footprints,
+              evaluates corporate counterparty integrity, and transforms fragmented open-source data into
+              evidence-backed, decision-ready intelligence.
             </p>
 
             {/* Action Buttons */}
@@ -93,16 +100,53 @@ export function HeroSection() {
                 <div>
                   <h4 className="text-sm font-medium text-[#F4F2EA]">Human-Reviewed</h4>
                   <p className="text-xs text-[#8DA99E] mt-0.5 font-light">
-                    Expert analyst governance
+                    Senior analyst governance
                   </p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Signature Living Knowledge System Visual */}
-          <div className="lg:col-span-5 flex justify-center">
-            <LivingKnowledgeSystem />
+          {/* Right Column: 3D Visual Showcase (Emblem vs OSINT Network) */}
+          <div className="lg:col-span-5 flex flex-col items-center">
+            {/* Visual View Switcher */}
+            <div className="inline-flex p-1 rounded-full bg-[#031714] border border-[#B7E4D5]/20 mb-6 text-xs font-mono">
+              <button
+                type="button"
+                onClick={() => setActiveHeroVisual("emblem")}
+                className={`px-4 py-1.5 rounded-full transition-all flex items-center gap-1.5 ${
+                  activeHeroVisual === "emblem"
+                    ? "bg-[#2FA885] text-[#041F1B] font-semibold shadow-sm"
+                    : "text-[#8DA99E] hover:text-[#FFFFFF]"
+                }`}
+              >
+                <Shield size={13} />
+                <span>3D Tree Emblem</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveHeroVisual("network")}
+                className={`px-4 py-1.5 rounded-full transition-all flex items-center gap-1.5 ${
+                  activeHeroVisual === "network"
+                    ? "bg-[#2FA885] text-[#041F1B] font-semibold shadow-sm"
+                    : "text-[#8DA99E] hover:text-[#FFFFFF]"
+                }`}
+              >
+                <Network size={13} />
+                <span>OSINT Architecture</span>
+              </button>
+            </div>
+
+            {/* Display Active Visual */}
+            <div className="w-full flex justify-center">
+              {activeHeroVisual === "emblem" ? (
+                <div className="w-full flex justify-center py-4">
+                  <DimensionalEmblem />
+                </div>
+              ) : (
+                <LivingKnowledgeSystem />
+              )}
+            </div>
           </div>
         </div>
       </div>

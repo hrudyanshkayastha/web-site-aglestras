@@ -1,5 +1,6 @@
 import { Layers, History, ShieldAlert, CheckCircle2 } from "lucide-react";
 import { BotanicalMotif } from "@/components/ui/BotanicalMotif";
+import { EntityGraphVisual } from "@/components/visuals/EntityGraphVisual";
 
 export function ProblemSection() {
   return (
@@ -72,18 +73,15 @@ export function ProblemSection() {
                 <div className="w-px h-6 bg-[#2FA885]/40" />
               </div>
 
-              {/* Bottom: Agletras Structured State */}
-              <div className="p-4 rounded-xl bg-[#041F1B] text-[#F4F2EA] border border-[#073B32]">
-                <span className="text-xs font-mono uppercase tracking-wider text-[#B7E4D5] font-semibold block mb-2">
-                  The Agletras Structured Method
-                </span>
-                <p className="text-xs text-[#C5D9D2] leading-relaxed mb-3 font-light">
-                  Every claim is traced to a primary public source with capture timestamp,
-                  confidence rating, and explicit operational boundaries.
-                </p>
-                <div className="flex items-center gap-2 text-xs font-mono text-[#B7E4D5]">
-                  <CheckCircle2 size={14} className="text-[#2FA885]" />
-                  <span>Traceable • Validated • Actionable</span>
+              {/* Bottom: Agletras Structured State with 3D Entity Graph */}
+              <div className="space-y-3">
+                <EntityGraphVisual />
+                <div className="p-3.5 rounded-xl bg-[#041F1B] text-[#F4F2EA] border border-[#073B32] flex items-center justify-between text-xs font-mono">
+                  <div className="flex items-center gap-2 text-[#B7E4D5]">
+                    <CheckCircle2 size={14} className="text-[#2FA885]" />
+                    <span>Structured OSINT Synthesis</span>
+                  </div>
+                  <span className="text-[#8DA99E] text-[10px]">Traceable Provenance</span>
                 </div>
               </div>
             </div>

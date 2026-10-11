@@ -23,8 +23,8 @@ export function DeliverablesPreview() {
           </p>
         </div>
 
-        {/* Illustrative Deliverable Preview Document Card */}
-        <div className="max-w-5xl mx-auto rounded-3xl bg-[#FFFFFF] border border-[#073B32]/15 shadow-[0_15px_45px_rgba(7,59,50,0.08)] overflow-hidden">
+        {/* Illustrative Deliverable Preview Document Card with 3D Depth */}
+        <div className="max-w-5xl mx-auto rounded-3xl surface-matte-ivory border border-[#073B32]/20 shadow-3d-card overflow-hidden relative">
           {/* Top Document Header Band */}
           <div className="bg-[#041F1B] text-[#F4F2EA] px-8 py-5 border-b border-[#073B32] flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">

@@ -49,7 +49,7 @@ export default function MethodologyPage() {
             {intelligenceStages.map((stage) => (
               <div
                 key={stage.step}
-                className="p-8 rounded-2xl bg-[#073B32]/30 border border-[#B7E4D5]/15 flex flex-col justify-between space-y-6"
+                className="p-8 rounded-2xl bg-[#073B32]/30 border border-[#B7E4D5]/15 shadow-3d-card backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between space-y-6"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">

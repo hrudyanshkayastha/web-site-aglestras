@@ -56,7 +56,7 @@ html {
   outline-offset: 3px;
 }
 
-/* Nature-inspired botanical subtle backdrop */
+/* Nature-inspired botanical subtle backdrops */
 .bg-botanical-mesh {
   background-image: 
     radial-gradient(circle at 15% 25%, rgba(47, 168, 133, 0.08) 0%, transparent 40%),
@@ -105,4 +105,59 @@ html {
   font-size: clamp(1.25rem, 2vw, 1.75rem);
   line-height: 1.35;
   letter-spacing: -0.01em;
+}
+
+/* =========================================================
+   RESTRAINED 3D & REALISTIC MATERIAL UTILITIES
+   Matte finishes, realistic contact shadows & ambient rim lighting
+   ========================================================= */
+
+.perspective-1200 {
+  perspective: 1200px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+/* Subtle directional matte surface for dark containers */
+.surface-matte-dark {
+  background: linear-gradient(180deg, rgba(7, 59, 50, 0.65) 0%, rgba(4, 31, 27, 0.95) 100%);
+  box-shadow: 
+    inset 0 1px 0 rgba(183, 228, 213, 0.15),
+    0 12px 36px -6px rgba(0, 0, 0, 0.5),
+    0 4px 12px -2px rgba(0, 0, 0, 0.35);
+}
+
+/* Premium ivory matte elevation */
+.surface-matte-ivory {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F9F7F1 100%);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 16px 32px -8px rgba(7, 59, 50, 0.08),
+    0 4px 12px -2px rgba(7, 59, 50, 0.04);
+}
+
+/* Tactile 3D Emblem depth with realistic multi-layer shadow */
+.shadow-3d-emblem {
+  box-shadow:
+    inset 0 1.5px 0 rgba(183, 228, 213, 0.35),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.6),
+    0 24px 48px -12px rgba(3, 23, 20, 0.8),
+    0 8px 16px -4px rgba(3, 23, 20, 0.5),
+    0 0 2px 1px rgba(47, 168, 133, 0.2);
+}
+
+/* Tactile OSINT Card elevation on dark ground */
+.shadow-3d-card {
+  box-shadow:
+    inset 0 1px 0 rgba(183, 228, 213, 0.12),
+    0 14px 28px -6px rgba(0, 0, 0, 0.4),
+    0 4px 10px -2px rgba(0, 0, 0, 0.25);
+}
+
+/* Realistic edge bevel */
+.bevel-matte-emerald {
+  border: 1px solid rgba(183, 228, 213, 0.2);
+  background-clip: padding-box;
 }

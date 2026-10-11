@@ -35,7 +35,7 @@ export function MethodologySection() {
           {epistemicStandards.map((item) => (
             <div
               key={item.type}
-              className={`p-6 rounded-2xl border ${item.colorScheme.border} ${item.colorScheme.bg} flex flex-col justify-between transition-all hover:scale-[1.01]`}
+              className={`p-6 rounded-2xl border ${item.colorScheme.border} ${item.colorScheme.bg} shadow-3d-card backdrop-blur-sm flex flex-col justify-between transition-all duration-300 hover:-translate-y-1`}
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
@@ -66,7 +66,7 @@ export function MethodologySection() {
           ))}
 
           {/* Epistemic Governance Summary Card */}
-          <div className="p-6 rounded-2xl border border-[#2FA885]/40 bg-[#073B32]/60 flex flex-col justify-between">
+          <div className="p-6 rounded-2xl border border-[#2FA885]/40 bg-[#073B32]/60 shadow-3d-card backdrop-blur-sm flex flex-col justify-between transition-all duration-300 hover:-translate-y-1">
             <div>
               <span className="px-2.5 py-1 rounded-md text-xs font-mono font-bold tracking-wider bg-[#2FA885]/20 text-[#B7E4D5] inline-block mb-4">
                 ANALYST GOVERNANCE

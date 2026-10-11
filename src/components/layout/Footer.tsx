@@ -23,13 +23,13 @@ export function Footer() {
           {/* Brand & Mission Column */}
           <div className="lg:col-span-5 space-y-6">
             <Link href="/" className="inline-flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#073B32] p-1.5 border border-[#B7E4D5]/30 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-b from-[#0a4237] to-[#041F1B] p-1.5 border border-[#B7E4D5]/40 shadow-[0_2px_8px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(183,228,213,0.3)] flex items-center justify-center">
                 <Image
                   src="/logo.png"
                   alt="Agletras Logo"
                   width={32}
                   height={32}
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain filter contrast-125"
                 />
               </div>
               <span className="font-editorial text-2xl font-semibold tracking-wider text-[#F4F2EA]">

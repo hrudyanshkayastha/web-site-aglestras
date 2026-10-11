@@ -1,9 +1,9 @@
 import { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { ShieldCheck, ArrowUpRight, Scale, BookOpen, MapPin, Sparkles } from "lucide-react";
 import { companyData } from "@/data/company";
 import { BotanicalMotif } from "@/components/ui/BotanicalMotif";
+import { DimensionalEmblem } from "@/components/visuals/DimensionalEmblem";
 
 export const metadata: Metadata = {
   title: "About Agletras — Research Intelligence & Origins",
@@ -36,7 +36,7 @@ export default function AboutPage() {
         </div>
 
         {/* The Leaf & Tree Symbolism (Organic Living Knowledge System) */}
-        <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-[#073B32]/70 via-[#041F1B] to-[#031714] border border-[#B7E4D5]/20 relative overflow-hidden">
+        <div className="p-8 sm:p-12 rounded-3xl surface-matte-dark shadow-3d-card border border-[#B7E4D5]/20 relative overflow-hidden">
           <BotanicalMotif
             variant="canopy-burst"
             className="absolute -top-10 -right-10 w-96 text-[#2FA885] opacity-15 pointer-events-none"
@@ -44,15 +44,7 @@ export default function AboutPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative z-10">
             <div className="md:col-span-4 flex justify-center">
-              <div className="w-48 h-48 rounded-full bg-[#073B32] p-4 border border-[#B7E4D5]/40 flex items-center justify-center shadow-[0_0_40px_rgba(47,168,133,0.3)]">
-                <Image
-                  src="/logo.png"
-                  alt="Agletras Tree Emblem"
-                  width={180}
-                  height={180}
-                  className="w-full h-full object-contain filter contrast-125"
-                />
-              </div>
+              <DimensionalEmblem size={200} interactive={true} />
             </div>
 
             <div className="md:col-span-8 space-y-4">

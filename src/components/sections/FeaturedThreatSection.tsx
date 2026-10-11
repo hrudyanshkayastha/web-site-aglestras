@@ -70,8 +70,8 @@ export function FeaturedThreatSection() {
             </div>
           </div>
 
-          {/* Right Column: Structured Intelligence Deliverable Mockup */}
-          <div className="lg:col-span-5 bg-[#041F1B] rounded-3xl p-6 sm:p-8 border border-[#B7E4D5]/20 shadow-[0_20px_50px_rgba(3,23,20,0.5)] space-y-6">
+          {/* Right Column: Structured Intelligence Deliverable Mockup with 3D Depth */}
+          <div className="lg:col-span-5 surface-matte-dark rounded-3xl p-6 sm:p-8 border border-[#B7E4D5]/25 shadow-3d-card space-y-6 relative overflow-hidden">
             <div className="flex items-center justify-between border-b border-[#073B32] pb-4">
               <div className="flex items-center gap-2">
                 <FileSpreadsheet size={16} className="text-[#2FA885]" />

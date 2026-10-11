@@ -6,8 +6,8 @@ import { ArrowUpRight, ChevronDown, ChevronUp, Check, AlertCircle } from "lucide
 import { servicesData, ServiceItem } from "@/data/services";
 
 export function CapabilitiesGrid() {
-  const [expandedId, setExpandedId] = useState<string | null>("business-due-diligence");
-  const nonPrimaryServices = servicesData.filter((s) => !s.isPrimary);
+  const [expandedId, setExpandedId] = useState<string | null>("external-threat-intelligence");
+  const allServices = servicesData;
 
   const toggleExpand = (id: string) => {
     setExpandedId(expandedId === id ? null : id);
@@ -36,7 +36,7 @@ export function CapabilitiesGrid() {
 
         {/* Capabilities List with Expandable Deep-Dives */}
         <div className="space-y-4">
-          {nonPrimaryServices.map((service) => {
+          {allServices.map((service) => {
             const isExpanded = expandedId === service.id;
             return (
               <div
@@ -60,9 +60,16 @@ export function CapabilitiesGrid() {
                       {service.code}
                     </span>
                     <div>
-                      <h3 className="text-xl sm:text-2xl font-editorial font-semibold text-[#041F1B]">
-                        {service.title}
-                      </h3>
+                      <div className="flex items-center gap-2.5">
+                        <h3 className="text-xl sm:text-2xl font-editorial font-semibold text-[#041F1B]">
+                          {service.title}
+                        </h3>
+                        {service.isPrimary && (
+                          <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-[#073B32] text-[#B7E4D5] font-semibold">
+                            Priority Focus
+                          </span>
+                        )}
+                      </div>
                       <p className="text-xs sm:text-sm text-[#4E635D] font-light mt-0.5">
                         {service.shortTagline}
                       </p>
