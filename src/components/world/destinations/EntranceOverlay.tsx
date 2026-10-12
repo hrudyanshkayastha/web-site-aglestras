@@ -40,16 +40,16 @@ export function EntranceOverlay({
             loop
             playsInline
             onError={() => setVideoError(true)}
-            poster="/images/emerald_landscape_reference.png"
+            poster="/images/agletras-emerald-world.png"
             className="w-full h-full object-cover object-center scale-105 filter brightness-[0.72] contrast-[1.18] transition-opacity duration-1000"
             aria-hidden="true"
           >
-            <source src="/videos/agletras_neural_network_video_cropped.mp4" type="video/mp4" />
+            <source src="/videos/agletras-neural-world.mp4" type="video/mp4" />
           </video>
         ) : (
           <div className="relative w-full h-full">
             <Image
-              src="/images/emerald_landscape_reference.png"
+              src="/images/agletras-emerald-world.png"
               alt="Agletras Cinematic Neural Sanctuary Reference"
               fill
               priority

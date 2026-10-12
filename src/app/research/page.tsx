@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowUpRight, Search, FileCode, Network, ShieldCheck, Database, Terminal, Cpu } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -75,6 +76,31 @@ export default function ResearchPage() {
             Agletras investigates the technical frontier where open-source intelligence, cybersecurity,
             automation, and machine-assisted analysis intersect.
           </p>
+        </div>
+
+        {/* Supporting Visual Reference */}
+        <div className="relative w-full h-64 sm:h-80 md:h-96 rounded-3xl overflow-hidden border border-[#B7E4D5]/20 shadow-2xl">
+          <Image
+            src="/images/agletras-emerald-world.png"
+            alt="Agletras Emerald Neural Sanctuary Environment"
+            fill
+            className="object-cover object-center filter brightness-[0.8] contrast-[1.1]"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#041F1B] via-transparent to-transparent" />
+          <div className="absolute bottom-6 left-6 right-6 sm:bottom-8 sm:left-8 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
+            <div className="space-y-1">
+              <span className="font-mono text-[11px] uppercase tracking-wider text-[#B7E4D5] font-semibold">
+                Empirical Intelligence Architecture
+              </span>
+              <h3 className="font-editorial text-xl sm:text-2xl text-[#F4F2EA]">
+                Branching OSINT Telemetry & Living Topology
+              </h3>
+            </div>
+            <span className="text-xs font-mono text-[#8DA99E] bg-[#031714]/80 px-3 py-1.5 rounded-full border border-[#B7E4D5]/20 backdrop-blur-md">
+              Agletras Sanctuary Reference
+            </span>
+          </div>
         </div>
 
         {/* Research Domains Grid */}
