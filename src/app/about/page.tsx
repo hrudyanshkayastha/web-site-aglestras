@@ -3,17 +3,15 @@ import Link from "next/link";
 import {
   ShieldCheck,
   ArrowUpRight,
-  Scale,
-  BookOpen,
-  MapPin,
   Sparkles,
   Network,
   Cpu,
   Search,
   CheckCircle2,
-  AlertOctagon,
-  ArrowRight,
+  FileText,
   FileCheck,
+  Radio,
+  Share2,
 } from "lucide-react";
 import { companyData } from "@/data/company";
 import { BotanicalMotif } from "@/components/ui/BotanicalMotif";
@@ -52,33 +50,45 @@ const triadPillars = [
   },
 ];
 
-const epistemicFlow = [
+const intelligenceStages = [
   {
-    phase: "Sources",
-    label: "Permitted Open Data",
-    desc: "Statutory company registries, passive DNS, certificate transparency logs, court gazettes, and public repositories.",
+    step: "01",
+    label: "Discover",
+    icon: Search,
+    description:
+      "Identify relevant public sources, records, technical indicators, and information related to the investigation objective.",
+    tagline: "Lawful Public Ingestion",
   },
   {
-    phase: "Evidence",
-    label: "Attributed Artifacts",
-    desc: "Cryptographically hashed records tagged with universal UTC timestamps and primary provenance metadata.",
+    step: "02",
+    label: "Verify",
+    icon: ShieldCheck,
+    description:
+      "Evaluate source reliability, validate observations, compare evidence, and distinguish confirmed facts from unverified indicators.",
+    tagline: "Provenance & Epistemics",
   },
   {
-    phase: "Analysis",
-    label: "Epistemic Grading",
-    desc: "Rigorous human peer review separating verified facts from indicators, inferences, and stated operational assumptions.",
+    step: "03",
+    label: "Connect",
+    icon: Network,
+    description:
+      "Correlate relevant entities, timelines, domains, organizations, and other evidence to identify meaningful relationships.",
+    tagline: "Relational Correlation",
   },
   {
-    phase: "Decisions",
-    label: "Actionable Briefs",
-    desc: "Defensive recommendations and strategic findings delivered with explicit scope boundaries and confidence ratings.",
+    step: "04",
+    label: "Deliver",
+    icon: FileText,
+    description:
+      "Present structured findings, source references, confidence assessments, limitations, and relevant next steps in an organized report or technical deliverable.",
+    tagline: "Decision-Ready Briefs",
   },
 ];
 
 export default function AboutPage() {
   return (
     <div className="pt-32 pb-24 md:pt-40 md:pb-32 bg-[#041F1B] text-[#F4F2EA] min-h-screen">
-      <div className="max-w-6xl mx-auto px-6 md:px-10 space-y-20">
+      <div className="max-w-6xl mx-auto px-6 md:px-10 space-y-24">
         {/* Page Hero Header */}
         <div className="space-y-6 text-center md:text-left max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#073B32] border border-[#B7E4D5]/25 text-xs font-mono text-[#B7E4D5] uppercase tracking-wider">
@@ -222,50 +232,7 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Section 4: The Epistemic Bridge (Sources -> Evidence -> Analysis -> Decisions) */}
-        <div className="space-y-8">
-          <div className="border-b border-[#B7E4D5]/15 pb-4">
-            <span className="font-mono text-xs uppercase tracking-widest text-[#2FA885] font-semibold block mb-1">
-              The Epistemic Bridge
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-editorial font-semibold text-[#F4F2EA]">
-              From Raw Observation to Executive Action
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {epistemicFlow.map((step, idx) => (
-              <div
-                key={idx}
-                className="p-5 rounded-2xl bg-[#041F1B]/90 border border-[#B7E4D5]/15 space-y-3 flex flex-col justify-between shadow-md"
-              >
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-xs text-[#2FA885] font-semibold">
-                      Stage 0{idx + 1}
-                    </span>
-                    <span className="text-[11px] font-mono uppercase text-[#8DA99E]">
-                      {step.phase}
-                    </span>
-                  </div>
-                  <h4 className="text-base font-editorial font-semibold text-[#F4F2EA]">
-                    {step.label}
-                  </h4>
-                  <p className="text-xs text-[#C5D9D2] font-light leading-relaxed">
-                    {step.desc}
-                  </p>
-                </div>
-                {idx < 3 && (
-                  <div className="pt-2 text-right hidden lg:block text-[#2FA885]">
-                    →
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Section 5: Lawful & Responsible Research Commitments */}
+        {/* Section 4: Lawful & Responsible Research Commitments */}
         <div className="space-y-6">
           <div className="border-b border-[#B7E4D5]/15 pb-4">
             <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-[#B7E4D5] font-semibold">
@@ -295,95 +262,112 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Section 6: Verified Statutory & Incorporation Details */}
-        <div className="space-y-6">
-          <div className="border-b border-[#B7E4D5]/15 pb-4">
-            <h2 className="text-2xl font-editorial font-semibold text-[#F4F2EA]">
-              Statutory Incorporation & Registration
+        {/* Section 5: From Research to Actionable Intelligence (Replaces Statutory Section) */}
+        <div className="space-y-12">
+          {/* Section Header */}
+          <div className="space-y-4 max-w-3xl">
+            <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#2FA885] font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#2FA885] animate-pulse" />
+              <span>The Intelligence Progression</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-editorial font-semibold text-[#F4F2EA]">
+              From Research to Actionable Intelligence
             </h2>
-            <p className="text-xs font-mono text-[#8DA99E] mt-1">
-              Verifiable enterprise registry details
+            <p className="text-base sm:text-lg text-[#C5D9D2] font-light leading-relaxed">
+              Public information is only the starting point. Agletras helps organizations evaluate evidence, discover relationships, identify potential risks, and turn fragmented information into structured research findings that support better-informed decisions.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 font-mono text-xs">
-            <div className="p-5 rounded-2xl bg-[#073B32]/30 border border-[#B7E4D5]/15 space-y-1.5">
-              <span className="text-[#8DA99E] uppercase block">Legal Enterprise Name</span>
-              <strong className="text-[#F4F2EA] text-sm font-medium block">
-                {companyData.legalName}
-              </strong>
-              <span className="text-[11px] text-[#A1B8B0]">Micro Enterprise (Services)</span>
+          {/* 4 Stages with Illuminated Neural Pathway */}
+          <div className="relative">
+            {/* Desktop Illuminated Pathway Line */}
+            <div className="hidden lg:block absolute top-[48px] left-[8%] right-[8%] h-[2px] bg-gradient-to-r from-[#2FA885]/20 via-[#2FA885]/80 to-[#2FA885]/20 z-0 pointer-events-none">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#B7E4D5] to-transparent w-1/3 animate-pulse" />
             </div>
 
-            <div className="p-5 rounded-2xl bg-[#073B32]/30 border border-[#B7E4D5]/15 space-y-1.5">
-              <span className="text-[#8DA99E] uppercase block">Registration Authority</span>
-              <strong className="text-[#F4F2EA] text-sm font-medium block">
-                Ministry of MSME, Govt of India
-              </strong>
-              <span className="text-[11px] text-[#A1B8B0]">Statutory Enterprise Filing</span>
-            </div>
+            {/* Mobile Illuminated Pathway Vertical Spine */}
+            <div className="lg:hidden absolute top-8 bottom-8 left-[30px] w-[2px] bg-gradient-to-b from-[#2FA885]/30 via-[#2FA885]/70 to-[#2FA885]/30 z-0 pointer-events-none" />
 
-            <div className="p-5 rounded-2xl bg-[#073B32]/30 border border-[#B7E4D5]/15 space-y-1.5">
-              <span className="text-[#8DA99E] uppercase block">Enterprise Status</span>
-              <strong className="text-[#2FA885] text-sm font-medium block">
-                Active Micro Enterprise
-              </strong>
-              <span className="text-[11px] text-[#A1B8B0]">Incorporated: August 1, 2026</span>
-            </div>
+            {/* 4 Stages Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 relative z-10">
+              {intelligenceStages.map((stage) => {
+                const StageIcon = stage.icon;
+                return (
+                  <div
+                    key={stage.step}
+                    className="p-6 sm:p-7 rounded-3xl bg-[#073B32]/35 border border-[#B7E4D5]/20 hover:border-[#2FA885]/60 transition-all duration-300 flex flex-col justify-between space-y-6 shadow-xl backdrop-blur-md group hover:-translate-y-1 relative overflow-hidden"
+                  >
+                    {/* Subtle Neural Leaf-Vein Watermark */}
+                    <BotanicalMotif
+                      variant="leaf-vein"
+                      className="absolute -right-6 -bottom-6 w-36 text-[#2FA885] opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none"
+                    />
 
-            <div className="p-5 rounded-2xl bg-[#073B32]/30 border border-[#B7E4D5]/15 space-y-1.5">
-              <span className="text-[#8DA99E] uppercase block">Operational Location</span>
-              <strong className="text-[#F4F2EA] text-sm font-medium block">
-                {companyData.registration.location}
-              </strong>
-              <span className="text-[11px] text-[#A1B8B0]">Maharashtra, India</span>
-            </div>
+                    <div className="space-y-4 relative z-10">
+                      {/* Top Node Header Aligned with Illuminated Pathway */}
+                      <div className="flex items-center justify-between">
+                        <div className="w-12 h-12 rounded-2xl bg-[#041F1B] border border-[#2FA885]/40 flex items-center justify-center text-[#2FA885] group-hover:border-[#2FA885] group-hover:shadow-[0_0_16px_rgba(47,168,133,0.4)] transition-all shadow-md">
+                          <StageIcon size={20} />
+                        </div>
+                        <span className="font-mono text-xs font-semibold px-2.5 py-1 rounded-full bg-[#041F1B] text-[#B7E4D5] border border-[#B7E4D5]/15">
+                          {stage.step}
+                        </span>
+                      </div>
 
-            <div className="p-5 rounded-2xl bg-[#073B32]/30 border border-[#B7E4D5]/15 space-y-1.5">
-              <span className="text-[#8DA99E] uppercase block">Registered NIC Activities</span>
-              <strong className="text-[#F4F2EA] text-sm font-medium block">
-                63111, 74904, 72100
-              </strong>
-              <span className="text-[11px] text-[#A1B8B0]">
-                Data Processing, Security Consulting, Scientific Research
-              </span>
-            </div>
+                      <div>
+                        <h3 className="text-xl font-editorial font-semibold text-[#F4F2EA] mb-1">
+                          {stage.step} — {stage.label}
+                        </h3>
+                        <span className="text-[11px] font-mono text-[#2FA885] uppercase tracking-wider block mb-2">
+                          {stage.tagline}
+                        </span>
+                        <p className="text-xs sm:text-sm text-[#C5D9D2] font-light leading-relaxed">
+                          {stage.description}
+                        </p>
+                      </div>
+                    </div>
 
-            <div className="p-5 rounded-2xl bg-[#073B32]/30 border border-[#B7E4D5]/15 space-y-1.5">
-              <span className="text-[#8DA99E] uppercase block">Primary Contact</span>
-              <strong className="text-[#F4F2EA] text-sm font-medium block">
-                {companyData.contacts.corporateEmail}
-              </strong>
-              <span className="text-[11px] text-[#A1B8B0]">Official Business Inquiries</span>
+                    <div className="pt-3 border-t border-[#B7E4D5]/10 flex items-center justify-between text-[11px] font-mono text-[#8DA99E] relative z-10">
+                      <span>Phase {stage.step} of 04</span>
+                      <span className="text-[#2FA885] opacity-0 group-hover:opacity-100 transition-opacity">
+                        Active Vector →
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
-        </div>
 
-        {/* Closing Next-Step CTA */}
-        <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-[#073B32] via-[#041F1B] to-[#073B32] border border-[#B7E4D5]/25 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
-          <div className="space-y-2">
-            <h3 className="text-2xl font-editorial font-semibold text-[#F4F2EA]">
-              Explore How Our Capabilities Apply to Your Organization
-            </h3>
-            <p className="text-sm text-[#C5D9D2] font-light max-w-xl">
-              From cyber threat intelligence to corporate due diligence, we provide transparent, evidence-backed answers.
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center gap-4 shrink-0">
-            <Link
-              href="/services"
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-xs uppercase tracking-widest font-mono font-medium text-[#F4F2EA] bg-[#073B32] hover:bg-[#0a4d40] border border-[#B7E4D5]/30 transition-all"
-            >
-              <span>Explore Services</span>
-              <ArrowRight size={14} className="text-[#2FA885]" />
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-xs uppercase tracking-widest font-mono font-semibold text-[#041F1B] bg-[#B7E4D5] hover:bg-[#C8EFE2] transition-all shadow-lg shadow-[#041F1B]/50"
-            >
-              <span>Start a Conversation</span>
-              <ArrowUpRight size={14} />
-            </Link>
+          {/* Client-Focused Call to Action */}
+          <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-[#073B32] via-[#041F1B] to-[#073B32] border border-[#B7E4D5]/25 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl relative overflow-hidden">
+            <BotanicalMotif
+              variant="leaf-vein"
+              className="absolute -right-8 -bottom-8 w-64 text-[#2FA885] opacity-10 pointer-events-none"
+            />
+
+            <div className="space-y-3 relative z-10 max-w-2xl text-center md:text-left">
+              <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#2FA885] font-semibold">
+                <Sparkles size={13} />
+                <span>Consultation & Scope Assessment</span>
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-editorial font-semibold text-[#F4F2EA]">
+                Have a Research Challenge?
+              </h3>
+              <p className="text-sm sm:text-base text-[#C5D9D2] font-light leading-relaxed">
+                Tell us what you need to investigate, verify, or understand. We can discuss the scope, relevant information sources, and appropriate deliverables.
+              </p>
+            </div>
+
+            <div className="relative z-10 shrink-0 w-full sm:w-auto">
+              <Link
+                href="/contact"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-xs uppercase tracking-widest font-mono font-semibold text-[#041F1B] bg-[#B7E4D5] hover:bg-[#C8EFE2] transition-all shadow-lg shadow-[#041F1B]/60 hover:shadow-[0_4px_24px_rgba(47,168,133,0.4)] cursor-pointer"
+              >
+                <span>Discuss Your Requirements</span>
+                <ArrowUpRight size={15} />
+              </Link>
+            </div>
           </div>
         </div>
       </div>
