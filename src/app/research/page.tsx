@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowUpRight, Search, FileCode, Network, ShieldCheck, Database, Terminal, Cpu } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -78,31 +77,6 @@ export default function ResearchPage() {
           </p>
         </div>
 
-        {/* Supporting Visual Reference */}
-        <div className="relative w-full h-64 sm:h-80 md:h-96 rounded-3xl overflow-hidden border border-[#B7E4D5]/20 shadow-2xl">
-          <Image
-            src="/images/agletras-emerald-world.png"
-            alt="Agletras Emerald Neural Sanctuary Environment"
-            fill
-            className="object-cover object-center filter brightness-[0.8] contrast-[1.1]"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#041F1B] via-transparent to-transparent" />
-          <div className="absolute bottom-6 left-6 right-6 sm:bottom-8 sm:left-8 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
-            <div className="space-y-1">
-              <span className="font-mono text-[11px] uppercase tracking-wider text-[#B7E4D5] font-semibold">
-                Empirical Intelligence Architecture
-              </span>
-              <h3 className="font-editorial text-xl sm:text-2xl text-[#F4F2EA]">
-                Branching OSINT Telemetry & Living Topology
-              </h3>
-            </div>
-            <span className="text-xs font-mono text-[#8DA99E] bg-[#031714]/80 px-3 py-1.5 rounded-full border border-[#B7E4D5]/20 backdrop-blur-md">
-              Agletras Sanctuary Reference
-            </span>
-          </div>
-        </div>
-
         {/* Research Domains Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {researchDomains.map((domain, index) => {
@@ -133,6 +107,29 @@ export default function ResearchPage() {
               </div>
             );
           })}
+        </div>
+
+        {/* Conceptual Visual Feature */}
+        <div className="relative rounded-3xl overflow-hidden border border-[#B7E4D5]/25 bg-[#031714] shadow-2xl">
+          <div className="relative h-64 sm:h-80 md:h-96 w-full">
+            <img
+              src="/images/agletras-emerald-world.png"
+              alt="Agletras Neural Intelligence Topology Model"
+              className="w-full h-full object-cover object-center filter brightness-[0.8] contrast-[1.1]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#031714] via-[#031714]/40 to-transparent" />
+            <div className="absolute bottom-6 left-6 sm:bottom-10 sm:left-10 max-w-xl space-y-2">
+              <span className="text-[10px] uppercase tracking-widest font-mono text-[#2FA885] bg-[#073B32]/80 px-3 py-1 rounded-full border border-[#B7E4D5]/20 backdrop-blur-md">
+                Topological Model Reference
+              </span>
+              <h3 className="text-xl sm:text-2xl font-editorial font-semibold text-[#F4F2EA]">
+                Neural Architecture of Disparate Open Records
+              </h3>
+              <p className="text-xs sm:text-sm text-[#C5D9D2] font-light leading-relaxed">
+                Conceptualizing open-source investigation as a dimensional network where isolated observations converge through verified relational edges into synthesized intelligence.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Responsible Notice */}
