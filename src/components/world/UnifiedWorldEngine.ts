@@ -100,6 +100,7 @@ export class UnifiedWorldEngine {
     this.controller = new UnifiedCameraController(
       this.camera,
       this.renderer.domElement,
+      this.scene,
       controllerCallbacks
     );
     this.controller.isReducedMotion = isReducedMotion;

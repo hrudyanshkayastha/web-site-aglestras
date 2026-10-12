@@ -49,7 +49,7 @@ export function AtlasOverlay({
         </div>
 
         {/* Entity Selector Quick Tray */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-9 gap-2">
           {ILLUSTRATIVE_GRAPH_NODES.map((node) => {
             const isSelected = selectedNode?.id === node.id;
             const cat = ENTITY_CATEGORIES[node.category];
@@ -59,25 +59,25 @@ export function AtlasOverlay({
                 key={node.id}
                 type="button"
                 onClick={() => onSelectNode(isSelected ? null : node)}
-                className={`p-3.5 rounded-xl border text-left transition-all backdrop-blur-md flex flex-col justify-between ${
+                className={`p-2.5 rounded-xl border text-left transition-all backdrop-blur-md flex flex-col justify-between ${
                   isSelected
-                    ? "bg-[#073B32]/95 border-[#2FA885] shadow-[0_0_20px_rgba(47,168,133,0.3)] -translate-y-1"
-                    : "bg-[#031714]/88 border-[#B7E4D5]/15 hover:border-[#B7E4D5]/40 hover:-translate-y-0.5 shadow-sm"
+                    ? "bg-[#073B32]/98 border-[#2FA885] shadow-[0_0_20px_rgba(47,168,133,0.35)] -translate-y-0.5"
+                    : "bg-[#041F1B]/95 border-[#B7E4D5]/20 hover:border-[#2FA885]/60 hover:-translate-y-0.5 shadow-md"
                 }`}
               >
-                <div className="flex items-center justify-between gap-2 mb-1.5">
+                <div className="flex items-center justify-between gap-1 mb-1">
                   <span
                     className="w-2 h-2 rounded-full shrink-0"
                     style={{ backgroundColor: cat?.color || "#2FA885" }}
                   />
-                  <span className="text-[10px] font-mono text-[#8DA99E] uppercase">
+                  <span className="text-[9px] font-mono text-[#8DA99E] uppercase">
                     {node.epistemicTier}
                   </span>
                 </div>
-                <div className="font-semibold text-xs text-[#F4F2EA] truncate w-full">
+                <div className="font-medium text-[11px] text-[#F4F2EA] truncate w-full" title={node.name}>
                   {node.name}
                 </div>
-                <div className="text-[10px] text-[#718E84] font-mono truncate mt-0.5">
+                <div className="text-[9px] text-[#718E84] font-mono truncate mt-0.5">
                   {node.categoryLabel}
                 </div>
               </button>

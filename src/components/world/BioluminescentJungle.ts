@@ -78,9 +78,11 @@ export function createBioluminescentJungle(): JungleElements {
 
   // -------------------------------------------------------------
   // B. MONUMENTAL BRAIDED LIVING TRUNK
+  // Set back in the midground (Z = -2.6) as an atmospheric living monument
   // Rises from subterranean root depths (-4.5) to canopy (+5.0)
   // -------------------------------------------------------------
   const trunkGroup = new THREE.Group();
+  trunkGroup.position.set(0, 0, -2.6);
   const numStrands = 6;
   const trunkHeight = 9.5;
   const trunkBaseY = -4.5;
@@ -96,8 +98,8 @@ export function createBioluminescentJungle(): JungleElements {
 
       // Spiral twist and organic waist
       const twist = t * Math.PI * 1.2 + strandAngle;
-      // Radius: flaring at base (1.2), tapering at waist (0.45), fanning at canopy (1.4)
-      const radius = 0.45 + Math.pow(t - 0.45, 2) * 2.8;
+      // Radius: flaring at base (1.1), tapering at waist (0.38), fanning at canopy (1.3)
+      const radius = 0.38 + Math.pow(t - 0.45, 2) * 2.4;
 
       const x = Math.cos(twist) * radius;
       const z = Math.sin(twist) * radius;
@@ -105,7 +107,7 @@ export function createBioluminescentJungle(): JungleElements {
     }
 
     const strandCurve = new THREE.CatmullRomCurve3(strandPoints);
-    const strandGeo = new THREE.TubeGeometry(strandCurve, 48, 0.09, 10, false);
+    const strandGeo = new THREE.TubeGeometry(strandCurve, 48, 0.08, 10, false);
     disposables.push(strandGeo);
 
     const strandMesh = new THREE.Mesh(strandGeo, barkMaterial);
@@ -113,7 +115,7 @@ export function createBioluminescentJungle(): JungleElements {
 
     // Add glowing vascular inner vein to every second strand
     if (i % 2 === 0) {
-      const veinGeo = new THREE.TubeGeometry(strandCurve, 48, 0.024, 6, false);
+      const veinGeo = new THREE.TubeGeometry(strandCurve, 48, 0.02, 6, false);
       disposables.push(veinGeo);
       const veinMesh = new THREE.Mesh(veinGeo, vascularMaterial);
       veinMesh.scale.set(1.03, 1.0, 1.03);
@@ -122,8 +124,8 @@ export function createBioluminescentJungle(): JungleElements {
   }
   group.add(trunkGroup);
 
-  // Central pulsating crystal heart at trunk center [0, 0.8, 0]
-  const heartGeo = new THREE.OctahedronGeometry(0.35, 2);
+  // Central pulsating crystal heart at trunk center [0, 0.8, -2.6]
+  const heartGeo = new THREE.OctahedronGeometry(0.32, 2);
   disposables.push(heartGeo);
   const heartMat = new THREE.MeshStandardMaterial({
     color: 0xf4f2ea,
@@ -134,43 +136,44 @@ export function createBioluminescentJungle(): JungleElements {
   });
   disposables.push(heartMat);
   const heartMesh = new THREE.Mesh(heartGeo, heartMat);
-  heartMesh.position.set(0, 0.8, 0);
+  heartMesh.position.set(0, 0.8, -2.6);
   group.add(heartMesh);
 
-  const heartPointLight = new THREE.PointLight(0xb7e4d5, 3.2, 14, 2);
-  heartPointLight.position.set(0, 0.8, 0);
+  const heartPointLight = new THREE.PointLight(0xb7e4d5, 3.0, 14, 2);
+  heartPointLight.position.set(0, 0.8, -2.6);
   group.add(heartPointLight);
 
   // -------------------------------------------------------------
   // C. MONUMENTAL ROOT ARCHES & LIVING BRIDGES
   // Roots connecting the center to the Services (West), Methodology (Down), and Atlas (East)
+  // Staying grounded along the terrain surface (Y <= -0.6)
   // -------------------------------------------------------------
   const rootArchesGroup = new THREE.Group();
 
   // Root directions connecting world regions along the terrain floor
   const rootVectors = [
     // Toward Services Pavilion (West)
-    { dir: new THREE.Vector3(-6.2, 0.1, 1.8), midY: 0.35, archR: 0.09 },
-    { dir: new THREE.Vector3(-5.0, -0.3, -2.2), midY: 0.25, archR: 0.08 },
+    { dir: new THREE.Vector3(-6.2, -0.8, 1.8), midY: -0.7, archR: 0.08 },
+    { dir: new THREE.Vector3(-5.0, -1.0, -2.2), midY: -0.8, archR: 0.07 },
     // Toward Methodology subterranean portal (South / Down)
-    { dir: new THREE.Vector3(0.0, -3.8, 3.2), midY: -2.2, archR: 0.11 },
-    { dir: new THREE.Vector3(1.4, -3.6, -1.8), midY: -2.0, archR: 0.09 },
+    { dir: new THREE.Vector3(0.0, -3.8, 3.2), midY: -2.2, archR: 0.1 },
+    { dir: new THREE.Vector3(1.4, -3.6, -1.8), midY: -2.0, archR: 0.08 },
     // Toward Atlas Observatory (East)
-    { dir: new THREE.Vector3(5.6, 0.2, 2.4), midY: 0.4, archR: 0.09 },
-    { dir: new THREE.Vector3(4.8, -0.2, -3.2), midY: 0.25, archR: 0.08 },
+    { dir: new THREE.Vector3(5.6, -0.8, 2.4), midY: -0.7, archR: 0.08 },
+    { dir: new THREE.Vector3(4.8, -1.0, -3.2), midY: -0.8, archR: 0.07 },
     // Toward Contact Overlook (North)
-    { dir: new THREE.Vector3(0.0, 0.1, -8.4), midY: 0.3, archR: 0.1 },
+    { dir: new THREE.Vector3(0.0, -0.6, -8.4), midY: -0.7, archR: 0.09 },
   ];
 
   rootVectors.forEach((rv, idx) => {
-    const pStart = new THREE.Vector3(0, 0.2, 0);
+    const pStart = new THREE.Vector3(0, -0.6, -2.6);
     const pEnd = rv.dir;
     const pMid = new THREE.Vector3()
       .addVectors(pStart, pEnd)
       .multiplyScalar(0.5);
     pMid.y = rv.midY;
     // Add horizontal organic bow
-    pMid.x += (idx % 2 === 0 ? 0.6 : -0.6);
+    pMid.x += (idx % 2 === 0 ? 0.5 : -0.5);
 
     const rootCurve = new THREE.CatmullRomCurve3([pStart, pMid, pEnd]);
     const rootGeo = new THREE.TubeGeometry(rootCurve, 32, rv.archR, 8, false);

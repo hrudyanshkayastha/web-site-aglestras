@@ -11,7 +11,7 @@ export function ContactOverlay() {
       id="destination-contact"
       className="min-h-screen flex flex-col justify-center items-center px-6 md:px-10 pt-28 pb-36 text-center relative z-20 pointer-events-none"
     >
-      <div className="max-w-3xl mx-auto space-y-7 pointer-events-auto p-8 sm:p-10 rounded-3xl bg-gradient-to-b from-[#031714]/85 via-[#031714]/65 to-[#031714]/40 border border-[#B7E4D5]/15 backdrop-blur-md shadow-2xl">
+      <div className="max-w-3xl mx-auto space-y-7 pointer-events-auto p-8 sm:p-10 rounded-3xl bg-gradient-to-b from-[#031714]/94 via-[#031714]/90 to-[#031714]/86 border border-[#B7E4D5]/20 backdrop-blur-xl shadow-2xl">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#073B32]/90 border border-[#B7E4D5]/30 text-xs font-mono text-[#B7E4D5] uppercase tracking-wider backdrop-blur-md shadow-lg">
           <span className="w-1.5 h-1.5 rounded-full bg-[#2FA885]" />
           <span>Destination 05 // Sanctuary Terminus</span>

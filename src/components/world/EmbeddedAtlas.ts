@@ -26,17 +26,29 @@ export interface EmbeddedAtlasElements {
   dispose: () => void;
 }
 
+const ATLAS_NODE_COORDINATES: Record<string, [number, number, number]> = {
+  "target-enterprise": [3.6, 1.0, 0.0],
+  "lookalike-domain": [1.9, 1.9, 0.8],
+  "tls-cert": [0.8, 2.6, -0.4],
+  "ip-cluster": [1.3, 0.4, -1.8],
+  "mail-infrastructure": [1.6, -0.9, 1.1],
+  "registrant-proxy": [2.3, -0.4, -2.5],
+  "shell-company": [5.3, 0.5, 1.2],
+  "nominee-director": [5.7, 2.0, -0.8],
+  "gazette-record": [4.9, -1.1, -1.8],
+};
+
 function createAtlasLabelSprite(node: GraphNode): THREE.Sprite {
   const canvas = document.createElement("canvas");
-  canvas.width = 512;
-  canvas.height = 128;
+  canvas.width = 400;
+  canvas.height = 100;
   const ctx = canvas.getContext("2d");
 
   if (ctx) {
     // Background container
-    ctx.fillStyle = "rgba(3, 23, 20, 0.92)";
-    ctx.strokeStyle = "rgba(183, 228, 213, 0.45)";
-    ctx.lineWidth = 3;
+    ctx.fillStyle = "rgba(3, 23, 20, 0.95)";
+    ctx.strokeStyle = "rgba(183, 228, 213, 0.5)";
+    ctx.lineWidth = 2.5;
 
     const roundRect = (x: number, y: number, w: number, h: number, r: number) => {
       ctx.beginPath();
@@ -44,11 +56,11 @@ function createAtlasLabelSprite(node: GraphNode): THREE.Sprite {
       ctx.arcTo(x + w, y, x + w, y + h, r);
       ctx.arcTo(x + w, y + h, x, y + h, r);
       ctx.arcTo(x, y + h, x, y, r);
-      ctx.arcTo(x, y + w, x, y, r);
+      ctx.arcTo(x, y, x + r, y, r);
       ctx.closePath();
     };
 
-    roundRect(8, 8, 496, 112, 24);
+    roundRect(4, 4, 392, 92, 16);
     ctx.fill();
     ctx.stroke();
 
@@ -56,23 +68,23 @@ function createAtlasLabelSprite(node: GraphNode): THREE.Sprite {
     const categoryInfo = ENTITY_CATEGORIES[node.category];
     ctx.fillStyle = categoryInfo?.color || "#2FA885";
     ctx.beginPath();
-    ctx.arc(36, 44, 10, 0, Math.PI * 2);
+    ctx.arc(28, 36, 8, 0, Math.PI * 2);
     ctx.fill();
 
     // Display Name
     ctx.fillStyle = "#F4F2EA";
-    ctx.font = "bold 26px sans-serif";
+    ctx.font = "bold 22px sans-serif";
     ctx.textAlign = "left";
     ctx.textBaseline = "middle";
 
     let displayName = node.name;
-    if (displayName.length > 24) displayName = displayName.substring(0, 23) + "…";
-    ctx.fillText(displayName, 58, 44);
+    if (displayName.length > 22) displayName = displayName.substring(0, 21) + "…";
+    ctx.fillText(displayName, 46, 36);
 
     // Epistemic subtitle
     ctx.fillStyle = "#B7E4D5";
-    ctx.font = "16px monospace";
-    ctx.fillText(`${node.categoryLabel} // [${node.epistemicTier}]`, 36, 88);
+    ctx.font = "14px monospace";
+    ctx.fillText(`${node.categoryLabel} // [${node.epistemicTier}]`, 28, 72);
   }
 
   const texture = new THREE.CanvasTexture(canvas);
@@ -87,7 +99,9 @@ function createAtlasLabelSprite(node: GraphNode): THREE.Sprite {
   });
 
   const sprite = new THREE.Sprite(spriteMat);
-  sprite.scale.set(1.4, 0.35, 1);
+  sprite.scale.set(1.15, 0.29, 1);
+  sprite.position.set(0, 0.42, 0); // Position above node
+  sprite.visible = false;
   return sprite;
 }
 
@@ -98,10 +112,10 @@ export function createEmbeddedAtlas(): EmbeddedAtlasElements {
   const disposables: (THREE.BufferGeometry | THREE.Material | THREE.Texture)[] = [];
   const nodeMeshes = new Map<string, AtlasObject>();
 
-  // Shift nodes naturally into the Eastern Atlas Observatory sector of the world
+  // Shift nodes into spacious, non-overlapping positions in the Eastern Observatory sector
   const atlasNodes = ILLUSTRATIVE_GRAPH_NODES.map((n) => ({
     ...n,
-    worldPos: [n.position[0] * 0.85 + 3.4, n.position[1] * 0.85 + 0.8, n.position[2] * 0.85] as [number, number, number],
+    worldPos: ATLAS_NODE_COORDINATES[n.id] || ([3.6, 1.0, 0.0] as [number, number, number]),
   }));
 
   const nodeMap = new Map(atlasNodes.map((n) => [n.id, n]));
@@ -293,6 +307,18 @@ export function createEmbeddedAtlas(): EmbeddedAtlasElements {
     activeDestination?: WorldDestinationId
   ) => {
     const isAtlasDestination = activeDestination === "ATLAS";
+    group.visible = isAtlasDestination;
+    if (!isAtlasDestination) return;
+
+    // Identify connected nodes when one is selected
+    const connectedNodeIds = new Set<string>();
+    if (activeSelectId) {
+      connectedNodeIds.add(activeSelectId);
+      pathwaysList.forEach((pw) => {
+        if (pw.sourceId === activeSelectId) connectedNodeIds.add(pw.targetId);
+        if (pw.targetId === activeSelectId) connectedNodeIds.add(pw.sourceId);
+      });
+    }
 
     // Update beacons
     nodeMeshes.forEach((item, id) => {
@@ -310,35 +336,43 @@ export function createEmbeddedAtlas(): EmbeddedAtlasElements {
         item.outerRing.rotation.x = Math.PI / 3 + Math.sin(elapsed * 0.8) * 0.15;
       }
 
-      // Scale: only full scale when at Atlas destination; subtle ambient scale elsewhere
-      const baseScale = isAtlasDestination ? 1.0 : 0.6;
-      const targetScale = isSelected ? 1.35 : isHovered ? 1.2 : baseScale;
+      // Scale
+      const targetScale = isSelected ? 1.35 : isHovered ? 1.2 : 1.0;
       item.group.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), delta * 6);
 
       // Emissive brightness
       const coreMat = item.coreMesh.material as THREE.MeshStandardMaterial;
-      const baseEmissive = isAtlasDestination
-        ? isSelected ? 0.95 : isHovered ? 0.8 : 0.5
-        : 0.15;
+      const baseEmissive = isSelected ? 0.95 : isHovered ? 0.8 : 0.5;
       coreMat.emissiveIntensity = THREE.MathUtils.lerp(coreMat.emissiveIntensity, baseEmissive, delta * 6);
 
-      // Label Opacity: STRICTLY hidden unless at Atlas destination!
+      // Label Visibility: Uncluttered hierarchical visibility
+      let targetSpriteOpacity = 0.0;
+      if (isHovered) {
+        targetSpriteOpacity = 1.0;
+      } else if (activeSelectId) {
+        if (isSelected) {
+          targetSpriteOpacity = 1.0;
+        } else if (connectedNodeIds.has(id)) {
+          targetSpriteOpacity = 0.75;
+        } else {
+          targetSpriteOpacity = 0.0;
+        }
+      } else {
+        // High-level anchor nodes only when idle
+        if (id === "target-enterprise" || id === "lookalike-domain" || id === "shell-company") {
+          targetSpriteOpacity = 0.85;
+        } else {
+          targetSpriteOpacity = 0.0;
+        }
+      }
+
       const spriteMat = item.labelSprite.material as THREE.SpriteMaterial;
-      const targetSpriteOpacity = isAtlasDestination ? (isSelected ? 1.0 : isHovered ? 0.95 : 0.85) : 0.0;
       spriteMat.opacity = THREE.MathUtils.lerp(spriteMat.opacity, targetSpriteOpacity, delta * 8);
       item.labelSprite.visible = spriteMat.opacity > 0.02;
     });
 
     // Update pathways
     pathwaysList.forEach((pw) => {
-      if (!isAtlasDestination) {
-        pw.lineMat.opacity = THREE.MathUtils.lerp(pw.lineMat.opacity, 0.0, delta * 8);
-        pw.photons.forEach((photon) => {
-          photon.mesh.visible = false;
-        });
-        return;
-      }
-
       const isConnected =
         !activeSelectId && !activeHoverId
           ? true

@@ -19,7 +19,7 @@ export function EntranceOverlay({
       id="destination-entrance"
       className="min-h-screen flex flex-col justify-center items-center px-6 md:px-10 pt-28 pb-32 text-center relative z-20 pointer-events-none"
     >
-      <div className="max-w-3xl mx-auto space-y-7 pointer-events-auto p-8 sm:p-10 rounded-3xl bg-gradient-to-b from-[#031714]/85 via-[#031714]/65 to-[#031714]/40 border border-[#B7E4D5]/15 backdrop-blur-md shadow-2xl">
+      <div className="max-w-3xl mx-auto space-y-7 pointer-events-auto p-8 sm:p-10 rounded-3xl bg-gradient-to-b from-[#031714]/94 via-[#031714]/90 to-[#031714]/86 border border-[#B7E4D5]/20 backdrop-blur-xl shadow-2xl">
         {/* Eyebrow Brand Badge with Unaltered Authentic Logo */}
         <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#073B32]/90 border border-[#B7E4D5]/35 shadow-lg backdrop-blur-md">
           <div className="relative w-5 h-5 rounded-full bg-gradient-to-b from-[#0a4237] to-[#041F1B] p-0.5 border border-[#B7E4D5]/40 flex items-center justify-center shrink-0">

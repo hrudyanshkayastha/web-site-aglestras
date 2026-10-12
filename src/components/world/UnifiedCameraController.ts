@@ -43,14 +43,17 @@ export class UnifiedCameraController {
 
   // Reduced motion
   public isReducedMotion = false;
+  private scene: THREE.Scene;
 
   constructor(
     camera: THREE.PerspectiveCamera,
     domElement: HTMLElement,
+    scene: THREE.Scene,
     callbacks: CameraControllerCallbacks
   ) {
     this.camera = camera;
     this.domElement = domElement;
+    this.scene = scene;
     this.callbacks = callbacks;
 
     const initialWp = WORLD_DESTINATIONS.ENTRANCE;
@@ -170,7 +173,7 @@ export class UnifiedCameraController {
 
   private checkClickRaycast() {
     this.raycaster.setFromCamera(this.pointerCoords, this.camera);
-    const hits = this.raycaster.intersectObjects(this.camera.parent?.children || [], true);
+    const hits = this.raycaster.intersectObjects(this.scene.children, true);
 
     for (const hit of hits) {
       let cur: THREE.Object3D | null = hit.object;
@@ -214,13 +217,27 @@ export class UnifiedCameraController {
     this.callbacks.onNodeSelect(node);
     this.callbacks.onServiceSelect(null);
 
-    // Frame node in Atlas with considered offset
-    const nx = node.position[0] * 0.85 + 3.4;
-    const ny = node.position[1] * 0.85 + 0.8;
-    const nz = node.position[2] * 0.85;
+    const ATLAS_NODE_COORDINATES: Record<string, [number, number, number]> = {
+      "target-enterprise": [3.6, 1.0, 0.0],
+      "lookalike-domain": [1.9, 1.9, 0.8],
+      "tls-cert": [0.8, 2.6, -0.4],
+      "ip-cluster": [1.3, 0.4, -1.8],
+      "mail-infrastructure": [1.6, -0.9, 1.1],
+      "registrant-proxy": [2.3, -0.4, -2.5],
+      "shell-company": [5.3, 0.5, 1.2],
+      "nominee-director": [5.7, 2.0, -0.8],
+      "gazette-record": [4.9, -1.1, -1.8],
+    };
 
-    this.targetCameraPos.set(nx + 0.8, ny + 0.4, nz + 3.8);
-    this.targetLookAt.set(nx, ny, nz);
+    const coords = ATLAS_NODE_COORDINATES[node.id] || [3.6, 1.0, 0.0];
+    const nx = coords[0];
+    const ny = coords[1];
+    const nz = coords[2];
+
+    // Frame node with lateral offset so it appears in the left-center of viewport,
+    // leaving the right side 100% free of collision with the EntityDetailsPanel.
+    this.targetCameraPos.set(nx + 0.85, ny + 0.35, nz + 3.2);
+    this.targetLookAt.set(nx + 0.85, ny, nz);
     this.targetFov = 42;
     this.targetRotationAngle = { yaw: 0, pitch: 0 };
   }

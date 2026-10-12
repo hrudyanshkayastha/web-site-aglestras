@@ -28,9 +28,9 @@ export function ServicesOverlay({
       id="destination-services"
       className="min-h-screen flex flex-col justify-center px-6 md:px-10 pt-28 pb-36 relative z-20 pointer-events-none"
     >
-      <div className="max-w-6xl mx-auto w-full space-y-8 pointer-events-auto">
+      <div className="max-w-6xl mx-auto w-full space-y-8 pointer-events-auto p-6 sm:p-10 rounded-3xl bg-gradient-to-b from-[#031714]/95 via-[#031714]/92 to-[#031714]/94 border border-[#B7E4D5]/20 backdrop-blur-2xl shadow-2xl">
         {/* Destination Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#B7E4D5]/15 pb-6 backdrop-blur-md">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#B7E4D5]/15 pb-6">
           <div className="max-w-2xl space-y-2">
             <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#B7E4D5] font-semibold">
               <span className="w-1.5 h-1.5 rounded-full bg-[#2FA885]" />
@@ -49,7 +49,7 @@ export function ServicesOverlay({
 
           <Link
             href="/services"
-            className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#B7E4D5] hover:text-[#FFFFFF] transition-colors shrink-0 font-medium bg-[#031714]/60 px-4 py-2 rounded-full border border-[#B7E4D5]/20 backdrop-blur-sm"
+            className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#B7E4D5] hover:text-[#FFFFFF] transition-colors shrink-0 font-medium bg-[#073B32]/70 px-4 py-2 rounded-full border border-[#B7E4D5]/25 backdrop-blur-sm"
           >
             <span>Full Service Specifications</span>
             <ArrowUpRight size={15} />
@@ -69,10 +69,10 @@ export function ServicesOverlay({
                 onClick={() => onSelectService(isSelected ? null : service)}
                 className={`p-6 rounded-2xl border transition-all duration-300 flex flex-col justify-between cursor-pointer group backdrop-blur-md ${
                   isSelected
-                    ? "bg-[#073B32]/95 border-[#2FA885] shadow-[0_0_24px_rgba(47,168,133,0.35)] -translate-y-1"
+                    ? "bg-[#073B32]/98 border-[#2FA885] shadow-[0_0_24px_rgba(47,168,133,0.35)] -translate-y-1"
                     : isPrimary
-                    ? "bg-[#041F1B]/92 border-[#2FA885]/40 hover:border-[#2FA885]/70 shadow-lg"
-                    : "bg-[#031714]/88 border-[#B7E4D5]/15 hover:border-[#B7E4D5]/40 hover:-translate-y-0.5 shadow-md"
+                    ? "bg-[#041F1B]/95 border-[#2FA885]/50 hover:border-[#2FA885]/80 shadow-xl"
+                    : "bg-[#041F1B]/95 border-[#B7E4D5]/20 hover:border-[#B7E4D5]/50 hover:-translate-y-0.5 shadow-lg"
                 }`}
               >
                 <div className="space-y-3">

@@ -56,50 +56,57 @@ export function createFuturisticArchitecture(): ArchitectureElements {
 
   // -------------------------------------------------------------
   // A. ENTRANCE GATEWAY MONOLITHS (FLANKING ARCHITECTURAL PORTAL)
-  // Left and Right flanking arch ribs leaving the center (X in [-3.5, +3.5])
-  // completely open and quiet for the headline and brand badge
+  // Monumental vertical stelae situated strictly on the far flanks (|X| >= 6.0),
+  // leaving the entire central frustum (|X| < 5.5) completely open and clear for hero text.
   // -------------------------------------------------------------
   const entranceRibsGroup = new THREE.Group();
 
-  // Flanking angles: Left pair (120°, 145°) and Right pair (60°, 35°)
-  const ribAngles = [
-    Math.PI * 0.68, // Left Mid
-    Math.PI * 0.82, // Left Outer
-    Math.PI * 0.32, // Right Mid
-    Math.PI * 0.18, // Right Outer
+  // Left and Right colonnade positions: [x, z, height, width]
+  const colonnadeConfigs = [
+    // Left Flank
+    { x: -6.4, z: 6.2, h: 3.2, w: 0.38 },
+    { x: -7.2, z: 8.0, h: 2.8, w: 0.34 },
+    { x: -6.8, z: 9.8, h: 2.4, w: 0.32 },
+    // Right Flank
+    { x: 6.4, z: 6.2, h: 3.2, w: 0.38 },
+    { x: 7.2, z: 8.0, h: 2.8, w: 0.34 },
+    { x: 6.8, z: 9.8, h: 2.4, w: 0.32 },
   ];
 
-  ribAngles.forEach((angle, idx) => {
-    const points: THREE.Vector3[] = [];
-    const segments = 28;
-    const baseRadius = 8.2 + (idx % 2) * 0.6;
+  colonnadeConfigs.forEach((cfg) => {
+    const steleGroup = new THREE.Group();
+    steleGroup.position.set(cfg.x, -1.2 + cfg.h / 2, cfg.z);
 
-    for (let s = 0; s <= segments; s++) {
-      const t = s / segments;
-      // Arch rises to y = 5.2 and arches gracefully outward
-      const y = -1.2 + Math.sin(t * Math.PI) * 5.4;
-      const r = baseRadius - Math.sin(t * Math.PI * 0.8) * 1.2;
-      const archAngle = angle + (t - 0.5) * 0.2;
+    // 1. Honed Basalt Stele Body
+    const bodyGeo = new THREE.BoxGeometry(cfg.w, cfg.h, cfg.w);
+    disposables.push(bodyGeo);
+    const bodyMesh = new THREE.Mesh(bodyGeo, basaltMat);
+    steleGroup.add(bodyMesh);
 
-      const x = Math.cos(archAngle) * r;
-      const z = Math.sin(archAngle) * r;
-      points.push(new THREE.Vector3(x, y, z));
-    }
+    // 2. Vertical Burnished Brass Inlay Edge
+    const inlayGeo = new THREE.BoxGeometry(cfg.w * 0.15, cfg.h * 0.95, cfg.w * 1.02);
+    disposables.push(inlayGeo);
+    const inlayMesh = new THREE.Mesh(inlayGeo, brassMat);
+    steleGroup.add(inlayMesh);
 
-    const curve = new THREE.CatmullRomCurve3(points);
-    const ribGeo = new THREE.TubeGeometry(curve, 36, 0.11, 10, false);
-    disposables.push(ribGeo);
+    // 3. Top Mint Accent Ring
+    const topCapGeo = new THREE.BoxGeometry(cfg.w * 1.05, 0.04, cfg.w * 1.05);
+    disposables.push(topCapGeo);
+    const topCapMesh = new THREE.Mesh(topCapGeo, mintTrimMat);
+    topCapMesh.position.y = cfg.h / 2;
+    steleGroup.add(topCapMesh);
 
-    const ribMesh = new THREE.Mesh(ribGeo, basaltMat);
-    entranceRibsGroup.add(ribMesh);
-
-    // Inlaid brass highlight running along inner curve
-    const trimGeo = new THREE.TubeGeometry(curve, 36, 0.024, 8, false);
-    disposables.push(trimGeo);
-    const trimMesh = new THREE.Mesh(trimGeo, brassMat);
-    trimMesh.scale.set(1.02, 1.0, 1.02);
-    entranceRibsGroup.add(trimMesh);
+    entranceRibsGroup.add(steleGroup);
   });
+
+  // Ceremonial Ground Threshold Disc (flush with ground at Y = -1.18, Z = 6.0)
+  const thresholdGeo = new THREE.RingGeometry(3.6, 3.75, 48);
+  disposables.push(thresholdGeo);
+  const thresholdMesh = new THREE.Mesh(thresholdGeo, brassMat);
+  thresholdMesh.rotation.x = -Math.PI / 2;
+  thresholdMesh.position.set(0, -1.18, 6.5);
+  entranceRibsGroup.add(thresholdMesh);
+
   group.add(entranceRibsGroup);
 
   // -------------------------------------------------------------
@@ -286,11 +293,19 @@ export function createFuturisticArchitecture(): ArchitectureElements {
   ) => {
     const isServicesDest = activeDestination === "SERVICES";
     const isMethodologyDest = activeDestination === "METHODOLOGY";
+    const isAtlasDest = activeDestination === "ATLAS";
+    const isEntranceDest = activeDestination === "ENTRANCE";
 
-    // Astrolabe rings counter-rotation
-    astrolabeRings.forEach((ring, idx) => {
-      ring.rotation.z = (idx % 2 === 0 ? 1 : -1) * elapsed * 0.04 * (idx + 1);
-    });
+    // Destination-aware structure visibility
+    astrolabeGroup.visible = isAtlasDest;
+    entranceRibsGroup.visible = isEntranceDest || activeDestination === undefined;
+
+    // Astrolabe rings counter-rotation (when active)
+    if (isAtlasDest) {
+      astrolabeRings.forEach((ring, idx) => {
+        ring.rotation.z = (idx % 2 === 0 ? 1 : -1) * elapsed * 0.04 * (idx + 1);
+      });
+    }
 
     // Methodology threshold rings emissive intensity
     methodologyThresholdMeshes.forEach((mesh) => {
