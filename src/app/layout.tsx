@@ -117,6 +117,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${newsreader.variable} ${inter.variable} ${jetbrainsMono.variable} antialiased`}
+      suppressHydrationWarning
     >
       <head>
         <script
@@ -124,7 +125,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
       </head>
-      <body className="min-h-screen flex flex-col bg-[#041F1B] text-[#F4F2EA]">
+      <body
+        className="min-h-screen flex flex-col bg-[#041F1B] text-[#F4F2EA]"
+        suppressHydrationWarning
+      >
         <Navbar />
         <main className="flex-grow">{children}</main>
         <Footer />

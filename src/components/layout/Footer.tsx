@@ -175,7 +175,7 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between text-xs font-mono text-[#749187] gap-4">
-          <p>© {new Date().getFullYear()} AGLETRAS. All rights reserved.</p>
+          <p suppressHydrationWarning>© {new Date().getFullYear()} AGLETRAS. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <span>Evidence-First Intelligence</span>
             <span>•</span>
