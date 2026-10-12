@@ -1,0 +1,121 @@
+"use client";
+
+import React from "react";
+import Link from "next/link";
+import { ArrowUpRight, ArrowRight, Database, Network, ShieldCheck, FileText } from "lucide-react";
+
+const methodologySteps = [
+  {
+    step: "01",
+    label: "Collect",
+    icon: Database,
+    title: "Passive Source Harvesting",
+    summary: "Lawful extraction of public registries, certificate transparency logs, DNS telemetry, and corporate filings.",
+  },
+  {
+    step: "02",
+    label: "Connect",
+    icon: Network,
+    title: "Relational Topology Mapping",
+    summary: "Correlating lookalike domains, staging hosts, corporate directorships, and nominee shells across boundaries.",
+  },
+  {
+    step: "03",
+    label: "Analyze",
+    icon: ShieldCheck,
+    title: "5-Tier Epistemic Evaluation",
+    summary: "Deterministic grading separating primary facts from empirical indicators, corroborations, and working hypotheses.",
+  },
+  {
+    step: "04",
+    label: "Deliver",
+    icon: FileText,
+    title: "Executive Intelligence Briefing",
+    summary: "Defensible intelligence deliverables with cryptographic evidence hashes and explicit scope limitations.",
+  },
+];
+
+export function MethodologyOverlay() {
+  return (
+    <section
+      id="destination-methodology"
+      className="min-h-screen flex flex-col justify-center px-6 md:px-10 py-24 relative z-20 pointer-events-none"
+    >
+      <div className="max-w-6xl mx-auto w-full space-y-8 pointer-events-auto">
+        {/* Destination Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#B7E4D5]/15 pb-6 backdrop-blur-sm">
+          <div className="max-w-2xl space-y-2">
+            <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#B7E4D5] font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#2FA885]" />
+              <span>Destination 03 // Subterranean Conduit Portals</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-editorial font-semibold text-[#F4F2EA]">
+              From Raw Data{" "}
+              <span className="italic font-normal text-[#B7E4D5]">
+                to Defensible Decisions.
+              </span>
+            </h2>
+            <p className="text-sm text-[#C5D9D2] font-light">
+              Intelligence without provenance is conjecture. We follow an environmental 4-phase research lifecycle through the world.
+            </p>
+          </div>
+
+          <Link
+            href="/methodology"
+            className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#B7E4D5] hover:text-[#FFFFFF] transition-colors shrink-0 font-medium"
+          >
+            <span>Explore Epistemic Tiers</span>
+            <ArrowUpRight size={15} />
+          </Link>
+        </div>
+
+        {/* 4-Stage Pathway: Collect -> Connect -> Analyze -> Deliver */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {methodologySteps.map((item, index) => {
+            const Icon = item.icon;
+            const isLast = index === methodologySteps.length - 1;
+
+            return (
+              <div
+                key={item.step}
+                className="p-6 rounded-2xl bg-[#031714]/85 border border-[#B7E4D5]/15 hover:border-[#2FA885]/50 transition-all duration-300 flex flex-col justify-between space-y-5 backdrop-blur-md group"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="font-mono text-xs text-[#2FA885] font-semibold tracking-wider">
+                      Stage {item.step}
+                    </span>
+                    <div className="p-2 rounded-xl bg-[#073B32] text-[#B7E4D5] group-hover:text-[#2FA885] transition-colors">
+                      <Icon size={16} />
+                    </div>
+                  </div>
+
+                  <h3 className="text-xl font-editorial font-semibold text-[#F4F2EA] mb-1">
+                    {item.label}
+                  </h3>
+                  <div className="text-xs text-[#B7E4D5] font-mono mb-2">
+                    {item.title}
+                  </div>
+
+                  <p className="text-xs text-[#C5D9D2] font-light leading-relaxed">
+                    {item.summary}
+                  </p>
+                </div>
+
+                <div className="pt-3 border-t border-[#B7E4D5]/10 flex items-center justify-between text-xs font-mono text-[#8DA99E]">
+                  <span className="uppercase tracking-wider">Portal {item.step}/04</span>
+                  {!isLast && (
+                    <ArrowRight
+                      size={14}
+                      className="text-[#2FA885] hidden lg:block opacity-75 group-hover:translate-x-1 transition-transform"
+                    />
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}

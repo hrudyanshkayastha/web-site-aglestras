@@ -1,15 +1,5 @@
-import { HeroSection } from "@/components/sections/HeroSection";
-import { CompactServicesSection } from "@/components/sections/CompactServicesSection";
-import { CompactMethodologySection } from "@/components/sections/CompactMethodologySection";
-import { CtaSection } from "@/components/sections/CtaSection";
+import { UnifiedWorldExperience } from "@/components/world/UnifiedWorldExperience";
 
 export default function HomePage() {
-  return (
-    <>
-      <HeroSection />
-      <CompactServicesSection />
-      <CompactMethodologySection />
-      <CtaSection />
-    </>
-  );
+  return <UnifiedWorldExperience />;
 }
