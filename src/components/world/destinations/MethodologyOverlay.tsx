@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { ArrowUpRight, ArrowRight, Compass, Database, CheckCircle2, Network, ShieldCheck, FileText } from "lucide-react";
+import { sampleBriefData } from "@/data/methodology";
 
 const methodologySteps = [
   {
@@ -114,7 +115,7 @@ export function MethodologyOverlay() {
                 </div>
 
                 <div className="pt-3 border-t border-[#B7E4D5]/10 flex items-center justify-between text-xs font-mono text-[#8DA99E]">
-                  <span className="uppercase tracking-wider">Portal {item.step}/04</span>
+                  <span className="uppercase tracking-wider">Stage {item.step}/06</span>
                   {!isLast && (
                     <ArrowRight
                       size={14}
@@ -125,6 +126,49 @@ export function MethodologyOverlay() {
               </div>
             );
           })}
+        </div>
+
+        {/* Illustrative Deliverable Preview Panel */}
+        <div className="p-6 rounded-2xl bg-[#041F1B]/95 border border-[#2FA885]/30 space-y-4 shadow-xl">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#B7E4D5]/10 pb-4">
+            <div className="space-y-1">
+              <div className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-[#2FA885] font-semibold">
+                <FileText size={13} />
+                <span>Illustrative Client Deliverable // Demonstration Dataset</span>
+              </div>
+              <h4 className="text-lg font-editorial font-semibold text-[#F4F2EA]">
+                {sampleBriefData.title}
+              </h4>
+            </div>
+
+            <Link
+              href="/services/external-threat-intelligence"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider text-[#041F1B] bg-[#B7E4D5] hover:bg-[#C8EFE2] font-semibold transition-all self-start sm:self-auto shrink-0 shadow-md"
+            >
+              <span>View Sample Dossier</span>
+              <ArrowUpRight size={13} />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 text-xs font-mono text-[#C5D9D2]">
+            <div className="md:col-span-8 p-3.5 rounded-xl bg-[#073B32]/30 border border-[#B7E4D5]/10 space-y-1.5">
+              <span className="text-[10px] text-[#8DA99E] uppercase block font-semibold">Executive Synthesis</span>
+              <p className="text-[#D8E8E2] font-sans font-light leading-relaxed text-xs">
+                {sampleBriefData.executiveSummary}
+              </p>
+            </div>
+            <div className="md:col-span-4 p-3.5 rounded-xl bg-[#073B32]/30 border border-[#B7E4D5]/10 space-y-1.5 flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] text-[#8DA99E] uppercase block font-semibold">Epistemic Status</span>
+                <span className="text-[#2FA885] text-xs font-semibold block mt-0.5">
+                  4 Attributed Evidence Artifacts
+                </span>
+              </div>
+              <div className="pt-2 border-t border-[#B7E4D5]/10 text-[10px] text-[#8DA99E]">
+                Target: {sampleBriefData.scopeTarget}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

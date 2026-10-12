@@ -113,31 +113,36 @@ export function Footer() {
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link
-                  href="/services#external-threat-intelligence"
+                  href="/services/external-threat-intelligence"
                   className="hover:text-[#FFFFFF] transition-colors flex items-center justify-between"
                 >
-                  <span>External Threat Intelligence</span>
+                  <span>Cyber Threat Intelligence</span>
                   <span className="text-[10px] font-mono text-[#2FA885] uppercase">Priority</span>
                 </Link>
               </li>
               <li>
-                <Link href="/services#business-due-diligence" className="hover:text-[#FFFFFF] transition-colors">
+                <Link href="/services/business-due-diligence" className="hover:text-[#FFFFFF] transition-colors">
                   Business Due Diligence
                 </Link>
               </li>
               <li>
-                <Link href="/services#recruitment-verification" className="hover:text-[#FFFFFF] transition-colors">
+                <Link href="/services/recruitment-verification" className="hover:text-[#FFFFFF] transition-colors">
                   Recruitment Verification
                 </Link>
               </li>
               <li>
-                <Link href="/services#brand-impersonation-research" className="hover:text-[#FFFFFF] transition-colors">
-                  Brand Impersonation Research
+                <Link href="/services/brand-impersonation-research" className="hover:text-[#FFFFFF] transition-colors">
+                  Brand Impersonation & Scams
                 </Link>
               </li>
               <li>
-                <Link href="/services#research-automation" className="hover:text-[#FFFFFF] transition-colors">
-                  Research Automation Pipelines
+                <Link href="/services/research-automation" className="hover:text-[#FFFFFF] transition-colors">
+                  Research Automation
+                </Link>
+              </li>
+              <li>
+                <Link href="/services/osint-investigative-research" className="hover:text-[#FFFFFF] transition-colors">
+                  OSINT Investigation
                 </Link>
               </li>
             </ul>

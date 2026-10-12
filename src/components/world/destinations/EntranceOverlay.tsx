@@ -252,27 +252,27 @@ export function EntranceOverlay({
           </span>
         </h1>
 
-        {/* Exact Verified Supporting Copy */}
-        <p className="text-lg md:text-xl text-[#C5D9D2] max-w-2xl mx-auto font-light leading-relaxed drop-shadow-sm">
-          Agletras transforms publicly available information into structured research, actionable intelligence, and decision support.
+        {/* Plain-Language 5-Second Explanation */}
+        <p className="text-base sm:text-lg md:text-xl text-[#C5D9D2] max-w-2xl mx-auto font-light leading-relaxed drop-shadow-sm">
+          Agletras researches publicly available information and develops intelligence workflows to help organizations investigate relationships, evaluate information, identify digital risks, and make better-informed decisions.
         </p>
 
-        {/* Two Clear Calls to Action */}
+        {/* Primary and Secondary Calls to Action */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
           <button
             type="button"
             onClick={onExploreServices}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-semibold tracking-wide text-[#041F1B] bg-[#B7E4D5] hover:bg-[#C8EFE2] transition-all shadow-[0_4px_24px_rgba(47,168,133,0.3)] hover:shadow-[0_6px_32px_rgba(47,168,133,0.45)]"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-semibold tracking-wide text-[#041F1B] bg-[#B7E4D5] hover:bg-[#C8EFE2] transition-all shadow-[0_4px_24px_rgba(47,168,133,0.3)] hover:shadow-[0_6px_32px_rgba(47,168,133,0.45)] cursor-pointer"
           >
-            <span>Explore Agletras</span>
+            <span>Explore Services</span>
             <ArrowDown size={15} />
           </button>
 
           <Link
-            href="/research"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-medium tracking-wide text-[#F4F2EA] bg-[#073B32]/80 hover:bg-[#073B32] border border-[#B7E4D5]/35 hover:border-[#B7E4D5]/65 transition-all backdrop-blur-md shadow-md"
+            href="/contact"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-medium tracking-wide text-[#F4F2EA] bg-[#073B32]/80 hover:bg-[#073B32] border border-[#B7E4D5]/35 hover:border-[#B7E4D5]/65 transition-all backdrop-blur-md shadow-md cursor-pointer"
           >
-            <span>View Research</span>
+            <span>Start a Conversation</span>
             <ArrowUpRight size={15} className="text-[#B7E4D5]" />
           </Link>
         </div>

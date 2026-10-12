@@ -103,9 +103,22 @@ export function ServicesOverlay({
                     <h3 className="text-lg font-editorial font-semibold text-[#F4F2EA] mb-1">
                       {service.title}
                     </h3>
-                    <p className="text-xs text-[#C5D9D2] font-light leading-relaxed">
+                    <p className="text-xs text-[#B7E4D5] font-light leading-relaxed">
                       {service.shortTagline}
                     </p>
+                    <p className="text-[11px] text-[#C5D9D2] font-light leading-relaxed mt-2 line-clamp-2">
+                      {service.problemStatement}
+                    </p>
+                    <div className="flex flex-wrap gap-1 mt-2.5">
+                      {service.whoItHelps.slice(0, 2).map((target, idx) => (
+                        <span
+                          key={idx}
+                          className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#073B32]/80 text-[#8DA99E] border border-[#B7E4D5]/10 truncate max-w-[200px]"
+                        >
+                          {target}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
@@ -116,11 +129,11 @@ export function ServicesOverlay({
                   </span>
 
                   <Link
-                    href={`/services#${service.id}`}
+                    href={`/services/${service.id}`}
                     onClick={(e) => e.stopPropagation()}
                     className="inline-flex items-center gap-1 text-[#B7E4D5] hover:text-[#FFFFFF] transition-colors"
                   >
-                    <span>Scope</span>
+                    <span>Specification</span>
                     <ArrowUpRight size={13} />
                   </Link>
                 </div>
