@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
-import { SpatialEntityGraph } from "@/components/visuals/SpatialEntityGraph";
+import { CinematicIntelligenceWorld } from "@/components/visuals/world/CinematicIntelligenceWorld";
 
 export function HeroSection() {
   return (
@@ -66,7 +66,7 @@ export function HeroSection() {
 
         {/* The 3D Visualization Centerpiece */}
         <div className="w-full relative">
-          <SpatialEntityGraph />
+          <CinematicIntelligenceWorld />
         </div>
       </div>
     </section>
