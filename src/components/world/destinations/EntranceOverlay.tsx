@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, ArrowDown } from "lucide-react";
+import { ArrowUpRight, ArrowDown, Play, Pause } from "lucide-react";
 
 interface EntranceOverlayProps {
   onExploreServices: () => void;
-  onExploreMethodology: () => void;
+  onExploreMethodology?: () => void;
 }
 
 export function EntranceOverlay({
@@ -15,14 +15,165 @@ export function EntranceOverlay({
 }: EntranceOverlayProps) {
   const [isReducedMotion, setIsReducedMotion] = useState(false);
   const [videoError, setVideoError] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [autoplayBlocked, setAutoplayBlocked] = useState(false);
+  const [userPaused, setUserPaused] = useState(false);
+
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  // Check reduced motion preference
   useEffect(() => {
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     setIsReducedMotion(motionQuery.matches);
-    const motionHandler = (e: MediaQueryListEvent) => setIsReducedMotion(e.matches);
+    const motionHandler = (e: MediaQueryListEvent) => {
+      setIsReducedMotion(e.matches);
+      if (e.matches && videoRef.current) {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      }
+    };
     motionQuery.addEventListener("change", motionHandler);
     return () => motionQuery.removeEventListener("change", motionHandler);
+  }, []);
+
+  // Robust HTML5 Video Lifecycle & Autoplay Handling
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Direct DOM property enforcement for browser autoplay policy compliance
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+
+    const handleLoadedData = () => {
+      // First frame ready
+    };
+
+    const handleCanPlay = () => {
+      if (!isReducedMotion && !userPaused && video.paused) {
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              setIsPlaying(true);
+              setAutoplayBlocked(false);
+            })
+            .catch((err) => {
+              console.warn("[Agletras Video] Autoplay prevented by browser policy:", err.message);
+              setAutoplayBlocked(true);
+              setIsPlaying(false);
+            });
+        }
+      }
+    };
+
+    const handlePlaying = () => {
+      setIsPlaying(true);
+      setAutoplayBlocked(false);
+      setVideoError(false);
+    };
+
+    const handlePause = () => {
+      setIsPlaying(false);
+    };
+
+    const handleWaiting = () => {
+      // Buffer catchup
+    };
+
+    const handleStalled = () => {
+      console.warn("[Agletras Video] Stream stalled; awaiting buffer data");
+    };
+
+    const handleEnded = () => {
+      // Continuous loop recovery guarantee
+      if (!isReducedMotion && !userPaused) {
+        video.currentTime = 0;
+        video.play().catch((err) => {
+          console.warn("[Agletras Video] Seamless loop interrupted:", err.message);
+        });
+      }
+    };
+
+    const handleError = () => {
+      console.error("[Agletras Video] Playback error encountered:", video.error);
+      setVideoError(true);
+      setIsPlaying(false);
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        if (!video.paused) {
+          video.pause();
+        }
+      } else {
+        if (!isReducedMotion && !userPaused && !autoplayBlocked) {
+          video.play().catch(() => {});
+        }
+      }
+    };
+
+    video.addEventListener("loadeddata", handleLoadedData);
+    video.addEventListener("canplay", handleCanPlay);
+    video.addEventListener("playing", handlePlaying);
+    video.addEventListener("pause", handlePause);
+    video.addEventListener("waiting", handleWaiting);
+    video.addEventListener("stalled", handleStalled);
+    video.addEventListener("ended", handleEnded);
+    video.addEventListener("error", handleError);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    // Initial mount playback attempt
+    if (!isReducedMotion && !userPaused) {
+      const initialPlay = video.play();
+      if (initialPlay !== undefined) {
+        initialPlay
+          .then(() => {
+            setIsPlaying(true);
+            setAutoplayBlocked(false);
+          })
+          .catch((err) => {
+            console.warn("[Agletras Video] Initial autoplay was blocked:", err.message);
+            setAutoplayBlocked(true);
+            setIsPlaying(false);
+          });
+      }
+    }
+
+    return () => {
+      video.removeEventListener("loadeddata", handleLoadedData);
+      video.removeEventListener("canplay", handleCanPlay);
+      video.removeEventListener("playing", handlePlaying);
+      video.removeEventListener("pause", handlePause);
+      video.removeEventListener("waiting", handleWaiting);
+      video.removeEventListener("stalled", handleStalled);
+      video.removeEventListener("ended", handleEnded);
+      video.removeEventListener("error", handleError);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [isReducedMotion, userPaused, autoplayBlocked]);
+
+  // User-Initiated Play / Pause Toggle
+  const handleTogglePlayback = useCallback(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (video.paused) {
+      setUserPaused(false);
+      video.play()
+        .then(() => {
+          setIsPlaying(true);
+          setAutoplayBlocked(false);
+        })
+        .catch((err) => {
+          console.error("[Agletras Video] User play request failed:", err);
+        });
+    } else {
+      setUserPaused(true);
+      video.pause();
+      setIsPlaying(false);
+    }
   }, []);
 
   return (
@@ -30,36 +181,41 @@ export function EntranceOverlay({
       id="destination-entrance"
       className="min-h-screen flex flex-col justify-center items-center px-6 md:px-10 pt-28 pb-32 text-center relative z-20 pointer-events-none overflow-hidden"
     >
-      {/* Cinematic Full-Viewport Neural-Network Background Video */}
+      {/* Background Media Container (Zero Layout Shift) */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
-        {!isReducedMotion && !videoError ? (
+        {/* Layer 1: High-Resolution Reference Poster (Guaranteed Fallback) */}
+        <div className="absolute inset-0 w-full h-full">
+          <Image
+            src="/images/agletras-emerald-world.png"
+            alt="Agletras Cinematic Neural Sanctuary Reference"
+            fill
+            priority
+            className="object-cover object-center filter brightness-[0.7] contrast-[1.14]"
+          />
+        </div>
+
+        {/* Layer 2: Persistent HTML5 Video Element */}
+        {!isReducedMotion && !videoError && (
           <video
             ref={videoRef}
+            key="agletras-cinematic-hero-video"
             autoPlay
             muted
             loop
             playsInline
-            onError={() => setVideoError(true)}
+            preload="auto"
             poster="/images/agletras-emerald-world.png"
-            className="w-full h-full object-cover object-center scale-105 filter brightness-[0.72] contrast-[1.18] transition-opacity duration-1000"
+            className={`absolute inset-0 w-full h-full object-cover object-center scale-105 filter brightness-[0.74] contrast-[1.18] transition-opacity duration-1000 ${
+              isPlaying ? "opacity-100" : "opacity-0"
+            }`}
             aria-hidden="true"
           >
             <source src="/videos/agletras-neural-world.mp4" type="video/mp4" />
           </video>
-        ) : (
-          <div className="relative w-full h-full">
-            <Image
-              src="/images/agletras-emerald-world.png"
-              alt="Agletras Cinematic Neural Sanctuary Reference"
-              fill
-              priority
-              className="object-cover object-center filter brightness-[0.68] contrast-[1.12]"
-            />
-          </div>
         )}
 
-        {/* Deep Atmospheric Gradient Overlays for Guaranteed Text Legibility */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#041F1B] via-[#041F1B]/50 to-[#020F0C]/80" />
+        {/* Layer 3: Cinematic Atmospheric Gradient Overlays for Guaranteed Text Legibility */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#041F1B] via-[#041F1B]/45 to-[#020F0C]/80" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(2,15,12,0.85)_100%)]" />
         <div className="absolute inset-0 bg-[#041F1B]/30 mix-blend-multiply" />
       </div>
@@ -121,6 +277,31 @@ export function EntranceOverlay({
           </Link>
         </div>
       </div>
+
+      {/* Floating Ambient Motion Control (Play/Pause Toggle for User Agency) */}
+      {!isReducedMotion && !videoError && (
+        <div className="absolute bottom-6 right-6 z-30 pointer-events-auto">
+          <button
+            type="button"
+            onClick={handleTogglePlayback}
+            aria-label={isPlaying ? "Pause cinematic background video" : "Play cinematic background video"}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#031714]/90 border border-[#B7E4D5]/30 hover:border-[#2FA885] text-[11px] font-mono text-[#B7E4D5] hover:text-[#FFFFFF] transition-all backdrop-blur-md shadow-lg group"
+            title={isPlaying ? "Pause background animation" : "Resume background animation"}
+          >
+            {isPlaying ? (
+              <>
+                <Pause size={12} className="text-[#2FA885] group-hover:scale-110 transition-transform" />
+                <span className="hidden sm:inline">Motion Active</span>
+              </>
+            ) : (
+              <>
+                <Play size={12} className="text-[#2FA885] group-hover:scale-110 transition-transform" />
+                <span>{autoplayBlocked ? "Play Cinematic Motion" : "Resume Motion"}</span>
+              </>
+            )}
+          </button>
+        </div>
+      )}
     </section>
   );
 }

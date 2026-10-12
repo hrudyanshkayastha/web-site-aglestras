@@ -51,11 +51,13 @@ export class UnifiedWorldEngine {
       powerPreference: "high-performance",
     });
     this.renderer.setSize(width, height);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.15;
 
     container.appendChild(this.renderer.domElement);
+
+    document.addEventListener("visibilitychange", this.handleVisibilityChange);
 
     // 4. Cinematic Lighting Model
     const ambientLight = new THREE.AmbientLight(0x08251f, 1.4);
@@ -170,11 +172,17 @@ export class UnifiedWorldEngine {
     this.renderer.render(this.scene, this.camera);
   };
 
+  private handleVisibilityChange = () => {
+    this.setVisible(!document.hidden);
+  };
+
   public dispose() {
     this.isRunning = false;
     if (this.animationFrameId !== null) {
       cancelAnimationFrame(this.animationFrameId);
     }
+
+    document.removeEventListener("visibilitychange", this.handleVisibilityChange);
 
     this.controller.dispose();
     this.jungle.dispose();
