@@ -34,16 +34,16 @@ export function ServicesOverlay({
           <div className="max-w-2xl space-y-2">
             <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#B7E4D5] font-semibold">
               <span className="w-1.5 h-1.5 rounded-full bg-[#2FA885]" />
-              <span>Destination 02 // Capabilities Pavilion</span>
+              <span>Destination 02 // The Intelligence Landscape</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-editorial font-semibold text-[#F4F2EA]">
-              Six Focused Service Lines.{" "}
+              Six Core Intelligence Services.{" "}
               <span className="italic font-normal text-[#B7E4D5]">
-                Zero Generic Output.
+                Dedicated Scope.
               </span>
             </h2>
             <p className="text-sm text-[#C5D9D2] font-light">
-              Select a capability below or click a 3D architectural pylon in the pavilion to focus the camera and examine scope.
+              Explore each capability within the Intelligence Atlas. Select a service below to examine scope and focus the corresponding 3D architectural pavilion.
             </p>
           </div>
 

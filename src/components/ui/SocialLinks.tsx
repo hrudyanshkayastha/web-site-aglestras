@@ -11,7 +11,7 @@ export const officialSocialLinks = [
   {
     name: "LinkedIn",
     label: "Agletras on LinkedIn",
-    href: "https://www.linkedin.com/company/agletras/posts/?viewAsMember=true",
+    href: "https://www.linkedin.com/company/agletras/",
     description: "Company intelligence updates, executive briefings, and methodology articles.",
   },
 ];

@@ -189,14 +189,16 @@ export function createFuturisticArchitecture(): ArchitectureElements {
 
   // -------------------------------------------------------------
   // C. METHODOLOGY SUBTERRANEAN CONDUIT PORTALS (SOUTH-DOWN)
-  // 4 sequential stepped arch portals: Collect -> Connect -> Analyze -> Deliver
+  // 6 sequential stepped arch portals: Define -> Collect -> Validate -> Correlate -> Analyze -> Report
   // -------------------------------------------------------------
   const methodologyPortalsGroup = new THREE.Group();
   const portalPositions = [
-    new THREE.Vector3(-1.8, -3.8, 4.2), // 01 Collect
-    new THREE.Vector3(-0.6, -4.0, 2.6), // 02 Connect
-    new THREE.Vector3(0.6, -4.2, 1.0),  // 03 Analyze
-    new THREE.Vector3(1.8, -4.4, -0.6), // 04 Deliver
+    new THREE.Vector3(-2.2, -3.6, 4.8), // 01 Define
+    new THREE.Vector3(-1.3, -3.8, 3.6), // 02 Collect
+    new THREE.Vector3(-0.4, -4.0, 2.4), // 03 Validate
+    new THREE.Vector3(0.5, -4.2, 1.2),  // 04 Correlate
+    new THREE.Vector3(1.4, -4.4, 0.0),  // 05 Analyze
+    new THREE.Vector3(2.3, -4.6, -1.2), // 06 Report
   ];
 
   const methodologyThresholdMeshes: THREE.Mesh[] = [];

@@ -2,36 +2,50 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowUpRight, ArrowRight, Database, Network, ShieldCheck, FileText } from "lucide-react";
+import { ArrowUpRight, ArrowRight, Compass, Database, CheckCircle2, Network, ShieldCheck, FileText } from "lucide-react";
 
 const methodologySteps = [
   {
     step: "01",
-    label: "Collect",
-    icon: Database,
-    title: "Passive Source Harvesting",
-    summary: "Lawful extraction of public registries, certificate transparency logs, DNS telemetry, and corporate filings.",
+    label: "Define",
+    icon: Compass,
+    title: "Question & Scope Definition",
+    summary: "Establish precise research objectives, jurisdictional boundaries, and approved public data sources.",
   },
   {
     step: "02",
-    label: "Connect",
-    icon: Network,
-    title: "Relational Topology Mapping",
-    summary: "Correlating lookalike domains, staging hosts, corporate directorships, and nominee shells across boundaries.",
+    label: "Collect",
+    icon: Database,
+    title: "Permitted Open Harvesting",
+    summary: "Lawful extraction across public registries, certificate transparency logs, DNS telemetry, and corporate filings.",
   },
   {
     step: "03",
-    label: "Analyze",
-    icon: ShieldCheck,
-    title: "5-Tier Epistemic Evaluation",
-    summary: "Deterministic grading separating primary facts from empirical indicators, corroborations, and working hypotheses.",
+    label: "Validate",
+    icon: CheckCircle2,
+    title: "Evidence Filtering & Provenance",
+    summary: "Verifying timestamps, source authenticity, and data integrity while eliminating noise and duplicate telemetry.",
   },
   {
     step: "04",
-    label: "Deliver",
+    label: "Correlate",
+    icon: Network,
+    title: "Relational Topology Mapping",
+    summary: "Connecting lookalike domains, staging hosts, corporate directorships, and nominee entities into structural networks.",
+  },
+  {
+    step: "05",
+    label: "Analyze",
+    icon: ShieldCheck,
+    title: "5-Tier Epistemic Evaluation",
+    summary: "Deterministic grading separating verified facts from indicators, inferences, working assumptions, and open gaps.",
+  },
+  {
+    step: "06",
+    label: "Report",
     icon: FileText,
-    title: "Executive Intelligence Briefing",
-    summary: "Defensible intelligence deliverables with cryptographic evidence hashes and explicit scope limitations.",
+    title: "Decision-Ready Intelligence",
+    summary: "Delivering defensible briefings with cryptographic evidence hashes, confidence tiers, and documented limitations.",
   },
 ];
 
@@ -47,16 +61,13 @@ export function MethodologyOverlay() {
           <div className="max-w-2xl space-y-2">
             <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#B7E4D5] font-semibold">
               <span className="w-1.5 h-1.5 rounded-full bg-[#2FA885]" />
-              <span>Destination 03 // Subterranean Conduit Portals</span>
+              <span>Destination 03 // Epistemic Research Process</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-editorial font-semibold text-[#F4F2EA]">
-              From Raw Data{" "}
-              <span className="italic font-normal text-[#B7E4D5]">
-                to Defensible Decisions.
-              </span>
+              Define → Collect → Validate → Correlate → Analyze → Report
             </h2>
             <p className="text-sm text-[#C5D9D2] font-light">
-              Intelligence without provenance is conjecture. We follow an environmental 4-phase research lifecycle through the world.
+              Intelligence without provenance is conjecture. We follow a 6-stage evidence lifecycle from inquiry to executive delivery.
             </p>
           </div>
 
@@ -69,8 +80,8 @@ export function MethodologyOverlay() {
           </Link>
         </div>
 
-        {/* 4-Stage Pathway: Collect -> Connect -> Analyze -> Deliver */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {/* 6-Stage Pathway Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {methodologySteps.map((item, index) => {
             const Icon = item.icon;
             const isLast = index === methodologySteps.length - 1;

@@ -37,37 +37,42 @@ export function EntranceOverlay({
           </span>
         </div>
 
-        {/* Memorable Headline */}
+        {/* Restrained Category Label */}
+        <div className="text-xs uppercase tracking-[0.25em] font-mono text-[#8DA99E]">
+          OSINT · RESEARCH · AUTOMATION · CYBER INTELLIGENCE
+        </div>
+
+        {/* Headline */}
         <h1 className="text-editorial-hero text-[#F4F2EA] tracking-tight drop-shadow-md">
-          See beyond{" "}
+          Intelligence From{" "}
           <span className="italic font-normal text-[#B7E4D5]">
-            the surface.
+            Open Information.
           </span>
         </h1>
 
         {/* Concise Verified Supporting Sentence */}
         <p className="text-lg md:text-xl text-[#C5D9D2] max-w-2xl mx-auto font-light leading-relaxed drop-shadow-sm">
-          AGLETRAS decodes external cyber risk, counterparty networks, and adversary footprints into evidence-backed intelligence.
+          Agletras builds research-driven technologies that transform publicly available information into actionable, decision-supporting intelligence.
         </p>
 
         {/* Two Clear Calls to Action */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-          <Link
-            href="/contact"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-semibold tracking-wide text-[#041F1B] bg-[#B7E4D5] hover:bg-[#C8EFE2] transition-all shadow-[0_4px_24px_rgba(47,168,133,0.3)] hover:shadow-[0_6px_32px_rgba(47,168,133,0.45)]"
-          >
-            <span>Discuss an Engagement</span>
-            <ArrowUpRight size={16} />
-          </Link>
-
           <button
             type="button"
-            onClick={onExploreMethodology}
+            onClick={onExploreServices}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-semibold tracking-wide text-[#041F1B] bg-[#B7E4D5] hover:bg-[#C8EFE2] transition-all shadow-[0_4px_24px_rgba(47,168,133,0.3)] hover:shadow-[0_6px_32px_rgba(47,168,133,0.45)]"
+          >
+            <span>Explore Agletras</span>
+            <ArrowDown size={15} />
+          </button>
+
+          <Link
+            href="/research"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-medium tracking-wide text-[#F4F2EA] bg-[#073B32]/80 hover:bg-[#073B32] border border-[#B7E4D5]/35 hover:border-[#B7E4D5]/65 transition-all backdrop-blur-md shadow-md"
           >
-            <span>Explore Methodology</span>
-            <ArrowDown size={15} className="text-[#B7E4D5]" />
-          </button>
+            <span>View Research</span>
+            <ArrowUpRight size={15} className="text-[#B7E4D5]" />
+          </Link>
         </div>
       </div>
     </section>

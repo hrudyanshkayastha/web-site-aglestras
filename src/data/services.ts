@@ -18,7 +18,7 @@ export const servicesData: ServiceItem[] = [
   {
     id: "external-threat-intelligence",
     code: "AGL-ETI",
-    title: "External Threat Intelligence",
+    title: "Cyber Threat Intelligence",
     shortTagline: "External cyber-threat signals, lookalike infrastructure, and attack-surface OSINT.",
     category: "threat",
     isPrimary: true,
@@ -194,8 +194,8 @@ export const servicesData: ServiceItem[] = [
   },
   {
     id: "research-automation",
-    code: "AGL-RAP",
-    title: "Research Automation & Pipelines",
+    code: "AGL-PRA",
+    title: "Research Automation",
     shortTagline: "Custom intelligence collection scripts, data normalization, and reporting workflows.",
     category: "automation",
     isPrimary: false,
@@ -236,7 +236,7 @@ export const servicesData: ServiceItem[] = [
   {
     id: "osint-investigative-research",
     code: "AGL-OIR",
-    title: "OSINT & Investigative Research",
+    title: "OSINT Investigation",
     shortTagline: "Structured, scope-controlled deep research into specific corporate and security questions.",
     category: "corporate",
     isPrimary: false,

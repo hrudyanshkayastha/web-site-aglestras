@@ -7,7 +7,7 @@ import {
   ILLUSTRATIVE_GRAPH_NODES,
   ENTITY_CATEGORIES,
 } from "@/data/entityGraphData";
-import { Shield, Sparkles } from "lucide-react";
+import { Shield, Sparkles, ArrowUpRight } from "lucide-react";
 
 interface AtlasOverlayProps {
   selectedNode: GraphNode | null;
@@ -23,13 +23,13 @@ export function AtlasOverlay({
       id="destination-atlas"
       className="min-h-screen flex flex-col justify-center px-6 md:px-10 pt-28 pb-36 relative z-20 pointer-events-none"
     >
-      <div className="max-w-6xl mx-auto w-full space-y-8 pointer-events-auto">
+      <div className="max-w-6xl mx-auto w-full space-y-8 pointer-events-auto p-6 sm:p-10 rounded-3xl bg-gradient-to-b from-[#031714]/95 via-[#031714]/92 to-[#031714]/94 border border-[#B7E4D5]/20 backdrop-blur-2xl shadow-2xl">
         {/* Destination Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#B7E4D5]/15 pb-6 backdrop-blur-md">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#B7E4D5]/15 pb-6">
           <div className="max-w-2xl space-y-2">
             <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#B7E4D5] font-semibold">
               <span className="w-1.5 h-1.5 rounded-full bg-[#2FA885]" />
-              <span>Destination 04 // Observatory Intelligence Atlas</span>
+              <span>Destination 04 // Research & Capabilities Topology</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-editorial font-semibold text-[#F4F2EA]">
               Dimensional Relational Topology.{" "}
@@ -38,13 +38,23 @@ export function AtlasOverlay({
               </span>
             </h2>
             <p className="text-sm text-[#C5D9D2] font-light">
-              Explore interconnected entities embedded directly in the 3D sanctuary. Click any entity node in 3D or select below to examine its provenance and confidence tier.
+              Explore interconnected entities embedded directly in the 3D sanctuary. Click any node in 3D or select below to examine its provenance and confidence tier.
             </p>
           </div>
 
-          <div className="flex items-center gap-2 bg-[#031714]/90 px-3.5 py-2 rounded-full border border-[#B7E4D5]/20 text-xs font-mono text-[#718E84] shrink-0 shadow-md backdrop-blur-sm">
-            <Shield size={13} className="text-[#2FA885]" />
-            <span>Demonstration Topology (Fictitious Entities)</span>
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-2 bg-[#073B32]/70 px-3.5 py-2 rounded-full border border-[#B7E4D5]/20 text-xs font-mono text-[#B7E4D5] shrink-0 shadow-sm backdrop-blur-sm">
+              <Shield size={13} className="text-[#2FA885]" />
+              <span>Illustrative Demonstration Topology</span>
+            </div>
+
+            <Link
+              href="/research"
+              className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#B7E4D5] hover:text-[#FFFFFF] transition-colors shrink-0 font-medium bg-[#073B32]/70 px-4 py-2 rounded-full border border-[#B7E4D5]/25 backdrop-blur-sm"
+            >
+              <span>Research Domains</span>
+              <ArrowUpRight size={14} />
+            </Link>
           </div>
         </div>
 

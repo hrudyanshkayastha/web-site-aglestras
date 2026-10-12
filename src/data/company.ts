@@ -40,7 +40,7 @@ export const companyData = {
     domain: "https://agletras.com",
     socials: {
       github: "https://github.com/Agletras",
-      linkedin: "https://www.linkedin.com/company/agletras/posts/?viewAsMember=true",
+      linkedin: "https://www.linkedin.com/company/agletras/",
     },
   },
   principles: [
