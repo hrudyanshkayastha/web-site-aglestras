@@ -26,15 +26,15 @@ export function ServicesOverlay({
   return (
     <section
       id="destination-services"
-      className="min-h-screen flex flex-col justify-center px-6 md:px-10 py-24 relative z-20 pointer-events-none"
+      className="min-h-screen flex flex-col justify-center px-6 md:px-10 pt-28 pb-36 relative z-20 pointer-events-none"
     >
       <div className="max-w-6xl mx-auto w-full space-y-8 pointer-events-auto">
         {/* Destination Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#B7E4D5]/15 pb-6 backdrop-blur-sm">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#B7E4D5]/15 pb-6 backdrop-blur-md">
           <div className="max-w-2xl space-y-2">
             <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#B7E4D5] font-semibold">
               <span className="w-1.5 h-1.5 rounded-full bg-[#2FA885]" />
-              <span>Destination 02 // Architectural Pavilion</span>
+              <span>Destination 02 // Capabilities Pavilion</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-editorial font-semibold text-[#F4F2EA]">
               Six Focused Service Lines.{" "}
@@ -49,7 +49,7 @@ export function ServicesOverlay({
 
           <Link
             href="/services"
-            className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#B7E4D5] hover:text-[#FFFFFF] transition-colors shrink-0 font-medium"
+            className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#B7E4D5] hover:text-[#FFFFFF] transition-colors shrink-0 font-medium bg-[#031714]/60 px-4 py-2 rounded-full border border-[#B7E4D5]/20 backdrop-blur-sm"
           >
             <span>Full Service Specifications</span>
             <ArrowUpRight size={15} />
@@ -71,8 +71,8 @@ export function ServicesOverlay({
                   isSelected
                     ? "bg-[#073B32]/95 border-[#2FA885] shadow-[0_0_24px_rgba(47,168,133,0.35)] -translate-y-1"
                     : isPrimary
-                    ? "bg-[#041F1B]/90 border-[#2FA885]/40 hover:border-[#2FA885]/70"
-                    : "bg-[#031714]/85 border-[#B7E4D5]/15 hover:border-[#B7E4D5]/40 hover:-translate-y-0.5"
+                    ? "bg-[#041F1B]/92 border-[#2FA885]/40 hover:border-[#2FA885]/70 shadow-lg"
+                    : "bg-[#031714]/88 border-[#B7E4D5]/15 hover:border-[#B7E4D5]/40 hover:-translate-y-0.5 shadow-md"
                 }`}
               >
                 <div className="space-y-3">
@@ -110,7 +110,7 @@ export function ServicesOverlay({
                 </div>
 
                 <div className="pt-4 mt-4 border-t border-[#B7E4D5]/10 flex items-center justify-between text-xs font-mono">
-                  <span className="text-[#8DA99E] flex items-center gap-1">
+                  <span className="text-[#8DA99E] flex items-center gap-1.5">
                     <Eye size={12} className="text-[#2FA885]" />
                     <span>{isSelected ? "In 3D Focus" : "Focus in 3D"}</span>
                   </span>

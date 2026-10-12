@@ -1,10 +1,10 @@
 import * as THREE from "three";
-import { SERVICE_PYLONS, ServicePylonConfig } from "./WorldConfig";
+import { SERVICE_PYLONS, ServicePylonConfig, WorldDestinationId } from "./WorldConfig";
 
 export interface ArchitectureElements {
   group: THREE.Group;
   pylonMeshes: Map<string, THREE.Group>;
-  update: (delta: number, elapsed: number) => void;
+  update: (delta: number, elapsed: number, activeDestination?: WorldDestinationId) => void;
   setPylonHovered: (serviceId: string | null) => void;
   setPylonSelected: (serviceId: string | null) => void;
   dispose: () => void;
@@ -55,22 +55,31 @@ export function createFuturisticArchitecture(): ArchitectureElements {
   disposables.push(mintTrimMat);
 
   // -------------------------------------------------------------
-  // A. ENTRANCE GATEWAY MONOLITHS (SOUTH ARCS)
-  // 4 soaring basalt arch ribs framing the initial approach
+  // A. ENTRANCE GATEWAY MONOLITHS (FLANKING ARCHITECTURAL PORTAL)
+  // Left and Right flanking arch ribs leaving the center (X in [-3.5, +3.5])
+  // completely open and quiet for the headline and brand badge
   // -------------------------------------------------------------
   const entranceRibsGroup = new THREE.Group();
-  const ribAngles = [Math.PI * 0.3, Math.PI * 0.45, Math.PI * 0.55, Math.PI * 0.7];
+
+  // Flanking angles: Left pair (120°, 145°) and Right pair (60°, 35°)
+  const ribAngles = [
+    Math.PI * 0.68, // Left Mid
+    Math.PI * 0.82, // Left Outer
+    Math.PI * 0.32, // Right Mid
+    Math.PI * 0.18, // Right Outer
+  ];
 
   ribAngles.forEach((angle, idx) => {
     const points: THREE.Vector3[] = [];
     const segments = 28;
-    const baseRadius = 7.5 + (idx % 2) * 0.8;
+    const baseRadius = 8.2 + (idx % 2) * 0.6;
 
     for (let s = 0; s <= segments; s++) {
       const t = s / segments;
-      const y = -1.2 + Math.sin(t * Math.PI) * 5.6;
-      const r = baseRadius - Math.sin(t * Math.PI * 0.85) * 1.6;
-      const archAngle = angle + (t - 0.5) * 0.35;
+      // Arch rises to y = 5.2 and arches gracefully outward
+      const y = -1.2 + Math.sin(t * Math.PI) * 5.4;
+      const r = baseRadius - Math.sin(t * Math.PI * 0.8) * 1.2;
+      const archAngle = angle + (t - 0.5) * 0.2;
 
       const x = Math.cos(archAngle) * r;
       const z = Math.sin(archAngle) * r;
@@ -78,14 +87,14 @@ export function createFuturisticArchitecture(): ArchitectureElements {
     }
 
     const curve = new THREE.CatmullRomCurve3(points);
-    const ribGeo = new THREE.TubeGeometry(curve, 36, 0.12, 10, false);
+    const ribGeo = new THREE.TubeGeometry(curve, 36, 0.11, 10, false);
     disposables.push(ribGeo);
 
     const ribMesh = new THREE.Mesh(ribGeo, basaltMat);
     entranceRibsGroup.add(ribMesh);
 
     // Inlaid brass highlight running along inner curve
-    const trimGeo = new THREE.TubeGeometry(curve, 36, 0.025, 8, false);
+    const trimGeo = new THREE.TubeGeometry(curve, 36, 0.024, 8, false);
     disposables.push(trimGeo);
     const trimMesh = new THREE.Mesh(trimGeo, brassMat);
     trimMesh.scale.set(1.02, 1.0, 1.02);
@@ -99,11 +108,11 @@ export function createFuturisticArchitecture(): ArchitectureElements {
   // -------------------------------------------------------------
   const servicesPlazaGroup = new THREE.Group();
 
-  // Plaza foundation disk at [-4.5, -0.6, 1.0]
+  // Plaza foundation disk at [-4.6, -0.6, 1.0]
   const plazaGeo = new THREE.CylinderGeometry(4.2, 4.6, 0.4, 48);
   disposables.push(plazaGeo);
   const plazaMesh = new THREE.Mesh(plazaGeo, slateMat);
-  plazaMesh.position.set(-4.5, -0.6, 1.0);
+  plazaMesh.position.set(-4.6, -0.6, 1.0);
   servicesPlazaGroup.add(plazaMesh);
 
   // Brass plaza boundary ring
@@ -111,7 +120,7 @@ export function createFuturisticArchitecture(): ArchitectureElements {
   disposables.push(plazaRingGeo);
   const plazaRingMesh = new THREE.Mesh(plazaRingGeo, brassMat);
   plazaRingMesh.rotation.x = Math.PI / 2;
-  plazaRingMesh.position.set(-4.5, -0.39, 1.0);
+  plazaRingMesh.position.set(-4.6, -0.39, 1.0);
   servicesPlazaGroup.add(plazaRingMesh);
 
   // 6 Service Pylons
@@ -183,6 +192,8 @@ export function createFuturisticArchitecture(): ArchitectureElements {
     new THREE.Vector3(1.8, -4.4, -0.6), // 04 Deliver
   ];
 
+  const methodologyThresholdMeshes: THREE.Mesh[] = [];
+
   portalPositions.forEach((pos, idx) => {
     const portalSubGroup = new THREE.Group();
     portalSubGroup.position.copy(pos);
@@ -197,9 +208,18 @@ export function createFuturisticArchitecture(): ArchitectureElements {
     // Glowing Inner Threshold Ring
     const innerRingGeo = new THREE.TorusGeometry(0.72, 0.02, 12, 32, Math.PI);
     disposables.push(innerRingGeo);
-    const innerRingMesh = new THREE.Mesh(innerRingGeo, mintTrimMat);
+    const innerRingMat = new THREE.MeshStandardMaterial({
+      color: 0xb7e4d5,
+      roughness: 0.3,
+      metalness: 0.7,
+      emissive: 0x2fa885,
+      emissiveIntensity: 0.2,
+    });
+    disposables.push(innerRingMat);
+    const innerRingMesh = new THREE.Mesh(innerRingGeo, innerRingMat);
     innerRingMesh.rotation.y = Math.PI / 4;
     portalSubGroup.add(innerRingMesh);
+    methodologyThresholdMeshes.push(innerRingMesh);
 
     methodologyPortalsGroup.add(portalSubGroup);
   });
@@ -210,13 +230,13 @@ export function createFuturisticArchitecture(): ArchitectureElements {
   // Rotating astrolabe gimbal rings framing the Intelligence Atlas
   // -------------------------------------------------------------
   const astrolabeGroup = new THREE.Group();
-  astrolabeGroup.position.set(4.0, 1.2, 0.0);
+  astrolabeGroup.position.set(3.4, 0.8, 0.0);
 
-  const astrolabeRadii = [3.2, 4.2, 5.0];
+  const astrolabeRadii = [3.0, 4.0, 4.8];
   const astrolabeRings: THREE.Mesh[] = [];
 
   astrolabeRadii.forEach((r, idx) => {
-    const rGeo = new THREE.TorusGeometry(r, 0.025, 16, 64);
+    const rGeo = new THREE.TorusGeometry(r, 0.022, 16, 64);
     disposables.push(rGeo);
     const rMesh = new THREE.Mesh(rGeo, idx % 2 === 0 ? brassMat : mintTrimMat);
     rMesh.rotation.x = Math.PI / 3 + idx * 0.2;
@@ -259,10 +279,24 @@ export function createFuturisticArchitecture(): ArchitectureElements {
   };
 
   // Animation update
-  const update = (delta: number, elapsed: number) => {
+  const update = (
+    delta: number,
+    elapsed: number,
+    activeDestination?: WorldDestinationId
+  ) => {
+    const isServicesDest = activeDestination === "SERVICES";
+    const isMethodologyDest = activeDestination === "METHODOLOGY";
+
     // Astrolabe rings counter-rotation
     astrolabeRings.forEach((ring, idx) => {
-      ring.rotation.z = (idx % 2 === 0 ? 1 : -1) * elapsed * 0.05 * (idx + 1);
+      ring.rotation.z = (idx % 2 === 0 ? 1 : -1) * elapsed * 0.04 * (idx + 1);
+    });
+
+    // Methodology threshold rings emissive intensity
+    methodologyThresholdMeshes.forEach((mesh) => {
+      const mat = mesh.material as THREE.MeshStandardMaterial;
+      const targetEmissive = isMethodologyDest ? 0.85 : 0.15;
+      mat.emissiveIntensity = THREE.MathUtils.lerp(mat.emissiveIntensity, targetEmissive, delta * 6);
     });
 
     // Pylon animations
@@ -270,7 +304,6 @@ export function createFuturisticArchitecture(): ArchitectureElements {
       const isHovered = sId === hoveredServiceId;
       const isSelected = sId === selectedServiceId;
 
-      // Pylon core and ring rotation
       const core = pGroup.children[1] as THREE.Mesh | undefined;
       const ring = pGroup.children[2] as THREE.Mesh | undefined;
 
@@ -278,6 +311,13 @@ export function createFuturisticArchitecture(): ArchitectureElements {
         core.rotation.y = elapsed * 0.5;
         const targetScale = isSelected ? 1.35 : isHovered ? 1.2 : 1.0;
         core.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), delta * 6);
+
+        // Core emissive brightness based on destination state
+        const coreMat = core.material as THREE.MeshStandardMaterial;
+        const baseEmissive = isServicesDest
+          ? (isSelected ? 1.0 : isHovered ? 0.85 : 0.6)
+          : 0.15;
+        coreMat.emissiveIntensity = THREE.MathUtils.lerp(coreMat.emissiveIntensity, baseEmissive, delta * 6);
       }
 
       if (ring) {

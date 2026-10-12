@@ -39,11 +39,11 @@ export function MethodologyOverlay() {
   return (
     <section
       id="destination-methodology"
-      className="min-h-screen flex flex-col justify-center px-6 md:px-10 py-24 relative z-20 pointer-events-none"
+      className="min-h-screen flex flex-col justify-center px-6 md:px-10 pt-28 pb-36 relative z-20 pointer-events-none"
     >
       <div className="max-w-6xl mx-auto w-full space-y-8 pointer-events-auto">
         {/* Destination Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#B7E4D5]/15 pb-6 backdrop-blur-sm">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#B7E4D5]/15 pb-6 backdrop-blur-md">
           <div className="max-w-2xl space-y-2">
             <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#B7E4D5] font-semibold">
               <span className="w-1.5 h-1.5 rounded-full bg-[#2FA885]" />
@@ -62,7 +62,7 @@ export function MethodologyOverlay() {
 
           <Link
             href="/methodology"
-            className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#B7E4D5] hover:text-[#FFFFFF] transition-colors shrink-0 font-medium"
+            className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#B7E4D5] hover:text-[#FFFFFF] transition-colors shrink-0 font-medium bg-[#031714]/60 px-4 py-2 rounded-full border border-[#B7E4D5]/20 backdrop-blur-sm"
           >
             <span>Explore Epistemic Tiers</span>
             <ArrowUpRight size={15} />
@@ -78,7 +78,7 @@ export function MethodologyOverlay() {
             return (
               <div
                 key={item.step}
-                className="p-6 rounded-2xl bg-[#031714]/85 border border-[#B7E4D5]/15 hover:border-[#2FA885]/50 transition-all duration-300 flex flex-col justify-between space-y-5 backdrop-blur-md group"
+                className="p-6 rounded-2xl bg-[#031714]/90 border border-[#B7E4D5]/15 hover:border-[#2FA885]/50 transition-all duration-300 flex flex-col justify-between space-y-5 backdrop-blur-md group shadow-md"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">

@@ -147,19 +147,19 @@ export function createBioluminescentJungle(): JungleElements {
   // -------------------------------------------------------------
   const rootArchesGroup = new THREE.Group();
 
-  // Root directions connecting world regions
+  // Root directions connecting world regions along the terrain floor
   const rootVectors = [
     // Toward Services Pavilion (West)
-    { dir: new THREE.Vector3(-6.2, 0.2, 1.8), midY: 1.2, archR: 0.1 },
-    { dir: new THREE.Vector3(-5.0, -0.4, -2.2), midY: 0.8, archR: 0.08 },
+    { dir: new THREE.Vector3(-6.2, 0.1, 1.8), midY: 0.35, archR: 0.09 },
+    { dir: new THREE.Vector3(-5.0, -0.3, -2.2), midY: 0.25, archR: 0.08 },
     // Toward Methodology subterranean portal (South / Down)
-    { dir: new THREE.Vector3(0.0, -3.8, 3.2), midY: -1.8, archR: 0.12 },
-    { dir: new THREE.Vector3(1.4, -3.6, -1.8), midY: -1.6, archR: 0.09 },
+    { dir: new THREE.Vector3(0.0, -3.8, 3.2), midY: -2.2, archR: 0.11 },
+    { dir: new THREE.Vector3(1.4, -3.6, -1.8), midY: -2.0, archR: 0.09 },
     // Toward Atlas Observatory (East)
-    { dir: new THREE.Vector3(5.6, 0.4, 2.4), midY: 1.4, archR: 0.09 },
-    { dir: new THREE.Vector3(4.8, -0.2, -3.2), midY: 0.9, archR: 0.08 },
+    { dir: new THREE.Vector3(5.6, 0.2, 2.4), midY: 0.4, archR: 0.09 },
+    { dir: new THREE.Vector3(4.8, -0.2, -3.2), midY: 0.25, archR: 0.08 },
     // Toward Contact Overlook (North)
-    { dir: new THREE.Vector3(0.0, 0.2, -8.4), midY: 1.1, archR: 0.11 },
+    { dir: new THREE.Vector3(0.0, 0.1, -8.4), midY: 0.3, archR: 0.1 },
   ];
 
   rootVectors.forEach((rv, idx) => {

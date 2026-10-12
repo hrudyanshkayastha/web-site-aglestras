@@ -197,7 +197,7 @@ export function UnifiedWorldCanvas({ children }: UnifiedWorldCanvasProps) {
       {selectedNode && (
         <aside
           aria-label="Entity Inspection Dossier"
-          className="fixed top-20 right-4 bottom-24 z-50 max-w-sm flex items-start overflow-y-auto"
+          className="fixed top-20 right-4 sm:right-8 bottom-24 z-50 w-[calc(100%-2rem)] sm:w-96 max-w-sm flex items-start overflow-y-auto pointer-events-auto shadow-2xl"
         >
           <EntityDetailsPanel
             node={selectedNode}

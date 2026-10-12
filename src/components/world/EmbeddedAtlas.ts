@@ -6,6 +6,7 @@ import {
   ILLUSTRATIVE_GRAPH_EDGES,
   ENTITY_CATEGORIES,
 } from "@/data/entityGraphData";
+import { WorldDestinationId } from "./WorldConfig";
 
 export interface AtlasObject {
   node: GraphNode;
@@ -19,7 +20,7 @@ export interface AtlasObject {
 export interface EmbeddedAtlasElements {
   group: THREE.Group;
   nodeMeshes: Map<string, AtlasObject>;
-  update: (delta: number, elapsed: number, camera: THREE.Camera) => void;
+  update: (delta: number, elapsed: number, camera: THREE.Camera, activeDestination?: WorldDestinationId) => void;
   setHoveredNode: (id: string | null) => void;
   setSelectedNode: (id: string | null) => void;
   dispose: () => void;
@@ -33,8 +34,8 @@ function createAtlasLabelSprite(node: GraphNode): THREE.Sprite {
 
   if (ctx) {
     // Background container
-    ctx.fillStyle = "rgba(3, 23, 20, 0.88)";
-    ctx.strokeStyle = "rgba(183, 228, 213, 0.4)";
+    ctx.fillStyle = "rgba(3, 23, 20, 0.92)";
+    ctx.strokeStyle = "rgba(183, 228, 213, 0.45)";
     ctx.lineWidth = 3;
 
     const roundRect = (x: number, y: number, w: number, h: number, r: number) => {
@@ -43,7 +44,7 @@ function createAtlasLabelSprite(node: GraphNode): THREE.Sprite {
       ctx.arcTo(x + w, y, x + w, y + h, r);
       ctx.arcTo(x + w, y + h, x, y + h, r);
       ctx.arcTo(x, y + h, x, y, r);
-      ctx.arcTo(x, y, x + w, y, r);
+      ctx.arcTo(x, y + w, x, y, r);
       ctx.closePath();
     };
 
@@ -81,8 +82,8 @@ function createAtlasLabelSprite(node: GraphNode): THREE.Sprite {
   const spriteMat = new THREE.SpriteMaterial({
     map: texture,
     transparent: true,
-    opacity: 0.9,
-    depthTest: false,
+    opacity: 0.0, // Initially hidden until Atlas destination is active
+    depthTest: true, // Respect 3D depth to prevent floating over foreground geometry
   });
 
   const sprite = new THREE.Sprite(spriteMat);
@@ -98,10 +99,9 @@ export function createEmbeddedAtlas(): EmbeddedAtlasElements {
   const nodeMeshes = new Map<string, AtlasObject>();
 
   // Shift nodes naturally into the Eastern Atlas Observatory sector of the world
-  // Offset: x + 3.2, y + 0.4, z unchanged
   const atlasNodes = ILLUSTRATIVE_GRAPH_NODES.map((n) => ({
     ...n,
-    worldPos: [n.position[0] * 0.9 + 3.4, n.position[1] * 0.9 + 0.6, n.position[2] * 0.9] as [number, number, number],
+    worldPos: [n.position[0] * 0.85 + 3.4, n.position[1] * 0.85 + 0.8, n.position[2] * 0.85] as [number, number, number],
   }));
 
   const nodeMap = new Map(atlasNodes.map((n) => [n.id, n]));
@@ -233,7 +233,7 @@ export function createEmbeddedAtlas(): EmbeddedAtlasElements {
     const lineMat = new THREE.LineBasicMaterial({
       color: 0x2fa885,
       transparent: true,
-      opacity: 0.45,
+      opacity: 0.0, // Initially hidden
       blending: THREE.AdditiveBlending,
     });
     disposables.push(lineMat);
@@ -248,7 +248,7 @@ export function createEmbeddedAtlas(): EmbeddedAtlasElements {
       const pMat = new THREE.MeshBasicMaterial({
         color: 0xb7e4d5,
         transparent: true,
-        opacity: 0.9,
+        opacity: 0.0,
         blending: THREE.AdditiveBlending,
       });
       disposables.push(pMat);
@@ -286,7 +286,14 @@ export function createEmbeddedAtlas(): EmbeddedAtlasElements {
     activeSelectId = id;
   };
 
-  const update = (delta: number, elapsed: number, camera: THREE.Camera) => {
+  const update = (
+    delta: number,
+    elapsed: number,
+    camera: THREE.Camera,
+    activeDestination?: WorldDestinationId
+  ) => {
+    const isAtlasDestination = activeDestination === "ATLAS";
+
     // Update beacons
     nodeMeshes.forEach((item, id) => {
       const isHovered = id === activeHoverId;
@@ -303,18 +310,35 @@ export function createEmbeddedAtlas(): EmbeddedAtlasElements {
         item.outerRing.rotation.x = Math.PI / 3 + Math.sin(elapsed * 0.8) * 0.15;
       }
 
-      // Scale lerp
-      const targetScale = isSelected ? 1.35 : isHovered ? 1.2 : 1.0;
-      item.group.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), delta * 8);
+      // Scale: only full scale when at Atlas destination; subtle ambient scale elsewhere
+      const baseScale = isAtlasDestination ? 1.0 : 0.6;
+      const targetScale = isSelected ? 1.35 : isHovered ? 1.2 : baseScale;
+      item.group.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), delta * 6);
 
-      // Emissive boost
+      // Emissive brightness
       const coreMat = item.coreMesh.material as THREE.MeshStandardMaterial;
-      const baseEmissive = isSelected ? 0.95 : isHovered ? 0.8 : 0.5;
+      const baseEmissive = isAtlasDestination
+        ? isSelected ? 0.95 : isHovered ? 0.8 : 0.5
+        : 0.15;
       coreMat.emissiveIntensity = THREE.MathUtils.lerp(coreMat.emissiveIntensity, baseEmissive, delta * 6);
+
+      // Label Opacity: STRICTLY hidden unless at Atlas destination!
+      const spriteMat = item.labelSprite.material as THREE.SpriteMaterial;
+      const targetSpriteOpacity = isAtlasDestination ? (isSelected ? 1.0 : isHovered ? 0.95 : 0.85) : 0.0;
+      spriteMat.opacity = THREE.MathUtils.lerp(spriteMat.opacity, targetSpriteOpacity, delta * 8);
+      item.labelSprite.visible = spriteMat.opacity > 0.02;
     });
 
     // Update pathways
     pathwaysList.forEach((pw) => {
+      if (!isAtlasDestination) {
+        pw.lineMat.opacity = THREE.MathUtils.lerp(pw.lineMat.opacity, 0.0, delta * 8);
+        pw.photons.forEach((photon) => {
+          photon.mesh.visible = false;
+        });
+        return;
+      }
+
       const isConnected =
         !activeSelectId && !activeHoverId
           ? true
@@ -327,6 +351,7 @@ export function createEmbeddedAtlas(): EmbeddedAtlasElements {
       pw.lineMat.opacity = THREE.MathUtils.lerp(pw.lineMat.opacity, targetOpacity, delta * 6);
 
       pw.photons.forEach((photon) => {
+        photon.mesh.visible = pw.lineMat.opacity > 0.05;
         const speedMultiplier = isConnected ? 1.4 : 0.8;
         photon.progress = (photon.progress + delta * photon.speed * speedMultiplier) % 1.0;
 

@@ -215,9 +215,9 @@ export class UnifiedCameraController {
     this.callbacks.onServiceSelect(null);
 
     // Frame node in Atlas with considered offset
-    const nx = node.position[0] * 0.9 + 3.4;
-    const ny = node.position[1] * 0.9 + 0.6;
-    const nz = node.position[2] * 0.9;
+    const nx = node.position[0] * 0.85 + 3.4;
+    const ny = node.position[1] * 0.85 + 0.8;
+    const nz = node.position[2] * 0.85;
 
     this.targetCameraPos.set(nx + 0.8, ny + 0.4, nz + 3.8);
     this.targetLookAt.set(nx, ny, nz);

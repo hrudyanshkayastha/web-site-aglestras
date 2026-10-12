@@ -154,10 +154,11 @@ export class UnifiedWorldEngine {
 
     const delta = Math.min(this.clock.getDelta(), 0.1);
     const elapsed = this.clock.getElapsedTime();
+    const activeDest = this.controller.getActiveDestination();
 
     this.jungle.update(delta, elapsed);
-    this.architecture.update(delta, elapsed);
-    this.atlas.update(delta, elapsed, this.camera);
+    this.architecture.update(delta, elapsed, activeDest);
+    this.atlas.update(delta, elapsed, this.camera, activeDest);
     this.controller.update(delta);
     this.controller.checkHoverRaycast(this.scene);
 
