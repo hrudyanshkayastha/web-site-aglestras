@@ -12,7 +12,7 @@ export function ContactOverlay() {
       <div className="max-w-4xl mx-auto space-y-7 pointer-events-auto p-8 sm:p-12 rounded-3xl bg-gradient-to-b from-[#031714]/95 via-[#031714]/92 to-[#031714]/90 border border-[#B7E4D5]/20 backdrop-blur-2xl shadow-2xl">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#073B32]/90 border border-[#B7E4D5]/30 text-xs font-mono text-[#B7E4D5] uppercase tracking-wider backdrop-blur-md shadow-lg">
           <span className="w-1.5 h-1.5 rounded-full bg-[#2FA885]" />
-          <span>Destination 05 // Responsible Intelligence & Terminus</span>
+          <span>Destination 06 // Responsible Intelligence & Terminus</span>
         </div>
 
         <h2 className="text-editorial-hero text-[#F4F2EA] leading-tight drop-shadow-md">

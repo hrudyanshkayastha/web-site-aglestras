@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, ArrowDown } from "lucide-react";
@@ -12,14 +12,60 @@ interface EntranceOverlayProps {
 
 export function EntranceOverlay({
   onExploreServices,
-  onExploreMethodology,
 }: EntranceOverlayProps) {
+  const [isReducedMotion, setIsReducedMotion] = useState(false);
+  const [videoError, setVideoError] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setIsReducedMotion(motionQuery.matches);
+    const motionHandler = (e: MediaQueryListEvent) => setIsReducedMotion(e.matches);
+    motionQuery.addEventListener("change", motionHandler);
+    return () => motionQuery.removeEventListener("change", motionHandler);
+  }, []);
+
   return (
     <section
       id="destination-entrance"
-      className="min-h-screen flex flex-col justify-center items-center px-6 md:px-10 pt-28 pb-32 text-center relative z-20 pointer-events-none"
+      className="min-h-screen flex flex-col justify-center items-center px-6 md:px-10 pt-28 pb-32 text-center relative z-20 pointer-events-none overflow-hidden"
     >
-      <div className="max-w-3xl mx-auto space-y-7 pointer-events-auto p-8 sm:p-10 rounded-3xl bg-gradient-to-b from-[#031714]/94 via-[#031714]/90 to-[#031714]/86 border border-[#B7E4D5]/20 backdrop-blur-xl shadow-2xl">
+      {/* Cinematic Full-Viewport Neural-Network Background Video */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        {!isReducedMotion && !videoError ? (
+          <video
+            ref={videoRef}
+            autoPlay
+            muted
+            loop
+            playsInline
+            onError={() => setVideoError(true)}
+            poster="/images/emerald_landscape_reference.png"
+            className="w-full h-full object-cover object-center scale-105 filter brightness-[0.72] contrast-[1.18] transition-opacity duration-1000"
+            aria-hidden="true"
+          >
+            <source src="/videos/agletras_neural_network_video_cropped.mp4" type="video/mp4" />
+          </video>
+        ) : (
+          <div className="relative w-full h-full">
+            <Image
+              src="/images/emerald_landscape_reference.png"
+              alt="Agletras Cinematic Neural Sanctuary Reference"
+              fill
+              priority
+              className="object-cover object-center filter brightness-[0.68] contrast-[1.12]"
+            />
+          </div>
+        )}
+
+        {/* Deep Atmospheric Gradient Overlays for Guaranteed Text Legibility */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#041F1B] via-[#041F1B]/50 to-[#020F0C]/80" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(2,15,12,0.85)_100%)]" />
+        <div className="absolute inset-0 bg-[#041F1B]/30 mix-blend-multiply" />
+      </div>
+
+      {/* Hero Content Container */}
+      <div className="relative z-10 max-w-3xl mx-auto space-y-7 pointer-events-auto p-8 sm:p-12 rounded-3xl bg-gradient-to-b from-[#031714]/94 via-[#031714]/90 to-[#031714]/86 border border-[#B7E4D5]/25 backdrop-blur-2xl shadow-2xl">
         {/* Eyebrow Brand Badge with Unaltered Authentic Logo */}
         <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#073B32]/90 border border-[#B7E4D5]/35 shadow-lg backdrop-blur-md">
           <div className="relative w-5 h-5 rounded-full bg-gradient-to-b from-[#0a4237] to-[#041F1B] p-0.5 border border-[#B7E4D5]/40 flex items-center justify-center shrink-0">
@@ -50,9 +96,9 @@ export function EntranceOverlay({
           </span>
         </h1>
 
-        {/* Concise Verified Supporting Sentence */}
+        {/* Exact Verified Supporting Copy */}
         <p className="text-lg md:text-xl text-[#C5D9D2] max-w-2xl mx-auto font-light leading-relaxed drop-shadow-sm">
-          Agletras builds research-driven technologies that transform publicly available information into actionable, decision-supporting intelligence.
+          Agletras transforms publicly available information into structured research, actionable intelligence, and decision support.
         </p>
 
         {/* Two Clear Calls to Action */}

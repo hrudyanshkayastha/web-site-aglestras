@@ -12,227 +12,282 @@ export function createBioluminescentJungle(): JungleElements {
 
   const disposables: (THREE.BufferGeometry | THREE.Material)[] = [];
 
-  // PBR Materials
-  // 1. Terrain Dark Moss Basalt Material
-  const terrainMaterial = new THREE.MeshStandardMaterial({
-    color: 0x031814,
-    roughness: 0.88,
+  // -------------------------------------------------------------
+  // 1. PBR MATERIALS (Matched to Cinematic Emerald Art Reference)
+  // -------------------------------------------------------------
+  // Dark Reflective Water / Slate Terrain
+  const waterTerrainMaterial = new THREE.MeshStandardMaterial({
+    color: 0x02110d,
+    roughness: 0.22,
+    metalness: 0.58,
+  });
+  disposables.push(waterTerrainMaterial);
+
+  // Concentric Burnished Gold Dais Rings
+  const goldenDaisMaterial = new THREE.MeshStandardMaterial({
+    color: 0xd4af37,
+    emissive: 0x8a6d25,
+    emissiveIntensity: 0.45,
+    roughness: 0.25,
+    metalness: 0.88,
+  });
+  disposables.push(goldenDaisMaterial);
+
+  // Central Core Nucleus (Glowing Cyan-White)
+  const nucleusMaterial = new THREE.MeshStandardMaterial({
+    color: 0xe6fff8,
+    emissive: 0x00ffb2,
+    emissiveIntensity: 2.8,
+    roughness: 0.12,
     metalness: 0.1,
   });
-  disposables.push(terrainMaterial);
+  disposables.push(nucleusMaterial);
 
-  // 2. Ancient Living Bark (Bio-conduit trunk)
-  const barkMaterial = new THREE.MeshStandardMaterial({
-    color: 0x052a22,
-    roughness: 0.75,
-    metalness: 0.15,
-  });
-  disposables.push(barkMaterial);
-
-  // 3. Bioluminescent Vascular Filament (Mint/Emerald)
-  const vascularMaterial = new THREE.MeshStandardMaterial({
-    color: 0x2fa885,
-    emissive: 0x1d6d56,
-    emissiveIntensity: 0.7,
-    roughness: 0.3,
-    metalness: 0.2,
-  });
-  disposables.push(vascularMaterial);
-
-  // 4. Ethereal Canopy Flora / Crystalline Leaves
-  const floraMaterial = new THREE.MeshStandardMaterial({
-    color: 0xb7e4d5,
-    emissive: 0x155a47,
-    emissiveIntensity: 0.5,
+  // Neural Vascular Branch Fiber
+  const neuralBranchMaterial = new THREE.MeshStandardMaterial({
+    color: 0x0a3d31,
+    emissive: 0x2fa885,
+    emissiveIntensity: 0.85,
     roughness: 0.35,
-    metalness: 0.15,
-    transparent: true,
-    opacity: 0.9,
+    metalness: 0.25,
   });
-  disposables.push(floraMaterial);
+  disposables.push(neuralBranchMaterial);
+
+  // Synaptic Terminal Nodes (High Emissive Emerald)
+  const synapticNodeMaterial = new THREE.MeshStandardMaterial({
+    color: 0x88f9d4,
+    emissive: 0x00ffb2,
+    emissiveIntensity: 2.2,
+    roughness: 0.15,
+    metalness: 0.1,
+  });
+  disposables.push(synapticNodeMaterial);
 
   // -------------------------------------------------------------
-  // A. LAYERED TERRAIN WITH GENTLE ORGANIC RIDGES
+  // 2. REFLECTIVE WATER BASIN & STEPPED CIRCULAR DAIS
   // -------------------------------------------------------------
-  const terrainGeo = new THREE.PlaneGeometry(36, 36, 48, 48);
-  const posAttr = terrainGeo.attributes.position as THREE.BufferAttribute;
-  for (let i = 0; i < posAttr.count; i++) {
-    const x = posAttr.getX(i);
-    const y = posAttr.getY(i);
-    // Undulating terrain elevation with central clearing
-    const dist = Math.sqrt(x * x + y * y);
-    const elevation =
-      Math.sin(x * 0.25) * Math.cos(y * 0.25) * 0.45 +
-      Math.sin(dist * 0.4) * 0.25 -
-      (dist < 4.0 ? 0.3 : 0);
-    posAttr.setZ(i, elevation);
-  }
-  terrainGeo.computeVertexNormals();
+  const treeCenter = new THREE.Vector3(0, 1.05, -2.6);
+
+  // Ground plane representing reflective wet basin
+  const terrainGeo = new THREE.PlaneGeometry(42, 42, 32, 32);
   disposables.push(terrainGeo);
-
-  const terrainMesh = new THREE.Mesh(terrainGeo, terrainMaterial);
+  const terrainMesh = new THREE.Mesh(terrainGeo, waterTerrainMaterial);
   terrainMesh.rotation.x = -Math.PI / 2;
   terrainMesh.position.y = -1.2;
   terrainMesh.receiveShadow = true;
   group.add(terrainMesh);
 
-  // -------------------------------------------------------------
-  // B. MONUMENTAL BRAIDED LIVING TRUNK
-  // Set back in the midground (Z = -2.6) as an atmospheric living monument
-  // Rises from subterranean root depths (-4.5) to canopy (+5.0)
-  // -------------------------------------------------------------
-  const trunkGroup = new THREE.Group();
-  trunkGroup.position.set(0, 0, -2.6);
-  const numStrands = 6;
-  const trunkHeight = 9.5;
-  const trunkBaseY = -4.5;
+  // Stepped Circular Dais (Basalt base + concentric glowing golden rings)
+  const daisBaseGeo = new THREE.CylinderGeometry(5.4, 5.6, 0.18, 48);
+  disposables.push(daisBaseGeo);
+  const daisBaseMesh = new THREE.Mesh(
+    daisBaseGeo,
+    new THREE.MeshStandardMaterial({
+      color: 0x031814,
+      roughness: 0.75,
+      metalness: 0.2,
+    })
+  );
+  daisBaseMesh.position.set(treeCenter.x, -1.2 + 0.09, treeCenter.z);
+  daisBaseMesh.receiveShadow = true;
+  group.add(daisBaseMesh);
 
-  for (let i = 0; i < numStrands; i++) {
-    const strandAngle = (i / numStrands) * Math.PI * 2;
-    const strandPoints: THREE.Vector3[] = [];
-    const segments = 40;
-
-    for (let s = 0; s <= segments; s++) {
-      const t = s / segments;
-      const y = trunkBaseY + t * trunkHeight;
-
-      // Spiral twist and organic waist
-      const twist = t * Math.PI * 1.2 + strandAngle;
-      // Radius: flaring at base (1.1), tapering at waist (0.38), fanning at canopy (1.3)
-      const radius = 0.38 + Math.pow(t - 0.45, 2) * 2.4;
-
-      const x = Math.cos(twist) * radius;
-      const z = Math.sin(twist) * radius;
-      strandPoints.push(new THREE.Vector3(x, y, z));
-    }
-
-    const strandCurve = new THREE.CatmullRomCurve3(strandPoints);
-    const strandGeo = new THREE.TubeGeometry(strandCurve, 48, 0.08, 10, false);
-    disposables.push(strandGeo);
-
-    const strandMesh = new THREE.Mesh(strandGeo, barkMaterial);
-    trunkGroup.add(strandMesh);
-
-    // Add glowing vascular inner vein to every second strand
-    if (i % 2 === 0) {
-      const veinGeo = new THREE.TubeGeometry(strandCurve, 48, 0.02, 6, false);
-      disposables.push(veinGeo);
-      const veinMesh = new THREE.Mesh(veinGeo, vascularMaterial);
-      veinMesh.scale.set(1.03, 1.0, 1.03);
-      trunkGroup.add(veinMesh);
-    }
-  }
-  group.add(trunkGroup);
-
-  // Central pulsating crystal heart at trunk center [0, 0.8, -2.6]
-  const heartGeo = new THREE.OctahedronGeometry(0.32, 2);
-  disposables.push(heartGeo);
-  const heartMat = new THREE.MeshStandardMaterial({
-    color: 0xf4f2ea,
-    emissive: 0xb7e4d5,
-    emissiveIntensity: 0.85,
-    roughness: 0.2,
-    metalness: 0.5,
+  // Concentric Golden Rings radiating along the dais
+  const ringRadii = [1.8, 2.8, 3.9, 5.1];
+  ringRadii.forEach((radius) => {
+    const ringGeo = new THREE.TorusGeometry(radius, 0.024, 8, 64);
+    disposables.push(ringGeo);
+    const ringMesh = new THREE.Mesh(ringGeo, goldenDaisMaterial);
+    ringMesh.rotation.x = Math.PI / 2;
+    ringMesh.position.set(treeCenter.x, -1.2 + 0.19, treeCenter.z);
+    group.add(ringMesh);
   });
-  disposables.push(heartMat);
-  const heartMesh = new THREE.Mesh(heartGeo, heartMat);
-  heartMesh.position.set(0, 0.8, -2.6);
-  group.add(heartMesh);
-
-  const heartPointLight = new THREE.PointLight(0xb7e4d5, 3.0, 14, 2);
-  heartPointLight.position.set(0, 0.8, -2.6);
-  group.add(heartPointLight);
 
   // -------------------------------------------------------------
-  // C. MONUMENTAL ROOT ARCHES & LIVING BRIDGES
-  // Roots connecting the center to the Services (West), Methodology (Down), and Atlas (East)
-  // Staying grounded along the terrain surface (Y <= -0.6)
+  // 3. LUMINOUS NEURAL TREE: NUCLEUS & RADIATING HALO
   // -------------------------------------------------------------
-  const rootArchesGroup = new THREE.Group();
+  const nucleusGroup = new THREE.Group();
+  nucleusGroup.position.copy(treeCenter);
 
-  // Root directions connecting world regions along the terrain floor
-  const rootVectors = [
-    // Toward Services Pavilion (West)
-    { dir: new THREE.Vector3(-6.2, -0.8, 1.8), midY: -0.7, archR: 0.08 },
-    { dir: new THREE.Vector3(-5.0, -1.0, -2.2), midY: -0.8, archR: 0.07 },
-    // Toward Methodology subterranean portal (South / Down)
-    { dir: new THREE.Vector3(0.0, -3.8, 3.2), midY: -2.2, archR: 0.1 },
-    { dir: new THREE.Vector3(1.4, -3.6, -1.8), midY: -2.0, archR: 0.08 },
-    // Toward Atlas Observatory (East)
-    { dir: new THREE.Vector3(5.6, -0.8, 2.4), midY: -0.7, archR: 0.08 },
-    { dir: new THREE.Vector3(4.8, -1.0, -3.2), midY: -0.8, archR: 0.07 },
-    // Toward Contact Overlook (North)
-    { dir: new THREE.Vector3(0.0, -0.6, -8.4), midY: -0.7, archR: 0.09 },
-  ];
+  // Central Heart Sphere
+  const nucleusGeo = new THREE.SphereGeometry(0.32, 32, 32);
+  disposables.push(nucleusGeo);
+  const nucleusMesh = new THREE.Mesh(nucleusGeo, nucleusMaterial);
+  nucleusGroup.add(nucleusMesh);
 
-  rootVectors.forEach((rv, idx) => {
-    const pStart = new THREE.Vector3(0, -0.6, -2.6);
-    const pEnd = rv.dir;
-    const pMid = new THREE.Vector3()
-      .addVectors(pStart, pEnd)
-      .multiplyScalar(0.5);
-    pMid.y = rv.midY;
-    // Add horizontal organic bow
-    pMid.x += (idx % 2 === 0 ? 0.5 : -0.5);
+  // Dynamic Point Light Radiating Emerald Glow
+  const nucleusLight = new THREE.PointLight(0x00ffb2, 3.4, 16);
+  nucleusGroup.add(nucleusLight);
 
-    const rootCurve = new THREE.CatmullRomCurve3([pStart, pMid, pEnd]);
-    const rootGeo = new THREE.TubeGeometry(rootCurve, 32, rv.archR, 8, false);
-    disposables.push(rootGeo);
-
-    const rootMesh = new THREE.Mesh(rootGeo, barkMaterial);
-    rootArchesGroup.add(rootMesh);
-
-    // Glowing conduit on primary arches
-    if (idx < 5) {
-      const conduitGeo = new THREE.TubeGeometry(rootCurve, 32, 0.02, 6, false);
-      disposables.push(conduitGeo);
-      const conduitMesh = new THREE.Mesh(conduitGeo, vascularMaterial);
-      conduitMesh.scale.set(1.04, 1.0, 1.04);
-      rootArchesGroup.add(conduitMesh);
-    }
+  // Multi-layered Concentric Corona Rings (Billboards)
+  const coronaRings: THREE.Mesh[] = [];
+  [0.55, 0.95].forEach((radius, idx) => {
+    const coronaGeo = new THREE.RingGeometry(radius * 0.92, radius, 32);
+    disposables.push(coronaGeo);
+    const coronaMat = new THREE.MeshBasicMaterial({
+      color: idx === 0 ? 0x88f9d4 : 0x00ffb2,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.6 - idx * 0.25,
+      blending: THREE.AdditiveBlending,
+    });
+    disposables.push(coronaMat);
+    const coronaMesh = new THREE.Mesh(coronaGeo, coronaMat);
+    coronaMesh.rotation.y = idx * Math.PI * 0.25;
+    nucleusGroup.add(coronaMesh);
+    coronaRings.push(coronaMesh);
   });
-  group.add(rootArchesGroup);
+  group.add(nucleusGroup);
 
   // -------------------------------------------------------------
-  // D. BIOLUMINESCENT FLORA & CRYSTALLINE CANOPY CLUSTERS
+  // 4. DUAL-HOURGLASS NEURAL BRANCH SYSTEM (UPPER FAN & LOWER FAN)
   // -------------------------------------------------------------
-  const floraGroup = new THREE.Group();
-  const numFlora = 28;
-  const floraMeshes: THREE.Mesh[] = [];
+  const branchCurves: THREE.CatmullRomCurve3[] = [];
+  const branchGroup = new THREE.Group();
+  group.add(branchGroup);
 
-  for (let i = 0; i < numFlora; i++) {
-    const angle = (i / numFlora) * Math.PI * 2;
-    const dist = 2.2 + Math.random() * 6.8;
-    const x = Math.cos(angle) * dist;
-    const z = Math.sin(angle) * dist;
-    const y = -1.1 + Math.sin(x * 0.3) * 0.2;
+  const nodeGroup = new THREE.Group();
+  group.add(nodeGroup);
 
-    const fGeo = new THREE.DodecahedronGeometry(0.14 + Math.random() * 0.12, 1);
-    disposables.push(fGeo);
+  // A. Upper Neural Canopy (Radiates upward and outward)
+  const numUpperBranches = 16;
+  for (let i = 0; i < numUpperBranches; i++) {
+    const angle = (i / numUpperBranches) * Math.PI * 2 + 0.15;
+    const spread = 2.4 + ((i % 3) * 0.8);
+    const endX = treeCenter.x + Math.cos(angle) * spread;
+    const endY = treeCenter.y + 2.2 + ((i % 4) * 0.6);
+    const endZ = treeCenter.z + Math.sin(angle) * (spread * 0.85);
 
-    const fMesh = new THREE.Mesh(fGeo, floraMaterial);
-    fMesh.position.set(x, y, z);
-    floraGroup.add(fMesh);
-    floraMeshes.push(fMesh);
+    const midX = treeCenter.x + Math.cos(angle) * (spread * 0.45);
+    const midY = treeCenter.y + 0.8 + ((i % 2) * 0.4);
+    const midZ = treeCenter.z + Math.sin(angle) * (spread * 0.4);
+
+    const curve = new THREE.CatmullRomCurve3([
+      treeCenter.clone(),
+      new THREE.Vector3(midX, midY, midZ),
+      new THREE.Vector3(endX, endY, endZ),
+    ]);
+    branchCurves.push(curve);
+
+    const tubeGeo = new THREE.TubeGeometry(curve, 24, 0.026, 6, false);
+    disposables.push(tubeGeo);
+    const branchMesh = new THREE.Mesh(tubeGeo, neuralBranchMaterial);
+    branchGroup.add(branchMesh);
+
+    // Synaptic Terminal Node Sphere at the end
+    const nodeGeo = new THREE.SphereGeometry(0.065, 12, 12);
+    disposables.push(nodeGeo);
+    const nodeMesh = new THREE.Mesh(nodeGeo, synapticNodeMaterial);
+    nodeMesh.position.set(endX, endY, endZ);
+    nodeGroup.add(nodeMesh);
+
+    // Secondary sub-twig
+    const twigEndX = endX + Math.cos(angle + 0.4) * 0.85;
+    const twigEndY = endY + 0.45;
+    const twigEndZ = endZ + Math.sin(angle + 0.4) * 0.75;
+    const twigCurve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(midX, midY, midZ),
+      new THREE.Vector3(twigEndX, twigEndY, twigEndZ),
+    ]);
+    branchCurves.push(twigCurve);
+
+    const twigGeo = new THREE.TubeGeometry(twigCurve, 16, 0.016, 5, false);
+    disposables.push(twigGeo);
+    const twigMesh = new THREE.Mesh(twigGeo, neuralBranchMaterial);
+    branchGroup.add(twigMesh);
+
+    const twigNodeGeo = new THREE.SphereGeometry(0.045, 10, 10);
+    disposables.push(twigNodeGeo);
+    const twigNodeMesh = new THREE.Mesh(twigNodeGeo, synapticNodeMaterial);
+    twigNodeMesh.position.set(twigEndX, twigEndY, twigEndZ);
+    nodeGroup.add(twigNodeMesh);
   }
-  group.add(floraGroup);
+
+  // B. Lower Neural Roots (Radiates downward across the dais)
+  const numLowerRoots = 14;
+  for (let i = 0; i < numLowerRoots; i++) {
+    const angle = (i / numLowerRoots) * Math.PI * 2;
+    const spread = 2.0 + ((i % 4) * 0.75);
+    const endX = treeCenter.x + Math.cos(angle) * spread;
+    const endY = -1.18;
+    const endZ = treeCenter.z + Math.sin(angle) * (spread * 0.9);
+
+    const midX = treeCenter.x + Math.cos(angle) * (spread * 0.45);
+    const midY = treeCenter.y - 1.1;
+    const midZ = treeCenter.z + Math.sin(angle) * (spread * 0.4);
+
+    const curve = new THREE.CatmullRomCurve3([
+      treeCenter.clone(),
+      new THREE.Vector3(midX, midY, midZ),
+      new THREE.Vector3(endX, endY, endZ),
+    ]);
+    branchCurves.push(curve);
+
+    const tubeGeo = new THREE.TubeGeometry(curve, 20, 0.032, 6, false);
+    disposables.push(tubeGeo);
+    const rootMesh = new THREE.Mesh(tubeGeo, neuralBranchMaterial);
+    branchGroup.add(rootMesh);
+
+    // Root Terminal Contact Node
+    const nodeGeo = new THREE.SphereGeometry(0.055, 10, 10);
+    disposables.push(nodeGeo);
+    const nodeMesh = new THREE.Mesh(nodeGeo, synapticNodeMaterial);
+    nodeMesh.position.set(endX, endY, endZ);
+    nodeGroup.add(nodeMesh);
+  }
 
   // -------------------------------------------------------------
-  // E. VOLUMETRIC DRIFTING FIREFLY SPORES
+  // 5. ANIMATED NEURAL SIGNAL PULSES (TRAVELLING PACKETS)
   // -------------------------------------------------------------
-  const sporeCount = 220;
+  const signalCount = 54;
+  const signalGeo = new THREE.BufferGeometry();
+  const signalPositions = new Float32Array(signalCount * 3);
+  const signalData: { curveIndex: number; progress: number; speed: number }[] = [];
+
+  for (let i = 0; i < signalCount; i++) {
+    const curveIndex = i % branchCurves.length;
+    const progress = Math.random();
+    const speed = 0.25 + Math.random() * 0.35;
+
+    const pt = branchCurves[curveIndex].getPointAt(progress);
+    signalPositions[i * 3] = pt.x;
+    signalPositions[i * 3 + 1] = pt.y;
+    signalPositions[i * 3 + 2] = pt.z;
+
+    signalData.push({ curveIndex, progress, speed });
+  }
+
+  signalGeo.setAttribute("position", new THREE.BufferAttribute(signalPositions, 3));
+  disposables.push(signalGeo);
+
+  const signalMat = new THREE.PointsMaterial({
+    color: 0xffffff,
+    size: 0.085,
+    transparent: true,
+    opacity: 0.9,
+    blending: THREE.AdditiveBlending,
+  });
+  disposables.push(signalMat);
+
+  const signalPoints = new THREE.Points(signalGeo, signalMat);
+  group.add(signalPoints);
+
+  // -------------------------------------------------------------
+  // 6. VOLUMETRIC DRIFTING FIREFLY SPORES
+  // -------------------------------------------------------------
+  const sporeCount = 200;
   const sporeGeo = new THREE.BufferGeometry();
   const sporePositions = new Float32Array(sporeCount * 3);
   const sporeDrifts: { x: number; y: number; z: number; phase: number }[] = [];
 
   for (let i = 0; i < sporeCount; i++) {
-    const r = 1.2 + Math.random() * 9.5;
+    const r = 1.4 + Math.random() * 9.5;
     const theta = Math.random() * Math.PI * 2;
-    const y = -4.0 + Math.random() * 9.5;
+    const y = -1.2 + Math.random() * 7.5;
 
     sporePositions[i * 3] = Math.cos(theta) * r;
     sporePositions[i * 3 + 1] = y;
-    sporePositions[i * 3 + 2] = Math.sin(theta) * r;
+    sporePositions[i * 3 + 2] = Math.sin(theta) * r - 2.0;
 
     sporeDrifts.push({
       x: (Math.random() - 0.5) * 0.003,
@@ -246,7 +301,7 @@ export function createBioluminescentJungle(): JungleElements {
   disposables.push(sporeGeo);
 
   const sporeMat = new THREE.PointsMaterial({
-    color: 0xb7e4d5,
+    color: 0x88f9d4,
     size: 0.065,
     transparent: true,
     opacity: 0.65,
@@ -257,41 +312,62 @@ export function createBioluminescentJungle(): JungleElements {
   const sporePoints = new THREE.Points(sporeGeo, sporeMat);
   group.add(sporePoints);
 
-  // Animation update
+  // -------------------------------------------------------------
+  // 7. ANIMATION LOOP & LIFECYCLE
+  // -------------------------------------------------------------
   const update = (delta: number, elapsed: number) => {
-    // Pulsation of vascular conduits
-    const breath = 0.6 + Math.sin(elapsed * 1.5) * 0.3;
-    vascularMaterial.emissiveIntensity = breath;
-    floraMaterial.emissiveIntensity = 0.4 + Math.sin(elapsed * 1.8 + 0.8) * 0.25;
+    // 1. Nucleus breathing pulse
+    const breath = Math.sin(elapsed * 2.2);
+    nucleusMaterial.emissiveIntensity = 2.4 + breath * 0.8;
+    nucleusLight.intensity = 3.2 + breath * 1.2;
 
-    // Heart crystal rotation & light pulse
-    heartMesh.rotation.y = elapsed * 0.3;
-    heartMesh.rotation.z = elapsed * 0.2;
-    heartPointLight.intensity = 2.6 + Math.sin(elapsed * 1.6) * 1.0;
-
-    // Flora gentle scale breathing
-    floraMeshes.forEach((mesh, idx) => {
-      mesh.scale.setScalar(1.0 + Math.sin(elapsed * 2.2 + idx * 0.7) * 0.15);
+    // Corona rings gentle rotation & pulsation
+    coronaRings.forEach((ring, idx) => {
+      ring.rotation.z = elapsed * (0.2 + idx * 0.15);
+      const s = 1.0 + Math.sin(elapsed * 2.5 + idx * 1.2) * 0.12;
+      ring.scale.set(s, s, s);
     });
 
-    // Spores drift
-    const posAttr = sporeGeo.attributes.position as THREE.BufferAttribute;
-    const posArr = posAttr.array as Float32Array;
+    // 2. Neural branch & node pulsation
+    neuralBranchMaterial.emissiveIntensity = 0.75 + Math.sin(elapsed * 1.8) * 0.25;
+    synapticNodeMaterial.emissiveIntensity = 1.8 + Math.sin(elapsed * 2.4 + 0.5) * 0.6;
+    goldenDaisMaterial.emissiveIntensity = 0.4 + Math.sin(elapsed * 1.5) * 0.15;
+
+    // 3. Travel Signal Packets along branch curves
+    const sigPosAttr = signalGeo.attributes.position as THREE.BufferAttribute;
+    const sigArr = sigPosAttr.array as Float32Array;
+
+    for (let i = 0; i < signalCount; i++) {
+      const s = signalData[i];
+      s.progress += delta * s.speed;
+      if (s.progress > 1.0) s.progress = 0.0;
+
+      const curve = branchCurves[s.curveIndex];
+      const pt = curve.getPointAt(s.progress);
+      sigArr[i * 3] = pt.x;
+      sigArr[i * 3 + 1] = pt.y;
+      sigArr[i * 3 + 2] = pt.z;
+    }
+    sigPosAttr.needsUpdate = true;
+
+    // 4. Firefly spores drift
+    const sporePosAttr = sporeGeo.attributes.position as THREE.BufferAttribute;
+    const sporeArr = sporePosAttr.array as Float32Array;
 
     for (let i = 0; i < sporeCount; i++) {
       const idx = i * 3;
       const d = sporeDrifts[i];
 
-      posArr[idx] += d.x + Math.sin(elapsed * 0.5 + d.phase) * 0.001;
-      posArr[idx + 1] += d.y;
-      posArr[idx + 2] += d.z + Math.cos(elapsed * 0.5 + d.phase) * 0.001;
+      sporeArr[idx] += d.x + Math.sin(elapsed * 0.5 + d.phase) * 0.001;
+      sporeArr[idx + 1] += d.y;
+      sporeArr[idx + 2] += d.z + Math.cos(elapsed * 0.5 + d.phase) * 0.001;
 
       // Wrap around vertically
-      if (posArr[idx + 1] > 6.0) {
-        posArr[idx + 1] = -4.2;
+      if (sporeArr[idx + 1] > 6.2) {
+        sporeArr[idx + 1] = -1.2;
       }
     }
-    posAttr.needsUpdate = true;
+    sporePosAttr.needsUpdate = true;
   };
 
   const dispose = () => {

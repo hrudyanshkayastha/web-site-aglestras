@@ -6,6 +6,7 @@ import { EntranceOverlay } from "./destinations/EntranceOverlay";
 import { ServicesOverlay } from "./destinations/ServicesOverlay";
 import { MethodologyOverlay } from "./destinations/MethodologyOverlay";
 import { AtlasOverlay } from "./destinations/AtlasOverlay";
+import { ResearchOverlay } from "./destinations/ResearchOverlay";
 import { ContactOverlay } from "./destinations/ContactOverlay";
 import { GraphNode } from "@/data/entityGraphData";
 import { ServiceItem } from "@/data/services";
@@ -44,7 +45,10 @@ export function UnifiedWorldExperience() {
         onSelectNode={setSelectedNode}
       />
 
-      {/* Destination E: Contact Terminus */}
+      {/* Destination E: Research Domains */}
+      <ResearchOverlay />
+
+      {/* Destination F: Contact Terminus */}
       <ContactOverlay />
     </UnifiedWorldCanvas>
   );

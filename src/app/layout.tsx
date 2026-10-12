@@ -109,7 +109,7 @@ export default function RootLayout({
     ],
     sameAs: [
       "https://github.com/Agletras",
-      "https://www.linkedin.com/company/agletras/posts/?viewAsMember=true",
+      "https://www.linkedin.com/company/agletras/",
     ],
   };
 
@@ -117,6 +117,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${newsreader.variable} ${inter.variable} ${jetbrainsMono.variable} antialiased`}
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <head>

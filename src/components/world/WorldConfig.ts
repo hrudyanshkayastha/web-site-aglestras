@@ -6,6 +6,7 @@ export type WorldDestinationId =
   | "SERVICES"
   | "METHODOLOGY"
   | "ATLAS"
+  | "RESEARCH"
   | "CONTACT";
 
 export interface DestinationWaypoint {
@@ -30,8 +31,8 @@ export const WORLD_DESTINATIONS: Record<WorldDestinationId, DestinationWaypoint>
   },
   SERVICES: {
     id: "SERVICES",
-    label: "Capabilities",
-    sublabel: "Six Verified Service Pavilions",
+    label: "Services",
+    sublabel: "Six Verified Intelligence Services",
     sectionId: "destination-services",
     cameraPos: [-2.4, 3.2, 7.8],
     lookAt: [-4.6, 0.8, 0.8],
@@ -40,7 +41,7 @@ export const WORLD_DESTINATIONS: Record<WorldDestinationId, DestinationWaypoint>
   METHODOLOGY: {
     id: "METHODOLOGY",
     label: "Methodology",
-    sublabel: "Four-Stage Epistemic Pathway",
+    sublabel: "Six-Stage Epistemic Pathway",
     sectionId: "destination-methodology",
     cameraPos: [0.0, -1.8, 7.8],
     lookAt: [0.0, -4.2, 1.2],
@@ -54,6 +55,15 @@ export const WORLD_DESTINATIONS: Record<WorldDestinationId, DestinationWaypoint>
     cameraPos: [4.8, 3.2, 7.2],
     lookAt: [3.6, 1.0, 0.0],
     fov: 44,
+  },
+  RESEARCH: {
+    id: "RESEARCH",
+    label: "Research",
+    sublabel: "Four Core Intelligence Domains",
+    sectionId: "destination-research",
+    cameraPos: [-3.8, 2.2, 6.5],
+    lookAt: [-2.0, 1.2, -1.0],
+    fov: 45,
   },
   CONTACT: {
     id: "CONTACT",
@@ -71,6 +81,7 @@ export const ORDERED_DESTINATIONS: WorldDestinationId[] = [
   "SERVICES",
   "METHODOLOGY",
   "ATLAS",
+  "RESEARCH",
   "CONTACT",
 ];
 

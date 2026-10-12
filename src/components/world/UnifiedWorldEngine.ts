@@ -26,7 +26,8 @@ export class UnifiedWorldEngine {
   private animationFrameId: number | null = null;
   private isRunning = false;
   private isVisible = true;
-  private clock = new THREE.Clock();
+  private startTime = 0;
+  private lastTime = 0;
 
   constructor(
     container: HTMLElement,
@@ -143,7 +144,8 @@ export class UnifiedWorldEngine {
   public start() {
     if (this.isRunning) return;
     this.isRunning = true;
-    this.clock.start();
+    this.startTime = performance.now();
+    this.lastTime = this.startTime;
     this.loop();
   }
 
@@ -153,8 +155,10 @@ export class UnifiedWorldEngine {
 
     if (!this.isVisible) return;
 
-    const delta = Math.min(this.clock.getDelta(), 0.1);
-    const elapsed = this.clock.getElapsedTime();
+    const now = performance.now();
+    const delta = Math.min((now - this.lastTime) / 1000, 0.1);
+    const elapsed = (now - this.startTime) / 1000;
+    this.lastTime = now;
     const activeDest = this.controller.getActiveDestination();
 
     this.jungle.update(delta, elapsed);
