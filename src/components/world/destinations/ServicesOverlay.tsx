@@ -17,8 +17,9 @@ import {
   ChevronRight,
   X,
   Compass,
-  Eye,
+  FileCheck,
   Layers,
+  ShieldAlert,
 } from "lucide-react";
 
 interface ServicesOverlayProps {
@@ -68,7 +69,45 @@ export function ServicesOverlay({
     ? orderedServices.findIndex((s) => s.id === selectedService.id)
     : -1;
 
+  // Global Keyboard Navigation (Left/Right Arrows to step stations, Escape to return to overview)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (
+        e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLTextAreaElement ||
+        e.target instanceof HTMLSelectElement
+      ) {
+        return;
+      }
+
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        if (currentIndex <= 0) {
+          onSelectService(orderedServices[orderedServices.length - 1]);
+        } else {
+          onSelectService(orderedServices[currentIndex - 1]);
+        }
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        if (currentIndex >= orderedServices.length - 1 || currentIndex === -1) {
+          onSelectService(orderedServices[0]);
+        } else {
+          onSelectService(orderedServices[currentIndex + 1]);
+        }
+      } else if (e.key === "Escape") {
+        if (selectedService) {
+          e.preventDefault();
+          onSelectService(null);
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [currentIndex, orderedServices, onSelectService, selectedService]);
+
   const handlePrevStation = (e: React.MouseEvent) => {
+    e.preventDefault();
     e.stopPropagation();
     if (currentIndex <= 0) {
       onSelectService(orderedServices[orderedServices.length - 1]);
@@ -78,6 +117,7 @@ export function ServicesOverlay({
   };
 
   const handleNextStation = (e: React.MouseEvent) => {
+    e.preventDefault();
     e.stopPropagation();
     if (currentIndex >= orderedServices.length - 1) {
       onSelectService(orderedServices[0]);
@@ -86,33 +126,46 @@ export function ServicesOverlay({
     }
   };
 
-  const SelectedIcon = selectedService ? (iconMap[selectedService.id] || ShieldCheck) : null;
+  const SelectedIcon = selectedService ? iconMap[selectedService.id] || ShieldCheck : null;
 
   return (
     <section
       id="destination-services"
       className="min-h-screen flex flex-col justify-between px-4 sm:px-8 md:px-12 pt-28 pb-32 relative z-20 pointer-events-none"
+      aria-label="Agletras 3D Services Pavilion"
     >
       {/* Top Floating Pavilion Header HUD */}
       <div className="w-full max-w-3xl mx-auto pointer-events-auto space-y-3 text-center">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#031714]/80 border border-[#B7E4D5]/30 text-xs font-mono text-[#B7E4D5] uppercase tracking-wider backdrop-blur-md shadow-lg">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#031714]/85 border border-[#B7E4D5]/30 text-xs font-mono text-[#B7E4D5] uppercase tracking-wider backdrop-blur-md shadow-lg">
           <span className="w-1.5 h-1.5 rounded-full bg-[#2FA885] animate-pulse" />
           <span>Destination 02 // 3D Services Rotunda</span>
         </div>
 
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-editorial font-semibold text-[#F4F2EA] drop-shadow-[0_4px_20px_rgba(2,15,12,0.9)]">
-          From Unstructured Information{" "}
-          <span className="italic font-normal text-[#B7E4D5]">
-            to Clear Intelligence.
-          </span>
-        </h2>
+        <AnimatePresence>
+          {!selectedService && (
+            <motion.div
+              initial={isReducedMotion ? undefined : { opacity: 0, height: 0 }}
+              animate={isReducedMotion ? undefined : { opacity: 1, height: "auto" }}
+              exit={isReducedMotion ? undefined : { opacity: 0, height: 0 }}
+              transition={{ duration: 0.25 }}
+              className="space-y-2 overflow-hidden"
+            >
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-editorial font-semibold text-[#F4F2EA] drop-shadow-[0_4px_20px_rgba(2,15,12,0.9)]">
+                From Unstructured Information{" "}
+                <span className="italic font-normal text-[#B7E4D5]">
+                  to Clear Intelligence.
+                </span>
+              </h2>
 
-        <p className="text-xs sm:text-sm text-[#C5D9D2] max-w-xl mx-auto font-light leading-relaxed drop-shadow-[0_2px_10px_rgba(2,15,12,0.9)]">
-          Six structured research capabilities designed to investigate digital risks, evaluate information, discover hidden relationships, and automate repeatable research workflows.
-        </p>
+              <p className="text-xs sm:text-sm text-[#C5D9D2] max-w-xl mx-auto font-light leading-relaxed drop-shadow-[0_2px_10px_rgba(2,15,12,0.9)]">
+                Six structured research capabilities designed to investigate digital risks, evaluate information, discover hidden relationships, and automate repeatable research workflows.
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Floating Station Selector Dock */}
-        <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 pt-2">
+        <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 pt-2" role="tablist" aria-label="3D Service Stations">
           {orderedServices.map((service, idx) => {
             const Icon = iconMap[service.id] || ShieldCheck;
             const isSelected = selectedService?.id === service.id;
@@ -122,6 +175,9 @@ export function ServicesOverlay({
               <button
                 key={service.id}
                 type="button"
+                role="tab"
+                data-service-id={service.id}
+                aria-selected={isSelected}
                 onClick={() => onSelectService(isSelected ? null : service)}
                 className={`group flex items-center gap-2 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-mono transition-all duration-300 cursor-pointer shadow-md backdrop-blur-md ${
                   isSelected
@@ -136,7 +192,7 @@ export function ServicesOverlay({
                 />
                 <span className="text-[11px] font-bold opacity-80">{stepNum}</span>
                 <span className="hidden sm:inline font-medium tracking-tight">
-                  {service.shortTagline ? service.title.split(" ")[0] : service.title}
+                  {service.title}
                 </span>
                 {isSelected && (
                   <span className="w-1.5 h-1.5 rounded-full bg-[#041F1B] animate-ping" />
@@ -150,7 +206,7 @@ export function ServicesOverlay({
             className="flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-mono text-[#B7E4D5] hover:text-[#FFFFFF] bg-[#073B32]/80 hover:bg-[#073B32] border border-[#B7E4D5]/30 transition-all cursor-pointer backdrop-blur-md shadow-md"
             title="Inspect comprehensive service specifications"
           >
-            <span>All Specs</span>
+            <span>Full Catalog</span>
             <ArrowUpRight size={13} />
           </Link>
         </div>
@@ -162,11 +218,11 @@ export function ServicesOverlay({
         {selectedService && SelectedIcon && (
           <motion.aside
             key={selectedService.id}
-            initial={{ opacity: 0, y: 20, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.98 }}
+            initial={isReducedMotion ? undefined : { opacity: 0, y: 15, scale: 0.98 }}
+            animate={isReducedMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
+            exit={isReducedMotion ? undefined : { opacity: 0, y: 15, scale: 0.98 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="relative lg:absolute lg:right-8 lg:top-32 w-full lg:w-[480px] max-w-full z-20 overflow-y-auto max-h-[75vh] p-5 sm:p-6 rounded-3xl bg-[#031714]/92 border border-[#2FA885]/60 backdrop-blur-2xl shadow-[0_24px_64px_rgba(0,0,0,0.85)] pointer-events-auto space-y-4 my-6 lg:my-0"
+            className="relative lg:absolute lg:right-8 lg:top-28 w-full lg:w-[450px] max-w-full z-20 overflow-y-auto max-h-[76vh] p-5 sm:p-6 rounded-3xl bg-[#031714]/94 border border-[#2FA885]/60 backdrop-blur-2xl shadow-[0_24px_64px_rgba(0,0,0,0.85)] pointer-events-auto space-y-4 my-6 lg:my-0"
             aria-label={`3D Station Briefing for ${selectedService.title}`}
           >
             {/* Top Bar: Station index, code, close button */}
@@ -180,25 +236,21 @@ export function ServicesOverlay({
                     Station 0{currentIndex + 1} of 06 // {selectedService.code}
                   </span>
                   <span className="text-[11px] font-mono text-[#8DA99E]">
-                    3D Pylon Camera Locked
+                    3D Spatial Architecture Focused
                   </span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-1.5">
-                {selectedService.isPrimary && (
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase bg-[#2FA885]/20 text-[#B7E4D5] border border-[#2FA885]/40 font-medium">
-                    Primary Focus
-                  </span>
-                )}
+              <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => onSelectService(null)}
-                  className="w-7 h-7 rounded-full flex items-center justify-center bg-[#073B32]/70 text-[#C5D9D2] hover:text-[#FFFFFF] hover:bg-[#073B32] border border-[#B7E4D5]/20 transition-all cursor-pointer"
-                  title="Unfocus 3D station"
-                  aria-label="Close station inspection and reset view"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#073B32]/80 text-[#B7E4D5] hover:text-[#FFFFFF] hover:bg-[#073B32] border border-[#B7E4D5]/25 text-[11px] font-mono transition-all cursor-pointer"
+                  title="Return to full pavilion view (Esc)"
+                  aria-label="Return to full pavilion overview"
                 >
-                  <X size={14} />
+                  <span>Overview</span>
+                  <X size={12} />
                 </button>
               </div>
             </div>
@@ -217,18 +269,20 @@ export function ServicesOverlay({
             <div className="space-y-2.5 text-xs">
               {/* 1. Client Problem Solved */}
               <div className="p-3.5 rounded-xl bg-[#041F1B]/95 border border-[#B7E4D5]/15 space-y-1">
-                <span className="font-mono text-[10px] uppercase tracking-wider text-amber-400 font-semibold block">
-                  Problem Addressed:
+                <span className="font-mono text-[10px] uppercase tracking-wider text-amber-400 font-semibold flex items-center gap-1.5">
+                  <ShieldAlert size={12} className="text-amber-400" />
+                  <span>The Client Challenge:</span>
                 </span>
                 <p className="text-[#D8E8E2] text-[11px] leading-relaxed font-light">
                   {selectedService.problemStatement}
                 </p>
               </div>
 
-              {/* 2. Investigative Method */}
+              {/* 2. Research Approach */}
               <div className="p-3.5 rounded-xl bg-[#041F1B]/95 border border-[#B7E4D5]/15 space-y-1">
-                <span className="font-mono text-[10px] uppercase tracking-wider text-[#2FA885] font-semibold block">
-                  Investigative Method:
+                <span className="font-mono text-[10px] uppercase tracking-wider text-[#2FA885] font-semibold flex items-center gap-1.5">
+                  <Layers size={12} className="text-[#2FA885]" />
+                  <span>Research Approach &amp; Epistemic Method:</span>
                 </span>
                 <p className="text-[#C5D9D2] text-[11px] leading-relaxed font-light">
                   {selectedService.valueLayer.technicalMethod}
@@ -237,8 +291,9 @@ export function ServicesOverlay({
 
               {/* 3. Deliverable Outcome */}
               <div className="p-3.5 rounded-xl bg-[#041F1B]/95 border border-[#B7E4D5]/15 space-y-1">
-                <span className="font-mono text-[10px] uppercase tracking-wider text-[#B7E4D5] font-semibold block">
-                  Decision-Ready Deliverable:
+                <span className="font-mono text-[10px] uppercase tracking-wider text-[#B7E4D5] font-semibold flex items-center gap-1.5">
+                  <FileCheck size={12} className="text-[#2FA885]" />
+                  <span>Decision-Ready Deliverable:</span>
                 </span>
                 <p className="text-[#F4F2EA] text-[11px] leading-relaxed font-light">
                   {selectedService.valueLayer.clientOutcome}
@@ -246,25 +301,29 @@ export function ServicesOverlay({
               </div>
             </div>
 
-            {/* Station Tour Controls */}
+            {/* Station Tour Controls (Keyboard Hint Included) */}
             <div className="flex items-center justify-between pt-2 border-t border-[#B7E4D5]/15 text-xs font-mono">
               <button
                 type="button"
+                data-action="prev-station"
                 onClick={handlePrevStation}
                 className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[#073B32]/70 hover:bg-[#073B32] text-[#B7E4D5] hover:text-[#FFFFFF] border border-[#B7E4D5]/20 transition-all cursor-pointer"
+                title="Previous station (ArrowLeft)"
               >
                 <ChevronLeft size={14} />
                 <span>Prev Station</span>
               </button>
 
-              <span className="text-[11px] text-[#8DA99E]">
-                Station {currentIndex + 1} / 06
+              <span className="text-[10px] text-[#8DA99E] hidden sm:inline">
+                Use ← / → keys or Esc
               </span>
 
               <button
                 type="button"
+                data-action="next-station"
                 onClick={handleNextStation}
                 className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[#073B32]/70 hover:bg-[#073B32] text-[#B7E4D5] hover:text-[#FFFFFF] border border-[#B7E4D5]/20 transition-all cursor-pointer"
+                title="Next station (ArrowRight)"
               >
                 <span>Next Station</span>
                 <ChevronRight size={14} />
@@ -277,7 +336,7 @@ export function ServicesOverlay({
                 href={`/services/${selectedService.id}`}
                 className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-mono uppercase tracking-wider text-[#F4F2EA] bg-[#073B32] hover:bg-[#0A4D3F] border border-[#B7E4D5]/30 transition-all font-medium text-center"
               >
-                <span>Inspect Deep Spec</span>
+                <span>Inspect Full Specification</span>
                 <ArrowRight size={13} className="text-[#2FA885]" />
               </Link>
 
@@ -296,7 +355,7 @@ export function ServicesOverlay({
       {/* Floating Bottom Prompt (When no station is selected) */}
       {!selectedService && (
         <div className="w-full max-w-lg mx-auto pointer-events-auto text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#031714]/80 border border-[#B7E4D5]/25 text-xs font-mono text-[#B7E4D5] backdrop-blur-md shadow-lg">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#031714]/85 border border-[#B7E4D5]/25 text-xs font-mono text-[#B7E4D5] backdrop-blur-md shadow-lg">
             <Compass size={13} className="text-[#2FA885] animate-spin" />
             <span>Click any 3D station monument or choose from the dock above to inspect.</span>
           </div>

@@ -34,9 +34,9 @@ export const WORLD_DESTINATIONS: Record<WorldDestinationId, DestinationWaypoint>
     label: "Services",
     sublabel: "Six Verified Intelligence Services",
     sectionId: "destination-services",
-    cameraPos: [-2.4, 3.2, 7.8],
-    lookAt: [-4.6, 0.8, 0.8],
-    fov: 45,
+    cameraPos: [-1.4, 4.6, 9.0],
+    lookAt: [-4.2, 0.0, 0.6],
+    fov: 44,
   },
   METHODOLOGY: {
     id: "METHODOLOGY",

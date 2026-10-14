@@ -133,7 +133,7 @@ export function createFuturisticArchitecture(): ArchitectureElements {
   plazaRingMesh.position.set(-4.6, -0.39, 1.0);
   servicesPlazaGroup.add(plazaRingMesh);
 
-  // 6 Distinctive Service Stations with unique geometric motifs
+  // 6 Distinctive Architectural Service Stations with unique geometry & motifs
   SERVICE_PYLONS.forEach((cfg) => {
     const pylonGroup = new THREE.Group();
     pylonGroup.name = `Pylon_${cfg.service.id}`;
@@ -145,43 +145,79 @@ export function createFuturisticArchitecture(): ArchitectureElements {
       service: cfg.service,
     };
 
-    // 1. Tapered Basalt Stele Body
-    const height = cfg.service.isPrimary ? 2.0 : 1.5;
-    const bodyGeo = new THREE.CylinderGeometry(0.12, 0.22, height, 6);
+    // 1. Unique Architectural Stele Body & Plinth per Service
+    let bodyGeo: THREE.BufferGeometry;
+    let height = 1.6;
+
+    if (cfg.service.id === "osint-investigative-research") {
+      // Station 01: Slender fluted hexagonal stele (Astrolabe plinth)
+      height = 1.7;
+      bodyGeo = new THREE.CylinderGeometry(0.12, 0.24, height, 6);
+    } else if (cfg.service.id === "business-due-diligence") {
+      // Station 02: Quad-faceted corporate pedestal
+      height = 1.5;
+      bodyGeo = new THREE.BoxGeometry(0.34, height, 0.34);
+    } else if (cfg.service.id === "recruitment-verification") {
+      // Station 03: Tapered triangular epistemic obelisk
+      height = 1.8;
+      bodyGeo = new THREE.CylinderGeometry(0.06, 0.26, height, 3);
+    } else if (cfg.service.id === "brand-impersonation-research") {
+      // Station 04: Parabolic flared radar pylon
+      height = 1.4;
+      bodyGeo = new THREE.CylinderGeometry(0.24, 0.14, height, 16);
+    } else if (cfg.service.id === "external-threat-intelligence") {
+      // Station 05: Heavy 8-sided polygonal defense bastion
+      height = 2.0;
+      bodyGeo = new THREE.CylinderGeometry(0.22, 0.32, height, 8);
+    } else {
+      // Station 06: Cylindrical stepped reactor column with cooling conduits
+      height = 1.6;
+      bodyGeo = new THREE.CylinderGeometry(0.18, 0.22, height, 12);
+    }
     disposables.push(bodyGeo);
+
     const bodyMesh = new THREE.Mesh(bodyGeo, basaltMat);
     bodyMesh.position.y = height / 2;
     bodyMesh.userData = pylonGroup.userData;
     pylonGroup.add(bodyMesh);
 
-    // 2. Distinctive Luminous Service Emblem / Aperture Core
+    // Decorative stepped collar ring between body and core
+    const collarGeo = new THREE.TorusGeometry(0.22, 0.02, 8, 24);
+    disposables.push(collarGeo);
+    const collarMesh = new THREE.Mesh(collarGeo, brassMat);
+    collarMesh.rotation.x = Math.PI / 2;
+    collarMesh.position.y = height + 0.02;
+    collarMesh.userData = pylonGroup.userData;
+    pylonGroup.add(collarMesh);
+
+    // 2. Distinctive Luminous Kinetic Service Emblem / Aperture Core
     let coreGeo: THREE.BufferGeometry;
     let ringGeo: THREE.BufferGeometry;
 
     if (cfg.service.id === "osint-investigative-research") {
       // Dual-gimbal astrolabe with octahedral core
-      coreGeo = new THREE.OctahedronGeometry(0.2, 1);
-      ringGeo = new THREE.TorusGeometry(0.32, 0.016, 16, 32);
+      coreGeo = new THREE.OctahedronGeometry(0.22, 1);
+      ringGeo = new THREE.TorusGeometry(0.36, 0.016, 16, 32);
     } else if (cfg.service.id === "business-due-diligence") {
       // Interlocking corporate hierarchy cubes
-      coreGeo = new THREE.BoxGeometry(0.25, 0.25, 0.25);
-      ringGeo = new THREE.TorusGeometry(0.34, 0.018, 4, 4);
+      coreGeo = new THREE.BoxGeometry(0.26, 0.26, 0.26);
+      ringGeo = new THREE.TorusGeometry(0.36, 0.018, 4, 4);
     } else if (cfg.service.id === "recruitment-verification") {
-      // Faceted verification crystal obelisk
-      coreGeo = new THREE.ConeGeometry(0.2, 0.4, 6);
-      ringGeo = new THREE.TorusGeometry(0.3, 0.016, 16, 32);
+      // Faceted verification crystal obelisk lens
+      coreGeo = new THREE.ConeGeometry(0.2, 0.42, 6);
+      ringGeo = new THREE.TorusGeometry(0.32, 0.016, 16, 32);
     } else if (cfg.service.id === "brand-impersonation-research") {
       // Radar sensor disk
-      coreGeo = new THREE.CylinderGeometry(0.22, 0.22, 0.06, 24);
-      ringGeo = new THREE.TorusGeometry(0.35, 0.014, 16, 32);
+      coreGeo = new THREE.CylinderGeometry(0.24, 0.24, 0.07, 24);
+      ringGeo = new THREE.TorusGeometry(0.36, 0.014, 16, 32);
     } else if (cfg.service.id === "external-threat-intelligence") {
-      // Multi-faceted defense shield core
-      coreGeo = new THREE.IcosahedronGeometry(0.22, 0);
-      ringGeo = new THREE.TorusGeometry(0.36, 0.02, 6, 6);
+      // Multi-faceted defense shield icosahedron
+      coreGeo = new THREE.IcosahedronGeometry(0.25, 0);
+      ringGeo = new THREE.TorusGeometry(0.38, 0.022, 6, 6);
     } else {
-      // research-automation: continuous pipeline knot
-      coreGeo = new THREE.TorusKnotGeometry(0.13, 0.04, 32, 8, 2, 3);
-      ringGeo = new THREE.TorusGeometry(0.32, 0.015, 16, 32);
+      // Continuous pipeline torus knot
+      coreGeo = new THREE.TorusKnotGeometry(0.14, 0.045, 36, 8, 2, 3);
+      ringGeo = new THREE.TorusGeometry(0.34, 0.016, 16, 32);
     }
     disposables.push(coreGeo);
     disposables.push(ringGeo);
@@ -195,7 +231,7 @@ export function createFuturisticArchitecture(): ArchitectureElements {
     });
     disposables.push(coreMat);
     const coreMesh = new THREE.Mesh(coreGeo, coreMat);
-    coreMesh.position.y = height + 0.22;
+    coreMesh.position.y = height + 0.24;
     coreMesh.userData = pylonGroup.userData;
     pylonGroup.add(coreMesh);
 
@@ -207,7 +243,7 @@ export function createFuturisticArchitecture(): ArchitectureElements {
     });
     disposables.push(ringMat);
     const ringMesh = new THREE.Mesh(ringGeo, ringMat);
-    ringMesh.position.y = height + 0.22;
+    ringMesh.position.y = height + 0.24;
     ringMesh.rotation.x = Math.PI / 3;
     ringMesh.userData = pylonGroup.userData;
     pylonGroup.add(ringMesh);
@@ -433,36 +469,48 @@ export function createFuturisticArchitecture(): ArchitectureElements {
       }
     });
 
-    // Pylon animations
+    // Pylon animations with selective illumination
     pylonMeshes.forEach((pGroup, sId) => {
       const isHovered = sId === hoveredServiceId;
       const isSelected = sId === selectedServiceId;
+      const hasAnySelected = Boolean(selectedServiceId);
 
-      const core = pGroup.children[1] as THREE.Mesh | undefined;
-      const ring = pGroup.children[2] as THREE.Mesh | undefined;
-      const beacon = pGroup.children[3] as THREE.Mesh | undefined;
-      const halo = pGroup.children[4] as THREE.Mesh | undefined;
+      const core = pGroup.children[2] as THREE.Mesh | undefined;
+      const ring = pGroup.children[3] as THREE.Mesh | undefined;
+      const beacon = pGroup.children[4] as THREE.Mesh | undefined;
+      const halo = pGroup.children[5] as THREE.Mesh | undefined;
 
       if (core) {
-        core.rotation.y = elapsed * 0.5;
-        const targetScale = isSelected ? 1.45 : isHovered ? 1.2 : 1.0;
-        core.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), delta * 6);
+        core.rotation.y = elapsed * (isSelected ? 0.8 : 0.4);
 
-        // Core emissive brightness based on destination state
+        let targetScale = 1.0;
+        let baseEmissive = 0.65;
+
+        if (hasAnySelected) {
+          if (isSelected) {
+            targetScale = 1.45;
+            baseEmissive = 2.6; // High-brilliance focal illumination
+          } else {
+            targetScale = 0.88;
+            baseEmissive = 0.12; // Subtly dimmed unselected resting state
+          }
+        } else if (isHovered) {
+          targetScale = 1.25;
+          baseEmissive = 1.4;
+        }
+
+        core.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), delta * 6);
         const coreMat = core.material as THREE.MeshStandardMaterial;
-        const baseEmissive = isServicesDest
-          ? (isSelected ? 2.2 : isHovered ? 1.1 : 0.6)
-          : 0.15;
         coreMat.emissiveIntensity = THREE.MathUtils.lerp(coreMat.emissiveIntensity, baseEmissive, delta * 6);
       }
 
       if (ring) {
-        ring.rotation.z = elapsed * (isSelected ? 2.0 : 0.8);
+        ring.rotation.z = elapsed * (isSelected ? 2.2 : 0.8);
       }
 
       if (beacon) {
         const beaconMat = beacon.material as THREE.MeshBasicMaterial;
-        const targetBeaconOpacity = isSelected ? 0.72 : isHovered ? 0.22 : 0.0;
+        const targetBeaconOpacity = isSelected ? 0.85 : isHovered ? 0.25 : 0.0;
         beaconMat.opacity = THREE.MathUtils.lerp(beaconMat.opacity, targetBeaconOpacity, delta * 8);
         if (isSelected) {
           beacon.rotation.y = elapsed * 0.6;
@@ -471,9 +519,9 @@ export function createFuturisticArchitecture(): ArchitectureElements {
 
       if (halo) {
         const haloMat = halo.material as THREE.MeshBasicMaterial;
-        const targetHaloOpacity = isSelected ? 0.85 : isHovered ? 0.45 : (isServicesDest ? 0.15 : 0.05);
+        const targetHaloOpacity = isSelected ? 0.9 : isHovered ? 0.45 : (hasAnySelected ? 0.04 : 0.15);
         haloMat.opacity = THREE.MathUtils.lerp(haloMat.opacity, targetHaloOpacity, delta * 6);
-        const targetHaloScale = isSelected ? 1.4 : 1.0;
+        const targetHaloScale = isSelected ? 1.5 : (hasAnySelected ? 0.85 : 1.0);
         halo.scale.lerp(new THREE.Vector3(targetHaloScale, targetHaloScale, targetHaloScale), delta * 6);
       }
     });

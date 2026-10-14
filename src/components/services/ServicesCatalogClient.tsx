@@ -79,28 +79,40 @@ export function ServicesCatalogClient({ services }: ServicesCatalogClientProps) 
           </p>
         </div>
 
-        {/* Category Filter Pills */}
-        <div className="flex flex-wrap items-center gap-2 border-b border-[#B7E4D5]/15 pb-6">
-          <span className="text-xs font-mono text-[#8DA99E] uppercase tracking-wider mr-2 hidden sm:inline">
-            Filter:
-          </span>
-          {categories.map((cat) => {
-            const isActive = selectedCategory === cat.id;
-            return (
-              <button
-                key={cat.id}
-                type="button"
-                onClick={() => setSelectedCategory(cat.id)}
-                className={`px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider transition-all cursor-pointer ${
-                  isActive
-                    ? "bg-[#2FA885] text-[#041F1B] font-semibold shadow-[0_0_16px_rgba(47,168,133,0.35)]"
-                    : "bg-[#073B32]/60 text-[#8DA99E] hover:text-[#F4F2EA] hover:bg-[#073B32] border border-[#B7E4D5]/15"
-                }`}
-              >
-                {cat.label}
-              </button>
-            );
-          })}
+        {/* Category Filter Pills & 3D Pavilion Bridge */}
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#B7E4D5]/15 pb-6">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs font-mono text-[#8DA99E] uppercase tracking-wider mr-2 hidden sm:inline">
+              Filter:
+            </span>
+            {categories.map((cat) => {
+              const isActive = selectedCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider transition-all cursor-pointer ${
+                    isActive
+                      ? "bg-[#2FA885] text-[#041F1B] font-semibold shadow-[0_0_16px_rgba(47,168,133,0.35)]"
+                      : "bg-[#073B32]/60 text-[#8DA99E] hover:text-[#F4F2EA] hover:bg-[#073B32] border border-[#B7E4D5]/15"
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              );
+            })}
+          </div>
+
+          <Link
+            href="/#destination-services"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider bg-[#073B32]/80 hover:bg-[#073B32] text-[#B7E4D5] hover:text-[#FFFFFF] border border-[#2FA885]/40 transition-all shadow-md group"
+            title="Explore services in interactive 3D spatial rotunda"
+          >
+            <span className="w-2 h-2 rounded-full bg-[#2FA885] animate-pulse" />
+            <span>Interactive 3D Pavilion</span>
+            <ArrowUpRight size={13} className="text-[#2FA885] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </Link>
         </div>
 
         {/* 6 Services Catalog Grid */}

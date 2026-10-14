@@ -262,11 +262,12 @@ export class UnifiedCameraController {
     const py = coords[1];
     const pz = coords[2];
 
-    // Frame camera so that the pylon is positioned dramatically in the 3D space,
-    // leaving ample room for the foreground interaction card
-    this.targetCameraPos.set(px + 1.6, py + 1.2, pz + 3.2);
-    this.targetLookAt.set(px, py + 0.6, pz);
-    this.targetFov = 38;
+    // Frame camera so that the pylon (body, glowing collar, kinetic aperture, and vertical beacon)
+    // is positioned majestically in the left/center-left of the 3D space,
+    // leaving ample room on the right for the station briefing dossier.
+    this.targetCameraPos.set(px + 2.4, py + 1.5, pz + 4.2);
+    this.targetLookAt.set(px + 0.7, py + 1.1, pz);
+    this.targetFov = 40;
     this.targetRotationAngle = { yaw: 0, pitch: 0 };
   }
 
