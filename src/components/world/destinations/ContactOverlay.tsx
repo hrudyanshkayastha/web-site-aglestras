@@ -16,14 +16,14 @@ export function ContactOverlay() {
         </div>
 
         <h2 className="text-editorial-hero text-[#F4F2EA] leading-tight drop-shadow-md">
-          Have Information.{" "}
+          Let&apos;s Define{" "}
           <span className="italic font-normal text-[#B7E4D5]">
-            Need Intelligence?
+            the Question.
           </span>
         </h2>
 
         <p className="text-base md:text-lg text-[#C5D9D2] max-w-2xl mx-auto font-light leading-relaxed drop-shadow-sm">
-          Let&apos;s explore how research, automation, and security intelligence can address your information challenges.
+          Tell us what you need to investigate, verify, or automate. We can discuss the requirements, appropriate scope, and possible next steps.
         </p>
 
         {/* Section 5: Responsible Intelligence Substantive Principles */}

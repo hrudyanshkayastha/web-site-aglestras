@@ -62,7 +62,7 @@ export default function MethodologyPage() {
               Methodological Progression
             </span>
             <h2 className="text-2xl sm:text-3xl font-editorial font-semibold text-[#F4F2EA]">
-              Define → Collect → Validate → Correlate → Analyze → Report
+              Define → Collect → Verify → Correlate → Analyze → Deliver
             </h2>
             <p className="text-xs font-mono text-[#8DA99E] mt-1">
               Select any stage below to inspect its purpose, execution, quality controls, and output.

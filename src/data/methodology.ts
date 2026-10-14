@@ -137,10 +137,10 @@ export const intelligenceStages: IntelligenceStage[] = [
   },
   {
     step: "03",
-    phase: "Validation & Filtering",
+    phase: "Verify",
     title: "Evidence Filtering & Provenance",
     summary:
-      "Filtering signal from noise. Validating source authenticity, timestamps, and provenance while discarding hallucinations and duplicate signals.",
+      "Assess reliability, corroborate findings, and validate source authenticity while separating facts from noise.",
     purpose:
       "Separate authoritative signal from deceptive noise, outdated records, homoglyphs, and AI-generated hallucinations.",
     whatHappens:
@@ -185,10 +185,10 @@ export const intelligenceStages: IntelligenceStage[] = [
   },
   {
     step: "06",
-    phase: "Delivery",
+    phase: "Deliver",
     title: "Decision-Ready Intelligence",
     summary:
-      "Delivering a structured intelligence dossier with executive summary, evidence citations, defensive recommendations, and documented limitations.",
+      "Present findings, source references, confidence assessments, limitations, and next steps in an organized report or technical deliverable.",
     purpose:
       "Synthesize technical observations and relational findings into clear, defensible, actionable briefs tailored to executive decision-makers.",
     whatHappens:

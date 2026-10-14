@@ -137,7 +137,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/services/research-automation" className="hover:text-[#FFFFFF] transition-colors">
-                  Research Automation
+                  Research Automation & Pipelines
                 </Link>
               </li>
               <li>

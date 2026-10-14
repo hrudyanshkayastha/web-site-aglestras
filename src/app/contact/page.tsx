@@ -408,15 +408,14 @@ export default function ContactPage() {
           </div>
 
           <h1 className="text-editorial-hero text-[#F4F2EA]">
-            Initiate a Research{" "}
+            Let&apos;s Define{" "}
             <span className="italic font-normal text-[#B7E4D5]">
-              Intelligence Scope.
+              the Question.
             </span>
           </h1>
 
           <p className="text-base md:text-lg text-[#C5D9D2] font-light leading-relaxed">
-            Every engagement begins with understanding your objective. Formulate your inquiry brief
-            below to transmit it directly to our senior intelligence researchers.
+            Tell us what you need to investigate, verify, or automate. We can discuss the requirements, appropriate scope, and possible next steps.
           </p>
         </div>
 

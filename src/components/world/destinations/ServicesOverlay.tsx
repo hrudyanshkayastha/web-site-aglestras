@@ -37,13 +37,13 @@ export function ServicesOverlay({
               <span>Destination 02 // The Intelligence Landscape</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-editorial font-semibold text-[#F4F2EA]">
-              Six Core Intelligence Services.{" "}
+              From Unstructured Information{" "}
               <span className="italic font-normal text-[#B7E4D5]">
-                Dedicated Scope.
+                to Clear Intelligence.
               </span>
             </h2>
-            <p className="text-sm text-[#C5D9D2] font-light">
-              Explore each capability within the Intelligence Atlas. Select a service below to examine scope and focus the corresponding 3D architectural pavilion.
+            <p className="text-sm text-[#C5D9D2] font-light leading-relaxed">
+              Explore research and intelligence services designed to help organizations investigate digital risks, evaluate information, discover relevant relationships, and automate repeatable research workflows.
             </p>
           </div>
 

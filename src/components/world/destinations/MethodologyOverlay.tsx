@@ -22,10 +22,10 @@ const methodologySteps = [
   },
   {
     step: "03",
-    label: "Validate",
+    label: "Verify",
     icon: CheckCircle2,
     title: "Evidence Filtering & Provenance",
-    summary: "Verifying timestamps, source authenticity, and data integrity while eliminating noise and duplicate telemetry.",
+    summary: "Assess reliability, corroborate findings, and validate source authenticity while separating facts from noise.",
   },
   {
     step: "04",
@@ -43,10 +43,10 @@ const methodologySteps = [
   },
   {
     step: "06",
-    label: "Report",
+    label: "Deliver",
     icon: FileText,
     title: "Decision-Ready Intelligence",
-    summary: "Delivering defensible briefings with cryptographic evidence hashes, confidence tiers, and documented limitations.",
+    summary: "Present findings, source references, confidence assessments, limitations, and next steps in an organized deliverable.",
   },
 ];
 
@@ -65,7 +65,7 @@ export function MethodologyOverlay() {
               <span>Destination 03 // Epistemic Research Process</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-editorial font-semibold text-[#F4F2EA]">
-              Define → Collect → Validate → Correlate → Analyze → Report
+              Define → Collect → Verify → Correlate → Analyze → Deliver
             </h2>
             <p className="text-sm text-[#C5D9D2] font-light">
               Intelligence without provenance is conjecture. We follow a 6-stage evidence lifecycle from inquiry to executive delivery.

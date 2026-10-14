@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, ArrowDown, Play, Pause } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface EntranceOverlayProps {
   onExploreServices: () => void;
@@ -221,9 +222,29 @@ export function EntranceOverlay({
       </div>
 
       {/* Hero Content Container */}
-      <div className="relative z-10 max-w-3xl mx-auto space-y-7 pointer-events-auto p-8 sm:p-12 rounded-3xl bg-gradient-to-b from-[#031714]/94 via-[#031714]/90 to-[#031714]/86 border border-[#B7E4D5]/25 backdrop-blur-2xl shadow-2xl">
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: { opacity: 0 },
+          visible: {
+            opacity: 1,
+            transition: {
+              staggerChildren: isReducedMotion ? 0 : 0.08,
+              delayChildren: isReducedMotion ? 0 : 0.04,
+            },
+          },
+        }}
+        className="relative z-10 max-w-3xl mx-auto space-y-7 pointer-events-auto p-8 sm:p-12 rounded-3xl bg-gradient-to-b from-[#031714]/94 via-[#031714]/90 to-[#031714]/86 border border-[#B7E4D5]/25 backdrop-blur-2xl shadow-2xl"
+      >
         {/* Eyebrow Brand Badge with Unaltered Authentic Logo */}
-        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#073B32]/90 border border-[#B7E4D5]/35 shadow-lg backdrop-blur-md">
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, y: isReducedMotion ? 0 : 8 },
+            visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] } },
+          }}
+          className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#073B32]/90 border border-[#B7E4D5]/35 shadow-lg backdrop-blur-md"
+        >
           <div className="relative w-5 h-5 rounded-full bg-gradient-to-b from-[#0a4237] to-[#041F1B] p-0.5 border border-[#B7E4D5]/40 flex items-center justify-center shrink-0">
             <Image
               src="/logo.png"
@@ -237,28 +258,52 @@ export function EntranceOverlay({
           <span className="text-[11px] uppercase tracking-[0.22em] font-mono text-[#B7E4D5] font-semibold">
             AGLETRAS // RESEARCH INTELLIGENCE
           </span>
-        </div>
+        </motion.div>
 
         {/* Restrained Category Label */}
-        <div className="text-xs uppercase tracking-[0.25em] font-mono text-[#8DA99E]">
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, y: isReducedMotion ? 0 : 8 },
+            visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] } },
+          }}
+          className="text-xs uppercase tracking-[0.25em] font-mono text-[#8DA99E]"
+        >
           OSINT · RESEARCH · AUTOMATION · CYBER INTELLIGENCE
-        </div>
+        </motion.div>
 
         {/* Headline */}
-        <h1 className="text-editorial-hero text-[#F4F2EA] tracking-tight drop-shadow-md">
+        <motion.h1
+          variants={{
+            hidden: { opacity: 0, y: isReducedMotion ? 0 : 12 },
+            visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } },
+          }}
+          className="text-editorial-hero text-[#F4F2EA] tracking-tight drop-shadow-md"
+        >
           Intelligence From{" "}
           <span className="italic font-normal text-[#B7E4D5]">
             Open Information.
           </span>
-        </h1>
+        </motion.h1>
 
         {/* Plain-Language 5-Second Explanation */}
-        <p className="text-base sm:text-lg md:text-xl text-[#C5D9D2] max-w-2xl mx-auto font-light leading-relaxed drop-shadow-sm">
-          Agletras researches publicly available information and develops intelligence workflows to help organizations investigate relationships, evaluate information, identify digital risks, and make better-informed decisions.
-        </p>
+        <motion.p
+          variants={{
+            hidden: { opacity: 0, y: isReducedMotion ? 0 : 10 },
+            visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } },
+          }}
+          className="text-base sm:text-lg md:text-xl text-[#C5D9D2] max-w-2xl mx-auto font-light leading-relaxed drop-shadow-sm"
+        >
+          Agletras helps organizations investigate digital threats, assess exposure, verify information, and turn fragmented open-source data into structured, actionable intelligence.
+        </motion.p>
 
         {/* Primary and Secondary Calls to Action */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, y: isReducedMotion ? 0 : 8 },
+            visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] } },
+          }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2"
+        >
           <button
             type="button"
             onClick={onExploreServices}
@@ -269,14 +314,14 @@ export function EntranceOverlay({
           </button>
 
           <Link
-            href="/contact"
+            href="/research"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-medium tracking-wide text-[#F4F2EA] bg-[#073B32]/80 hover:bg-[#073B32] border border-[#B7E4D5]/35 hover:border-[#B7E4D5]/65 transition-all backdrop-blur-md shadow-md cursor-pointer"
           >
-            <span>Start a Conversation</span>
+            <span>View Research</span>
             <ArrowUpRight size={15} className="text-[#B7E4D5]" />
           </Link>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Floating Ambient Motion Control (Play/Pause Toggle for User Agency) */}
       {!isReducedMotion && !videoError && (

@@ -43,9 +43,9 @@ export function AtlasOverlay({
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <div className="flex items-center gap-2 bg-[#073B32]/70 px-3.5 py-2 rounded-full border border-[#B7E4D5]/20 text-xs font-mono text-[#B7E4D5] shrink-0 shadow-sm backdrop-blur-sm">
-              <Shield size={13} className="text-[#2FA885]" />
-              <span>Illustrative Demonstration Topology</span>
+            <div className="flex items-center gap-2 bg-[#073B32]/90 px-3.5 py-2 rounded-full border border-amber-500/30 text-xs font-mono text-amber-300 shrink-0 shadow-sm backdrop-blur-sm">
+              <Shield size={13} className="text-amber-400" />
+              <span>ILLUSTRATIVE DEMONSTRATION — NOT A REAL CLIENT INVESTIGATION</span>
             </div>
 
             <Link

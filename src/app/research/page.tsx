@@ -266,9 +266,9 @@ export default function ResearchPage() {
                 className="p-8 rounded-3xl bg-[#073B32]/25 border border-[#B7E4D5]/15 space-y-4 flex flex-col justify-between"
               >
                 <div className="space-y-2">
-                  <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded text-[10px] font-mono uppercase bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                  <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded text-[10px] font-mono uppercase bg-amber-500/20 text-amber-300 border border-amber-500/30">
                     <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-                    <span>{item.tag}</span>
+                    <span className="font-semibold tracking-wider">ILLUSTRATIVE DEMONSTRATION — NOT A REAL CLIENT INVESTIGATION</span>
                   </div>
                   <h3 className="text-lg font-editorial font-semibold text-[#F4F2EA]">
                     {item.title}

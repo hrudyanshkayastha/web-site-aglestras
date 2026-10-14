@@ -44,15 +44,14 @@ export default function ServicesPage() {
           </div>
 
           <h1 className="text-editorial-hero text-[#F4F2EA]">
-            Six Verified Services.{" "}
+            From Unstructured Information{" "}
             <span className="italic font-normal text-[#B7E4D5]">
-              Explicit Scopes.
+              to Clear Intelligence.
             </span>
           </h1>
 
           <p className="text-lg md:text-xl text-[#C5D9D2] font-light leading-relaxed">
-            Every Agletras engagement operates under defined parameters, lawful open-source standards,
-            and written authorization. We produce traceable intelligence briefs tailored to organizational needs.
+            Explore research and intelligence services designed to help organizations investigate digital risks, evaluate information, discover relevant relationships, and automate repeatable research workflows.
           </p>
         </div>
 

@@ -11,7 +11,7 @@ export const companyData = {
     eyebrow: "EVIDENCE-FIRST RESEARCH INTELLIGENCE",
     tagline: "Turn Information Into Intelligence.",
     subheading:
-      "Agletras helps organizations investigate markets, understand external threats, evaluate business counterparty risk, and turn fragmented public information into evidence-backed decisions.",
+      "Agletras helps organizations investigate digital threats, assess exposure, verify information, and turn fragmented open-source data into structured, actionable intelligence.",
     corePhilosophy: "From business questions to evidence-backed decisions.",
     longTermVision:
       "A Research Intelligence Operating System that transforms fragmented information into structured, traceable, decision-ready intelligence.",

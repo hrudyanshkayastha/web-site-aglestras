@@ -57,7 +57,7 @@ export const servicesData: ServiceItem[] = [
     id: "external-threat-intelligence",
     code: "AGL-ETI",
     title: "Cyber Threat Intelligence",
-    shortTagline: "External cyber-threat signals, lookalike infrastructure, and attack-surface OSINT.",
+    shortTagline: "Research relevant publicly available threat intelligence, indicators, infrastructure, and documented campaigns to provide defensive context and recommendations.",
     category: "threat",
     isPrimary: true,
     overview:
@@ -204,7 +204,7 @@ export const servicesData: ServiceItem[] = [
     id: "business-due-diligence",
     code: "AGL-BDD",
     title: "Business Due Diligence",
-    shortTagline: "Corporate integrity, ownership transparency, and counterparty risk analysis.",
+    shortTagline: "Assess publicly available business information, relationships, digital presence, and relevant warning indicators to support informed decisions.",
     category: "corporate",
     isPrimary: false,
     overview:
@@ -350,7 +350,7 @@ export const servicesData: ServiceItem[] = [
     id: "recruitment-verification",
     code: "AGL-RVR",
     title: "Recruitment Verification",
-    shortTagline: "Public professional profile verification and technical track record evaluation.",
+    shortTagline: "Compare relevant public professional information with details supplied for a recruitment workflow, identifying inconsistencies for human review. Respect privacy, authorization, consent, and fair-use requirements.",
     category: "verification",
     isPrimary: false,
     overview:
@@ -493,7 +493,7 @@ export const servicesData: ServiceItem[] = [
     id: "brand-impersonation-research",
     code: "AGL-BIR",
     title: "Brand Impersonation & Scam Research",
-    shortTagline: "Public fraud infrastructure, lookalike domains, and brand deception investigation.",
+    shortTagline: "Investigate publicly visible suspicious profiles, lookalike domains, scam pages, and potential brand impersonation indicators. Do not guarantee that external platforms will remove reported content.",
     category: "threat",
     isPrimary: false,
     overview:
@@ -632,8 +632,8 @@ export const servicesData: ServiceItem[] = [
   {
     id: "research-automation",
     code: "AGL-PRA",
-    title: "Research Automation",
-    shortTagline: "Custom intelligence collection scripts, data normalization, and reporting workflows.",
+    title: "Research Automation & Pipelines",
+    shortTagline: "Develop scoped workflows for collecting, normalizing, deduplicating, correlating, and reporting information from approved sources.",
     category: "automation",
     isPrimary: false,
     overview:
@@ -773,7 +773,7 @@ export const servicesData: ServiceItem[] = [
     id: "osint-investigative-research",
     code: "AGL-OIR",
     title: "OSINT Investigation",
-    shortTagline: "Structured, scope-controlled deep research into specific corporate and security questions.",
+    shortTagline: "Research publicly accessible information, evaluate sources, and connect relevant findings to answer a defined investigative question.",
     category: "corporate",
     isPrimary: false,
     overview:
