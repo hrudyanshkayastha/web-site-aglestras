@@ -182,8 +182,8 @@ export function EntranceOverlay({
       id="destination-entrance"
       className="min-h-screen flex flex-col justify-center items-center px-6 md:px-10 pt-28 pb-32 text-center relative z-20 pointer-events-none overflow-hidden"
     >
-      {/* Background Media Container (Zero Layout Shift) */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+      {/* Atmospheric Media Blend (Supports the 3D Scene Without Obscuring the Living World) */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0 opacity-35 mix-blend-screen">
         {/* Layer 1: High-Resolution Reference Poster (Guaranteed Fallback) */}
         <div className="absolute inset-0 w-full h-full">
           <Image
@@ -191,11 +191,11 @@ export function EntranceOverlay({
             alt="Agletras Cinematic Neural Sanctuary Reference"
             fill
             priority
-            className="object-cover object-center filter brightness-[0.7] contrast-[1.14]"
+            className="object-cover object-center filter brightness-[0.6] contrast-[1.14]"
           />
         </div>
 
-        {/* Layer 2: Persistent HTML5 Video Element */}
+        {/* Layer 2: Persistent HTML5 Video Element as Ambient Atmospheric Mist */}
         {!isReducedMotion && !videoError && (
           <video
             ref={videoRef}
@@ -206,7 +206,7 @@ export function EntranceOverlay({
             playsInline
             preload="auto"
             poster="/images/agletras-emerald-world.png"
-            className={`absolute inset-0 w-full h-full object-cover object-center scale-105 filter brightness-[0.74] contrast-[1.18] transition-opacity duration-1000 ${
+            className={`absolute inset-0 w-full h-full object-cover object-center scale-105 filter brightness-[0.68] contrast-[1.18] transition-opacity duration-1000 ${
               isPlaying ? "opacity-100" : "opacity-0"
             }`}
             aria-hidden="true"
@@ -215,13 +215,11 @@ export function EntranceOverlay({
           </video>
         )}
 
-        {/* Layer 3: Cinematic Atmospheric Gradient Overlays for Guaranteed Text Legibility */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#041F1B] via-[#041F1B]/45 to-[#020F0C]/80" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(2,15,12,0.85)_100%)]" />
-        <div className="absolute inset-0 bg-[#041F1B]/30 mix-blend-multiply" />
+        {/* Layer 3: Atmospheric Gradient Vignette */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#041F1B] via-transparent to-[#020F0C]/80" />
       </div>
 
-      {/* Hero Content Container */}
+      {/* Hero Content Container (Airy Frosted Glass for 100% Readability while Revealing 3D World) */}
       <motion.div
         initial="hidden"
         animate="visible"
@@ -235,7 +233,7 @@ export function EntranceOverlay({
             },
           },
         }}
-        className="relative z-10 max-w-3xl mx-auto space-y-7 pointer-events-auto p-8 sm:p-12 rounded-3xl bg-gradient-to-b from-[#031714]/94 via-[#031714]/90 to-[#031714]/86 border border-[#B7E4D5]/25 backdrop-blur-2xl shadow-2xl"
+        className="relative z-10 max-w-3xl mx-auto space-y-7 pointer-events-auto p-8 sm:p-12 rounded-3xl bg-[#031714]/75 border border-[#B7E4D5]/30 backdrop-blur-xl shadow-[0_16px_48px_rgba(3,23,20,0.6)]"
       >
         {/* Eyebrow Brand Badge with Unaltered Authentic Logo */}
         <motion.div

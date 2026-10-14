@@ -25,8 +25,8 @@ export const WORLD_DESTINATIONS: Record<WorldDestinationId, DestinationWaypoint>
     label: "Entrance",
     sublabel: "Sanctuary Gateway & Identity",
     sectionId: "destination-entrance",
-    cameraPos: [0.0, 2.4, 13.5],
-    lookAt: [0.0, 0.9, 0.0],
+    cameraPos: [0.0, 1.7, 8.4],
+    lookAt: [0.0, 1.1, -2.6],
     fov: 42,
   },
   SERVICES: {

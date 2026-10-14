@@ -248,10 +248,25 @@ export class UnifiedCameraController {
     this.callbacks.onServiceSelect(service);
     this.callbacks.onNodeSelect(null);
 
-    // Camera zooms close to service pavilion
-    this.targetCameraPos.set(-4.0, 1.8, 4.4);
-    this.targetLookAt.set(-4.5, 0.8, 1.0);
-    this.targetFov = 40;
+    const SERVICE_PYLON_COORDS: Record<string, [number, number, number]> = {
+      "external-threat-intelligence": [-5.2, 0.6, 1.6],
+      "business-due-diligence": [-4.0, 0.4, 2.8],
+      "recruitment-verification": [-2.8, 0.2, 3.6],
+      "brand-impersonation-research": [-5.6, 0.5, -0.6],
+      "research-automation": [-4.2, 0.3, -1.8],
+      "osint-investigative-research": [-2.9, 0.2, -2.6],
+    };
+
+    const coords = SERVICE_PYLON_COORDS[service.id] || [-4.5, 0.8, 1.0];
+    const px = coords[0];
+    const py = coords[1];
+    const pz = coords[2];
+
+    // Frame camera so that the pylon is positioned dramatically in the 3D space,
+    // leaving ample room for the foreground interaction card
+    this.targetCameraPos.set(px + 1.6, py + 1.2, pz + 3.2);
+    this.targetLookAt.set(px, py + 0.6, pz);
+    this.targetFov = 38;
     this.targetRotationAngle = { yaw: 0, pitch: 0 };
   }
 

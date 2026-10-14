@@ -23,7 +23,12 @@ export function UnifiedWorldExperience() {
   }, []);
 
   return (
-    <UnifiedWorldCanvas>
+    <UnifiedWorldCanvas
+      selectedService={selectedService}
+      onSelectService={setSelectedService}
+      selectedNode={selectedNode}
+      onSelectNode={setSelectedNode}
+    >
       {/* Destination A: Entrance */}
       <EntranceOverlay
         onExploreServices={() => scrollToSection("destination-services")}

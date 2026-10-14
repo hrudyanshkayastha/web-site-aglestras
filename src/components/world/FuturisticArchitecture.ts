@@ -182,6 +182,39 @@ export function createFuturisticArchitecture(): ArchitectureElements {
     ringMesh.userData = pylonGroup.userData;
     pylonGroup.add(ringMesh);
 
+    // 4. Vertical Light Beacon (Ignites when selected)
+    const beaconGeo = new THREE.CylinderGeometry(0.08, 0.28, 5.5, 16, 1, true);
+    disposables.push(beaconGeo);
+    const beaconMat = new THREE.MeshBasicMaterial({
+      color: cfg.color,
+      transparent: true,
+      opacity: 0.0,
+      side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    disposables.push(beaconMat);
+    const beaconMesh = new THREE.Mesh(beaconGeo, beaconMat);
+    beaconMesh.position.y = height + 2.8;
+    pylonGroup.add(beaconMesh);
+
+    // 5. Ground Energy Halo on Plaza Floor
+    const haloGeo = new THREE.RingGeometry(0.35, 0.55, 32);
+    disposables.push(haloGeo);
+    const haloMat = new THREE.MeshBasicMaterial({
+      color: cfg.color,
+      transparent: true,
+      opacity: 0.12,
+      side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    disposables.push(haloMat);
+    const haloMesh = new THREE.Mesh(haloGeo, haloMat);
+    haloMesh.rotation.x = -Math.PI / 2;
+    haloMesh.position.y = 0.02;
+    pylonGroup.add(haloMesh);
+
     servicesPlazaGroup.add(pylonGroup);
     pylonMeshes.set(cfg.service.id, pylonGroup);
   });
@@ -323,22 +356,41 @@ export function createFuturisticArchitecture(): ArchitectureElements {
 
       const core = pGroup.children[1] as THREE.Mesh | undefined;
       const ring = pGroup.children[2] as THREE.Mesh | undefined;
+      const beacon = pGroup.children[3] as THREE.Mesh | undefined;
+      const halo = pGroup.children[4] as THREE.Mesh | undefined;
 
       if (core) {
         core.rotation.y = elapsed * 0.5;
-        const targetScale = isSelected ? 1.35 : isHovered ? 1.2 : 1.0;
+        const targetScale = isSelected ? 1.45 : isHovered ? 1.2 : 1.0;
         core.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), delta * 6);
 
         // Core emissive brightness based on destination state
         const coreMat = core.material as THREE.MeshStandardMaterial;
         const baseEmissive = isServicesDest
-          ? (isSelected ? 1.0 : isHovered ? 0.85 : 0.6)
+          ? (isSelected ? 2.2 : isHovered ? 1.1 : 0.6)
           : 0.15;
         coreMat.emissiveIntensity = THREE.MathUtils.lerp(coreMat.emissiveIntensity, baseEmissive, delta * 6);
       }
 
       if (ring) {
-        ring.rotation.z = elapsed * 0.8;
+        ring.rotation.z = elapsed * (isSelected ? 2.0 : 0.8);
+      }
+
+      if (beacon) {
+        const beaconMat = beacon.material as THREE.MeshBasicMaterial;
+        const targetBeaconOpacity = isSelected ? 0.72 : isHovered ? 0.22 : 0.0;
+        beaconMat.opacity = THREE.MathUtils.lerp(beaconMat.opacity, targetBeaconOpacity, delta * 8);
+        if (isSelected) {
+          beacon.rotation.y = elapsed * 0.6;
+        }
+      }
+
+      if (halo) {
+        const haloMat = halo.material as THREE.MeshBasicMaterial;
+        const targetHaloOpacity = isSelected ? 0.85 : isHovered ? 0.45 : (isServicesDest ? 0.15 : 0.05);
+        haloMat.opacity = THREE.MathUtils.lerp(haloMat.opacity, targetHaloOpacity, delta * 6);
+        const targetHaloScale = isSelected ? 1.4 : 1.0;
+        halo.scale.lerp(new THREE.Vector3(targetHaloScale, targetHaloScale, targetHaloScale), delta * 6);
       }
     });
   };

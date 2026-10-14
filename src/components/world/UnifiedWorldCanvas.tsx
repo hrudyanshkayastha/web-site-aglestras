@@ -11,9 +11,19 @@ import { ServiceItem } from "@/data/services";
 
 interface UnifiedWorldCanvasProps {
   children?: React.ReactNode;
+  selectedService?: ServiceItem | null;
+  onSelectService?: (service: ServiceItem | null) => void;
+  selectedNode?: GraphNode | null;
+  onSelectNode?: (node: GraphNode | null) => void;
 }
 
-export function UnifiedWorldCanvas({ children }: UnifiedWorldCanvasProps) {
+export function UnifiedWorldCanvas({
+  children,
+  selectedService: propService,
+  onSelectService: setPropService,
+  selectedNode: propNode,
+  onSelectNode: setPropNode,
+}: UnifiedWorldCanvasProps) {
   const mountRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<UnifiedWorldEngine | null>(null);
 
@@ -23,6 +33,28 @@ export function UnifiedWorldCanvas({ children }: UnifiedWorldCanvasProps) {
   const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
   const [isReducedMotion, setIsReducedMotion] = useState<boolean>(false);
   const [fallbackCategoryFilter, setFallbackCategoryFilter] = useState<EntityCategory | "ALL">("ALL");
+
+  // Synchronize controlled external service selection
+  useEffect(() => {
+    if (propService !== undefined) {
+      setSelectedService(propService);
+      if (engineRef.current) {
+        if (propService) engineRef.current.focusService(propService);
+        else engineRef.current.resetToOverview();
+      }
+    }
+  }, [propService]);
+
+  // Synchronize controlled external node selection
+  useEffect(() => {
+    if (propNode !== undefined) {
+      setSelectedNode(propNode);
+      if (engineRef.current) {
+        if (propNode) engineRef.current.focusNode(propNode);
+        else engineRef.current.resetToOverview();
+      }
+    }
+  }, [propNode]);
 
   // Check WebGL and Reduced Motion
   useEffect(() => {
@@ -53,11 +85,19 @@ export function UnifiedWorldCanvas({ children }: UnifiedWorldCanvasProps) {
         onDestinationChange: (dest) => setActiveDestination(dest),
         onNodeSelect: (node) => {
           setSelectedNode(node);
-          if (node) setSelectedService(null);
+          if (setPropNode) setPropNode(node);
+          if (node) {
+            setSelectedService(null);
+            if (setPropService) setPropService(null);
+          }
         },
         onServiceSelect: (service) => {
           setSelectedService(service);
-          if (service) setSelectedNode(null);
+          if (setPropService) setPropService(service);
+          if (service) {
+            setSelectedNode(null);
+            if (setPropNode) setPropNode(null);
+          }
         },
       },
       isReducedMotion
@@ -101,30 +141,40 @@ export function UnifiedWorldCanvas({ children }: UnifiedWorldCanvasProps) {
   const handleResetSelection = useCallback(() => {
     setSelectedNode(null);
     setSelectedService(null);
+    if (setPropNode) setPropNode(null);
+    if (setPropService) setPropService(null);
     if (engineRef.current) {
       engineRef.current.resetToOverview();
     }
-  }, []);
+  }, [setPropNode, setPropService]);
 
   // Node Selection Handler
   const handleSelectNode = useCallback((node: GraphNode | null) => {
     setSelectedNode(node);
-    if (node) setSelectedService(null);
+    if (setPropNode) setPropNode(node);
+    if (node) {
+      setSelectedService(null);
+      if (setPropService) setPropService(null);
+    }
     if (engineRef.current) {
       if (node) engineRef.current.focusNode(node);
       else engineRef.current.resetToOverview();
     }
-  }, []);
+  }, [setPropNode, setPropService]);
 
   // Service Selection Handler
   const handleSelectService = useCallback((service: ServiceItem | null) => {
     setSelectedService(service);
-    if (service) setSelectedNode(null);
+    if (setPropService) setPropService(service);
+    if (service) {
+      setSelectedNode(null);
+      if (setPropNode) setPropNode(null);
+    }
     if (engineRef.current) {
       if (service) engineRef.current.focusService(service);
       else engineRef.current.resetToOverview();
     }
-  }, []);
+  }, [setPropNode, setPropService]);
 
   // Scroll Spy to track current section
   useEffect(() => {
