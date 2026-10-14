@@ -32,7 +32,22 @@ const iconMap: Record<string, React.ElementType> = {
   "osint-investigative-research": Network,
 };
 
+const SERVICE_DISPLAY_ORDER = [
+  "osint-investigative-research",
+  "business-due-diligence",
+  "recruitment-verification",
+  "brand-impersonation-research",
+  "external-threat-intelligence",
+  "research-automation",
+];
+
 export default function ServicesPage() {
+  const orderedServices = [...servicesData].sort((a, b) => {
+    const idxA = SERVICE_DISPLAY_ORDER.indexOf(a.id);
+    const idxB = SERVICE_DISPLAY_ORDER.indexOf(b.id);
+    return (idxA === -1 ? 99 : idxA) - (idxB === -1 ? 99 : idxB);
+  });
+
   return (
     <div className="pt-32 pb-24 md:pt-40 md:pb-32 bg-[#041F1B] text-[#F4F2EA] min-h-screen">
       <div className="max-w-6xl mx-auto px-6 md:px-10 space-y-16">
@@ -57,8 +72,9 @@ export default function ServicesPage() {
 
         {/* 6 Services Catalog Grid */}
         <div className="space-y-12">
-          {servicesData.map((service) => {
+          {orderedServices.map((service, index) => {
             const Icon = iconMap[service.id] || ShieldCheck;
+            const stepNum = `0${index + 1}`;
             return (
               <div
                 key={service.id}
@@ -73,6 +89,9 @@ export default function ServicesPage() {
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-[#B7E4D5]/15 pb-6 mb-8">
                   <div className="space-y-2">
                     <div className="flex items-center gap-3">
+                      <span className="font-mono text-xs font-semibold px-2 py-0.5 rounded-md bg-[#041F1B] border border-[#2FA885]/40 text-[#2FA885]">
+                        {stepNum}
+                      </span>
                       <div className="w-10 h-10 rounded-xl bg-[#073B32] border border-[#B7E4D5]/20 flex items-center justify-center text-[#2FA885]">
                         <Icon size={20} />
                       </div>

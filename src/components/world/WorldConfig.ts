@@ -91,34 +91,36 @@ export interface ServicePylonConfig {
   color: number;
 }
 
+const getService = (id: string) => servicesData.find((s) => s.id === id) || servicesData[0];
+
 export const SERVICE_PYLONS: ServicePylonConfig[] = [
   {
-    service: servicesData[0], // AGL-ETI
+    service: getService("external-threat-intelligence"),
     position: [-5.2, 0.6, 1.6],
     color: 0x2fa885, // Emerald
   },
   {
-    service: servicesData[1], // AGL-BDD
+    service: getService("business-due-diligence"),
     position: [-4.0, 0.4, 2.8],
     color: 0xb7e4d5, // Mint
   },
   {
-    service: servicesData[2], // AGL-RVR
+    service: getService("recruitment-verification"),
     position: [-2.8, 0.2, 3.6],
     color: 0xfbbf24, // Amber
   },
   {
-    service: servicesData[3], // AGL-BIR
+    service: getService("brand-impersonation-research"),
     position: [-5.6, 0.5, -0.6],
     color: 0x60a5fa, // Sky
   },
   {
-    service: servicesData[4], // AGL-RAP
+    service: getService("research-automation"),
     position: [-4.2, 0.3, -1.8],
     color: 0xc084fc, // Epistemic Purple
   },
   {
-    service: servicesData[5], // AGL-OIR
+    service: getService("osint-investigative-research"),
     position: [-2.9, 0.2, -2.6],
     color: 0xf4f2ea, // Ivory
   },
