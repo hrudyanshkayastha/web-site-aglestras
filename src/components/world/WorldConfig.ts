@@ -7,7 +7,8 @@ export type WorldDestinationId =
   | "METHODOLOGY"
   | "ATLAS"
   | "RESEARCH"
-  | "CONTACT";
+  | "CONTACT"
+  | "ABOUT";
 
 export interface DestinationWaypoint {
   id: WorldDestinationId;
@@ -70,9 +71,18 @@ export const WORLD_DESTINATIONS: Record<WorldDestinationId, DestinationWaypoint>
     label: "Contact",
     sublabel: "Consultation & Engagement Scope",
     sectionId: "destination-contact",
-    cameraPos: [0.0, 2.8, 10.2],
-    lookAt: [0.0, 1.2, -2.8],
-    fov: 48,
+    cameraPos: [0.0, 2.2, 7.6],
+    lookAt: [0.0, 1.4, -3.8],
+    fov: 44,
+  },
+  ABOUT: {
+    id: "ABOUT",
+    label: "About",
+    sublabel: "Intelligence Philosophy & Standards",
+    sectionId: "destination-about",
+    cameraPos: [0.0, 3.4, 6.8],
+    lookAt: [0.0, 2.2, -2.4],
+    fov: 44,
   },
 };
 

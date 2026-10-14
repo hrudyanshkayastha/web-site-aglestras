@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ShieldCheck,
   ArrowUpRight,
+  ArrowRight,
   Sparkles,
   Network,
   Cpu,
@@ -14,11 +15,20 @@ import {
   FileText,
   FileCheck,
   Radio,
-  Share2,
+  ChevronLeft,
+  ChevronRight,
+  X,
+  Eye,
+  Compass,
+  Lock,
+  Workflow,
+  Layers,
 } from "lucide-react";
 import { companyData } from "@/data/company";
 import { BotanicalMotif } from "@/components/ui/BotanicalMotif";
 import { DimensionalEmblem } from "@/components/visuals/DimensionalEmblem";
+import { useWorldContext } from "@/components/world/WorldContext";
+import { philosophyStages, PhilosophyStage } from "@/data/aboutPhilosophy";
 
 const triadPillars = [
   {
@@ -47,51 +57,75 @@ const triadPillars = [
   },
 ];
 
-const intelligenceStages = [
-  {
-    step: "01",
-    label: "Discover",
-    icon: Search,
-    description:
-      "Identify relevant public sources, records, technical indicators, and information related to the investigation objective.",
-    tagline: "Lawful Public Ingestion",
-    detail: "Systematic ingestion across corporate registers, passive DNS telemetry, and official gazettes.",
-  },
-  {
-    step: "02",
-    label: "Verify",
-    icon: ShieldCheck,
-    description:
-      "Evaluate source reliability, validate observations, compare evidence, and distinguish confirmed facts from unverified indicators.",
-    tagline: "Provenance & Epistemics",
-    detail: "Application of 5-Tier Epistemic attribution to separate verifiable facts from working hypotheses.",
-  },
-  {
-    step: "03",
-    label: "Connect",
-    icon: Network,
-    description:
-      "Correlate relevant entities, timelines, domains, organizations, and other evidence to identify meaningful relationships.",
-    tagline: "Relational Correlation",
-    detail: "Bidirectional graph linkage mapping corporate cross-holdings, infrastructure clusters, and directorship overlaps.",
-  },
-  {
-    step: "04",
-    label: "Deliver",
-    icon: FileText,
-    description:
-      "Present structured findings, source references, confidence assessments, limitations, and relevant next steps in an organized report or technical deliverable.",
-    tagline: "Decision-Ready Briefs",
-    detail: "Executive briefings, attributed findings registers, and actionable mitigation roadmaps.",
-  },
-];
+const stageIcons: Record<string, React.ElementType> = {
+  discover: Search,
+  verify: ShieldCheck,
+  connect: Network,
+  deliver: FileText,
+};
 
 export function AboutPageClient() {
-  const [activeStageStep, setActiveStageStep] = useState<number>(0);
+  const { aboutStage, focusAboutStage, isReducedMotion } = useWorldContext();
+
+  const activeStage = aboutStage
+    ? philosophyStages.find((s) => s.stageNumber === aboutStage) || null
+    : null;
+
+  const handleSelectStage = (stageNum: number) => {
+    if (aboutStage === stageNum) {
+      focusAboutStage(null);
+    } else {
+      focusAboutStage(stageNum);
+    }
+  };
+
+  const handlePrevStage = () => {
+    if (aboutStage === null || aboutStage <= 1) {
+      focusAboutStage(4);
+    } else {
+      focusAboutStage(aboutStage - 1);
+    }
+  };
+
+  const handleNextStage = () => {
+    if (aboutStage === null || aboutStage >= 4) {
+      focusAboutStage(1);
+    } else {
+      focusAboutStage(aboutStage + 1);
+    }
+  };
+
+  // Keyboard Navigation: ArrowLeft, ArrowRight, Escape
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (
+        e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLTextAreaElement ||
+        e.target instanceof HTMLSelectElement
+      ) {
+        return;
+      }
+
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        handlePrevStage();
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        handleNextStage();
+      } else if (e.key === "Escape") {
+        if (aboutStage !== null) {
+          e.preventDefault();
+          focusAboutStage(null);
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [aboutStage]);
 
   return (
     <div className="relative pt-32 pb-24 md:pt-40 md:pb-32 bg-gradient-to-b from-transparent via-[#041F1B]/40 to-[#041F1B]/80 text-[#F4F2EA] min-h-screen overflow-hidden">
-
       <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-10 space-y-24">
         {/* Page Hero Header */}
         <div className="space-y-6 text-center md:text-left max-w-3xl">
@@ -111,6 +145,26 @@ export function AboutPageClient() {
             Agletras researches publicly available information and develops intelligence workflows
             to help organizations investigate relationships, evaluate counterparty information, identify digital risks, and make better-informed decisions.
           </p>
+
+          {/* Interactive Bridge to 3D Philosophy Sanctum */}
+          <div className="pt-2 flex flex-wrap items-center gap-4 justify-center md:justify-start">
+            <button
+              type="button"
+              onClick={() => {
+                const el = document.getElementById("philosophy-progression");
+                if (el) el.scrollIntoView({ behavior: "smooth" });
+                focusAboutStage(1);
+              }}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#073B32] hover:bg-[#0A4D42] border border-[#2FA885]/40 text-xs font-mono text-[#B7E4D5] transition-all hover:scale-105 shadow-lg shadow-[#041F1B]/60 cursor-pointer"
+            >
+              <Eye size={14} className="text-[#2FA885]" />
+              <span>Explore 3D Philosophy Sanctum</span>
+              <span className="text-[10px] text-[#8DA99E]">↓</span>
+            </button>
+            <span className="text-xs font-mono text-[#8DA99E] hidden sm:inline">
+              4 Procedural Monuments • Lateral Sightlines
+            </span>
+          </div>
         </div>
 
         {/* Section 1: What Agletras Is & Core Purpose */}
@@ -270,13 +324,13 @@ export function AboutPageClient() {
           </div>
         </div>
 
-        {/* Section 5: From Research to Actionable Intelligence (Connected Visual Pathway) */}
-        <div className="space-y-12">
+        {/* Section 5: The 4-Stage Intelligence Philosophy Sanctum (Interactive 3D Progression) */}
+        <div id="philosophy-progression" className="space-y-10 scroll-mt-28">
           {/* Section Header */}
           <div className="space-y-4 max-w-3xl">
             <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#2FA885] font-semibold">
               <span className="w-1.5 h-1.5 rounded-full bg-[#2FA885] animate-pulse" />
-              <span>The Intelligence Progression</span>
+              <span>Interactive 3D Philosophy Sanctum</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-editorial font-semibold text-[#F4F2EA]">
               From Research to Actionable Intelligence
@@ -286,83 +340,275 @@ export function AboutPageClient() {
             </p>
           </div>
 
-          {/* 4 Stages with Interactive Illuminated Neural Pathway */}
-          <div className="relative">
-            {/* Desktop Illuminated Pathway Line */}
-            <div className="hidden lg:block absolute top-[48px] left-[8%] right-[8%] h-[2px] bg-gradient-to-r from-[#2FA885]/20 via-[#2FA885]/80 to-[#2FA885]/20 z-0 pointer-events-none">
+          {/* Sanctum Status & Control Bar */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-[#073B32]/40 border border-[#B7E4D5]/20 backdrop-blur-md flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
+            <div className="flex items-center gap-3">
               <div
-                className="h-full bg-[#2FA885] transition-all duration-500 shadow-[0_0_12px_#2FA885]"
-                style={{ width: `${((activeStageStep + 1) / intelligenceStages.length) * 100}%` }}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  activeStage
+                    ? "bg-[#2FA885] shadow-[0_0_12px_#2FA885] animate-pulse"
+                    : "bg-[#8DA99E]/50"
+                }`}
               />
+              <span className="font-mono text-xs text-[#F4F2EA]">
+                {activeStage ? (
+                  <>
+                    <strong className="text-[#2FA885]">Stage 0{activeStage.stageNumber}:</strong>{" "}
+                    {activeStage.label} — <em>{activeStage.visualMotif}</em>
+                  </>
+                ) : (
+                  <span>Sanctum Overview — 4 Connected Architectural Monuments</span>
+                )}
+              </span>
             </div>
 
-            {/* Mobile Illuminated Pathway Vertical Spine */}
-            <div className="lg:hidden absolute top-8 bottom-8 left-[30px] w-[2px] bg-gradient-to-b from-[#2FA885]/30 via-[#2FA885]/70 to-[#2FA885]/30 z-0 pointer-events-none" />
-
-            {/* 4 Stages Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 relative z-10">
-              {intelligenceStages.map((stage, idx) => {
-                const StageIcon = stage.icon;
-                const isActive = activeStageStep === idx;
-
-                return (
+            <div className="flex items-center gap-2">
+              {activeStage ? (
+                <>
                   <button
-                    key={stage.step}
                     type="button"
-                    onClick={() => setActiveStageStep(idx)}
-                    className={`p-6 sm:p-7 rounded-3xl border transition-all duration-300 text-left flex flex-col justify-between space-y-6 shadow-xl backdrop-blur-md group cursor-pointer relative overflow-hidden ${
-                      isActive
-                        ? "bg-[#073B32] border-[#2FA885] shadow-[0_0_24px_rgba(47,168,133,0.35)] scale-[1.02]"
-                        : "bg-[#073B32]/35 border-[#B7E4D5]/20 hover:border-[#2FA885]/50 hover:bg-[#073B32]/50"
-                    }`}
+                    onClick={handlePrevStage}
+                    aria-label="Previous Philosophy Stage"
+                    className="p-2 rounded-lg bg-[#041F1B] hover:bg-[#073B32] border border-[#B7E4D5]/20 text-[#B7E4D5] hover:text-[#F4F2EA] transition-all cursor-pointer"
                   >
-                    {/* Subtle Neural Leaf-Vein Watermark */}
-                    <BotanicalMotif
-                      variant="leaf-vein"
-                      className="absolute -right-6 -bottom-6 w-36 text-[#2FA885] opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none"
-                    />
-
-                    <div className="space-y-4 relative z-10">
-                      {/* Top Node Header Aligned with Illuminated Pathway */}
-                      <div className="flex items-center justify-between">
-                        <div
-                          className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all shadow-md ${
-                            isActive
-                              ? "bg-[#041F1B] border border-[#2FA885] text-[#2FA885] shadow-[0_0_16px_rgba(47,168,133,0.4)]"
-                              : "bg-[#041F1B] border border-[#2FA885]/40 text-[#2FA885]"
-                          }`}
-                        >
-                          <StageIcon size={20} />
-                        </div>
-                        <span className="font-mono text-xs font-semibold px-2.5 py-1 rounded-full bg-[#041F1B] text-[#B7E4D5] border border-[#B7E4D5]/15">
-                          {stage.step}
-                        </span>
-                      </div>
-
-                      <div>
-                        <h3 className="text-xl font-editorial font-semibold text-[#F4F2EA] mb-1">
-                          {stage.step} — {stage.label}
-                        </h3>
-                        <span className="text-[11px] font-mono text-[#2FA885] uppercase tracking-wider block mb-2">
-                          {stage.tagline}
-                        </span>
-                        <p className="text-xs sm:text-sm text-[#C5D9D2] font-light leading-relaxed">
-                          {stage.description}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="pt-3 border-t border-[#B7E4D5]/10 flex items-center justify-between text-[11px] font-mono text-[#8DA99E] relative z-10">
-                      <span>Phase {stage.step} of 04</span>
-                      <span className={`text-[#2FA885] transition-opacity ${isActive ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}>
-                        Active Vector →
-                      </span>
-                    </div>
+                    <ChevronLeft size={16} />
                   </button>
-                );
-              })}
+                  <button
+                    type="button"
+                    onClick={handleNextStage}
+                    aria-label="Next Philosophy Stage"
+                    className="p-2 rounded-lg bg-[#041F1B] hover:bg-[#073B32] border border-[#B7E4D5]/20 text-[#B7E4D5] hover:text-[#F4F2EA] transition-all cursor-pointer"
+                  >
+                    <ChevronRight size={16} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => focusAboutStage(null)}
+                    className="px-3 py-1.5 rounded-lg bg-[#041F1B] hover:bg-[#073B32] border border-[#B7E4D5]/20 text-xs font-mono text-[#8DA99E] hover:text-[#F4F2EA] transition-all flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <X size={13} />
+                    <span>Overview</span>
+                  </button>
+                </>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => focusAboutStage(1)}
+                  className="px-4 py-2 rounded-xl bg-[#041F1B] hover:bg-[#073B32] border border-[#2FA885]/40 text-xs font-mono text-[#2FA885] hover:text-[#B7E4D5] transition-all flex items-center gap-2 cursor-pointer shadow-sm"
+                >
+                  <Eye size={14} />
+                  <span>Inspect 3D Tour (Stage 01)</span>
+                </button>
+              )}
             </div>
           </div>
+
+          {/* 4 Stages Selection Dock */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {philosophyStages.map((stage) => {
+              const StageIcon = stageIcons[stage.id] || Search;
+              const isSelected = aboutStage === stage.stageNumber;
+
+              return (
+                <button
+                  key={stage.step}
+                  type="button"
+                  onClick={() => handleSelectStage(stage.stageNumber)}
+                  className={`p-6 rounded-3xl border transition-all duration-300 text-left flex flex-col justify-between space-y-4 shadow-xl backdrop-blur-md group cursor-pointer relative overflow-hidden ${
+                    isSelected
+                      ? "bg-[#073B32] border-[#2FA885] shadow-[0_0_24px_rgba(47,168,133,0.35)] scale-[1.02]"
+                      : "bg-[#073B32]/35 border-[#B7E4D5]/20 hover:border-[#2FA885]/50 hover:bg-[#073B32]/50"
+                  }`}
+                >
+                  {/* Subtle Botanical Motif */}
+                  <BotanicalMotif
+                    variant="leaf-vein"
+                    className="absolute -right-6 -bottom-6 w-36 text-[#2FA885] opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none"
+                  />
+
+                  <div className="space-y-3 relative z-10">
+                    <div className="flex items-center justify-between">
+                      <div
+                        className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-all shadow-md ${
+                          isSelected
+                            ? "bg-[#041F1B] border border-[#2FA885] text-[#2FA885] shadow-[0_0_16px_rgba(47,168,133,0.4)]"
+                            : "bg-[#041F1B] border border-[#2FA885]/40 text-[#2FA885]"
+                        }`}
+                      >
+                        <StageIcon size={18} />
+                      </div>
+                      <span className="font-mono text-xs font-semibold px-2.5 py-1 rounded-full bg-[#041F1B] text-[#B7E4D5] border border-[#B7E4D5]/15">
+                        {stage.step}
+                      </span>
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg font-editorial font-semibold text-[#F4F2EA] mb-0.5">
+                        {stage.step} — {stage.label}
+                      </h3>
+                      <span className="text-[11px] font-mono text-[#2FA885] uppercase tracking-wider block mb-1">
+                        {stage.tagline}
+                      </span>
+                      <p className="text-xs text-[#C5D9D2] font-light leading-relaxed line-clamp-2">
+                        {stage.summary}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="pt-3 border-t border-[#B7E4D5]/10 flex items-center justify-between text-[11px] font-mono text-[#8DA99E] relative z-10">
+                    <span className="text-[10px] text-[#2FA885]/80 truncate max-w-[140px]">
+                      {stage.visualMotif}
+                    </span>
+                    <span
+                      className={`text-[#2FA885] transition-opacity shrink-0 ${
+                        isSelected ? "opacity-100 font-semibold" : "opacity-0 group-hover:opacity-100"
+                      }`}
+                    >
+                      {isSelected ? "Locked ✓" : "Inspect →"}
+                    </span>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Active Stage Detailed Dossier & Quality Controls */}
+          <AnimatePresence mode="wait">
+            {activeStage ? (
+              <motion.div
+                key={activeStage.step}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -16 }}
+                transition={{ duration: 0.3 }}
+                className="p-8 sm:p-10 rounded-3xl bg-[#041F1B]/90 border border-[#2FA885]/40 backdrop-blur-xl shadow-[0_20px_50px_rgba(3,23,20,0.5)] space-y-8 relative overflow-hidden"
+              >
+                {/* Dossier Header */}
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-[#B7E4D5]/15 pb-6">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2.5 py-0.5 rounded-full bg-[#073B32] border border-[#2FA885]/40 text-xs font-mono text-[#2FA885] font-semibold">
+                        Stage {activeStage.step} of 04
+                      </span>
+                      <span className="px-2.5 py-0.5 rounded-full bg-[#041F1B] border border-[#B7E4D5]/20 text-[11px] font-mono text-[#B7E4D5]">
+                        3D Architecture: {activeStage.visualMotif}
+                      </span>
+                    </div>
+                    <h3 className="text-2xl sm:text-3xl font-editorial font-semibold text-[#F4F2EA]">
+                      {activeStage.title}
+                    </h3>
+                    <p className="text-sm text-[#C5D9D2] font-light max-w-3xl leading-relaxed">
+                      {activeStage.summary}
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => focusAboutStage(null)}
+                    aria-label="Close Active Stage Dossier"
+                    className="self-start p-2.5 rounded-xl bg-[#073B32] hover:bg-[#0A4D42] border border-[#B7E4D5]/20 text-[#8DA99E] hover:text-[#F4F2EA] transition-all cursor-pointer"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+
+                {/* 3 Quality Control Cards Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {/* Lawful Inputs */}
+                  <div className="p-6 rounded-2xl bg-[#073B32]/35 border border-[#B7E4D5]/15 space-y-3">
+                    <div className="flex items-center gap-2 text-[#2FA885]">
+                      <Radio size={16} />
+                      <span className="font-mono text-xs uppercase tracking-wider font-semibold">
+                        Lawful Ingestion Vectors
+                      </span>
+                    </div>
+                    <p className="text-xs text-[#C5D9D2] font-light leading-relaxed">
+                      {activeStage.lawfulInputs}
+                    </p>
+                  </div>
+
+                  {/* Verification Checks */}
+                  <div className="p-6 rounded-2xl bg-[#073B32]/35 border border-[#B7E4D5]/15 space-y-3">
+                    <div className="flex items-center gap-2 text-[#B7E4D5]">
+                      <CheckCircle2 size={16} />
+                      <span className="font-mono text-xs uppercase tracking-wider font-semibold">
+                        Epistemic Verification
+                      </span>
+                    </div>
+                    <p className="text-xs text-[#C5D9D2] font-light leading-relaxed">
+                      {activeStage.verificationChecks}
+                    </p>
+                  </div>
+
+                  {/* Expected Deliverable */}
+                  <div className="p-6 rounded-2xl bg-[#073B32]/35 border border-[#B7E4D5]/15 space-y-3">
+                    <div className="flex items-center gap-2 text-[#2FA885]">
+                      <FileCheck size={16} />
+                      <span className="font-mono text-xs uppercase tracking-wider font-semibold">
+                        Expected Deliverable
+                      </span>
+                    </div>
+                    <p className="text-xs text-[#C5D9D2] font-light leading-relaxed">
+                      {activeStage.expectedDeliverable}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Client Outcome & Business Model Row */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                  {/* Client Operational Outcome */}
+                  <div className="p-6 rounded-2xl bg-[#073B32]/20 border border-[#2FA885]/30 space-y-2">
+                    <span className="font-mono text-[11px] uppercase tracking-wider text-[#2FA885] font-semibold block">
+                      Client Operational Outcome:
+                    </span>
+                    <p className="text-xs sm:text-sm text-[#F4F2EA] font-light leading-relaxed">
+                      {activeStage.clientOutcome}
+                    </p>
+                  </div>
+
+                  {/* Honest Business Model Note */}
+                  <div className="p-6 rounded-2xl bg-[#041F1B] border border-[#B7E4D5]/20 space-y-2">
+                    <span className="font-mono text-[11px] uppercase tracking-wider text-[#B7E4D5] font-semibold block">
+                      Operating Model & Automation Vector:
+                    </span>
+                    <p className="text-xs sm:text-sm text-[#C5D9D2] font-light leading-relaxed">
+                      {activeStage.businessModelNote}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Dossier Footer Navigation & Action */}
+                <div className="pt-4 border-t border-[#B7E4D5]/15 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="flex items-center gap-2 text-xs font-mono text-[#8DA99E]">
+                    <span>Use keyboard arrow keys</span>
+                    <kbd className="px-2 py-0.5 rounded bg-[#073B32] text-[#B7E4D5] text-[10px] border border-[#B7E4D5]/20">←</kbd>
+                    <kbd className="px-2 py-0.5 rounded bg-[#073B32] text-[#B7E4D5] text-[10px] border border-[#B7E4D5]/20">→</kbd>
+                    <span>or</span>
+                    <kbd className="px-2 py-0.5 rounded bg-[#073B32] text-[#B7E4D5] text-[10px] border border-[#B7E4D5]/20">Esc</kbd>
+                  </div>
+
+                  <div className="flex items-center gap-3 w-full sm:w-auto">
+                    <Link
+                      href={`/contact?service=osint-investigation`}
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-xs font-mono uppercase tracking-wider font-semibold text-[#041F1B] bg-[#B7E4D5] hover:bg-[#C8EFE2] transition-all shadow-md cursor-pointer"
+                    >
+                      <span>Scope an Investigation in Stage 0{activeStage.stageNumber}</span>
+                      <ArrowRight size={14} />
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
+            ) : (
+              <div className="p-6 rounded-2xl bg-[#073B32]/20 border border-[#B7E4D5]/15 text-center text-xs font-mono text-[#8DA99E] space-y-1">
+                <p className="text-[#C5D9D2]">
+                  Select any stage above or click any procedural monument in the 3D background to inspect our methodology checkpoints.
+                </p>
+                <p className="text-[11px] text-[#8DA99E]/80">
+                  01 Discover (Sensor Obelisk) • 02 Verify (Provenance Portal) • 03 Connect (Relational Cluster) • 04 Deliver (Decision Spire)
+                </p>
+              </div>
+            )}
+          </AnimatePresence>
 
           {/* Client-Focused Call to Action */}
           <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-[#073B32] via-[#041F1B] to-[#073B32] border border-[#B7E4D5]/25 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl relative overflow-hidden">

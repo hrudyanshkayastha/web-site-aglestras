@@ -21,6 +21,8 @@ export function UnifiedWorldExperience() {
     setSelectedService,
     methodologyStage,
     setMethodologyStage,
+    aboutStage,
+    focusAboutStage,
     focusService,
     focusMethodologyStage,
     focusNode,
@@ -55,7 +57,7 @@ export function UnifiedWorldExperience() {
       {/* Floating HUD Destination Waypoint Controller on Home */}
       <WorldNavigatorHUD
         activeDestination={activeDestination}
-        hasActiveSelection={Boolean(selectedNode || selectedService || methodologyStage !== null)}
+        hasActiveSelection={Boolean(selectedNode || selectedService || methodologyStage !== null || aboutStage !== null)}
         onSelectDestination={(destId) => {
           scrollToSection(WORLD_DESTINATIONS[destId].sectionId);
         }}

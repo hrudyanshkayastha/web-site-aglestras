@@ -19,6 +19,10 @@ function SharedWorldCanvasInner({ children }: { children: React.ReactNode }) {
     setSelectedNode,
     selectedService,
     setSelectedService,
+    methodologyStage,
+    setMethodologyStage,
+    aboutStage,
+    setAboutStage,
     engine,
     setEngine,
     isReducedMotion,
@@ -49,11 +53,35 @@ function SharedWorldCanvasInner({ children }: { children: React.ReactNode }) {
         onDestinationChange: (dest) => setActiveDestination(dest),
         onNodeSelect: (node) => {
           setSelectedNode(node);
-          if (node) setSelectedService(null);
+          if (node) {
+            setSelectedService(null);
+            setMethodologyStage(null);
+            setAboutStage(null);
+          }
         },
         onServiceSelect: (service) => {
           setSelectedService(service);
-          if (service) setSelectedNode(null);
+          if (service) {
+            setSelectedNode(null);
+            setMethodologyStage(null);
+            setAboutStage(null);
+          }
+        },
+        onMethodologyStageSelect: (stage) => {
+          setMethodologyStage(stage);
+          if (stage !== null) {
+            setSelectedNode(null);
+            setSelectedService(null);
+            setAboutStage(null);
+          }
+        },
+        onAboutStageSelect: (stage) => {
+          setAboutStage(stage);
+          if (stage !== null) {
+            setSelectedNode(null);
+            setSelectedService(null);
+            setMethodologyStage(null);
+          }
         },
       },
       isReducedMotion

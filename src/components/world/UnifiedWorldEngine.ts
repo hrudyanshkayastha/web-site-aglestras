@@ -12,6 +12,7 @@ export interface UnifiedWorldCallbacks {
   onNodeSelect: (node: GraphNode | null) => void;
   onServiceSelect: (service: ServiceItem | null) => void;
   onMethodologyStageSelect?: (stage: number | null) => void;
+  onAboutStageSelect?: (stage: number | null) => void;
 }
 
 export class UnifiedWorldEngine {
@@ -103,6 +104,10 @@ export class UnifiedWorldEngine {
         this.architecture.setMethodologyStage(stage);
         callbacks.onMethodologyStageSelect?.(stage);
       },
+      onAboutStageSelect: (stage) => {
+        this.architecture.setAboutStage(stage);
+        callbacks.onAboutStageSelect?.(stage);
+      },
     };
 
     this.controller = new UnifiedCameraController(
@@ -120,6 +125,7 @@ export class UnifiedWorldEngine {
     this.controller.setDestination(dest);
     this.architecture.setPylonSelected(null);
     this.architecture.setMethodologyStage(null);
+    this.architecture.setAboutStage(null);
     this.atlas.setSelectedNode(null);
   }
 
@@ -138,6 +144,11 @@ export class UnifiedWorldEngine {
     this.controller.focusMethodologyStage(stage);
   }
 
+  public focusAboutStage(stage: number | null) {
+    this.architecture.setAboutStage(stage);
+    this.controller.focusAboutStage(stage);
+  }
+
   public focusOperationalStage(stage: "investigate" | "verify" | "operationalize" | null) {
     this.controller.focusOperationalStage(stage);
     if (this.jungle) {
@@ -149,6 +160,7 @@ export class UnifiedWorldEngine {
     this.controller.clearFocus();
     this.architecture.setPylonSelected(null);
     this.architecture.setMethodologyStage(null);
+    this.architecture.setAboutStage(null);
     this.atlas.setSelectedNode(null);
   }
 

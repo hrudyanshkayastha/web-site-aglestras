@@ -128,7 +128,14 @@ Transmitted directly to AGLETRAS Research Operations.`;
         {submitted && (
           <div className="p-4 mb-6 rounded-xl bg-emerald-950/60 border border-emerald-500/30 text-emerald-300 text-xs flex items-start gap-2.5">
             <Check size={16} className="shrink-0 mt-0.5 text-[#2FA885]" />
-            <span>Email client launched with preformatted brief. You can also copy the brief text below if your email client didn&apos;t open automatically.</span>
+            <div className="space-y-1">
+              <strong className="block text-[#B7E4D5] font-mono text-[11px] uppercase tracking-wider">
+                Direct Email Client Launched with Formulated Brief
+              </strong>
+              <span>
+                Your default mail client has opened with your cryptographic scoping brief pre-populated. To safeguard client privacy, Agletras does not retain draft briefs on external servers until officially transmitted by you. You may also use &ldquo;Copy Brief&rdquo; below to send via your preferred secure channel.
+              </span>
+            </div>
           </div>
         )}
 
@@ -144,7 +151,7 @@ Transmitted directly to AGLETRAS Research Operations.`;
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 placeholder="e.g. Dr. Jennifer Vance"
-                className="w-full bg-[#041F1B] border border-[#B7E4D5]/20 rounded-xl px-4 py-3 text-sm text-[#F4F2EA] placeholder-[#718E84] focus:outline-none focus:border-[#2FA885]"
+                className="w-full bg-[#041F1B] border border-[#B7E4D5]/20 rounded-xl px-4 py-3 text-sm text-[#F4F2EA] placeholder-[#718E84] transition-all duration-200 focus:outline-none focus:border-[#2FA885] focus:shadow-[0_0_12px_rgba(47,168,133,0.3)]"
               />
             </div>
 
@@ -157,7 +164,7 @@ Transmitted directly to AGLETRAS Research Operations.`;
                 value={formData.organization}
                 onChange={(e) => setFormData({ ...formData, organization: e.target.value })}
                 placeholder="e.g. Meridian Capital Group"
-                className="w-full bg-[#041F1B] border border-[#B7E4D5]/20 rounded-xl px-4 py-3 text-sm text-[#F4F2EA] placeholder-[#718E84] focus:outline-none focus:border-[#2FA885]"
+                className="w-full bg-[#041F1B] border border-[#B7E4D5]/20 rounded-xl px-4 py-3 text-sm text-[#F4F2EA] placeholder-[#718E84] transition-all duration-200 focus:outline-none focus:border-[#2FA885] focus:shadow-[0_0_12px_rgba(47,168,133,0.3)]"
               />
             </div>
           </div>
@@ -173,7 +180,7 @@ Transmitted directly to AGLETRAS Research Operations.`;
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="e.g. j.vance@meridiancap.com"
-                className="w-full bg-[#041F1B] border border-[#B7E4D5]/20 rounded-xl px-4 py-3 text-sm text-[#F4F2EA] placeholder-[#718E84] focus:outline-none focus:border-[#2FA885]"
+                className="w-full bg-[#041F1B] border border-[#B7E4D5]/20 rounded-xl px-4 py-3 text-sm text-[#F4F2EA] placeholder-[#718E84] transition-all duration-200 focus:outline-none focus:border-[#2FA885] focus:shadow-[0_0_12px_rgba(47,168,133,0.3)]"
               />
             </div>
 
@@ -184,7 +191,7 @@ Transmitted directly to AGLETRAS Research Operations.`;
               <select
                 value={formData.service}
                 onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                className="w-full bg-[#041F1B] border border-[#B7E4D5]/20 rounded-xl px-4 py-3 text-sm text-[#F4F2EA] focus:outline-none focus:border-[#2FA885]"
+                className="w-full bg-[#041F1B] border border-[#B7E4D5]/20 rounded-xl px-4 py-3 text-sm text-[#F4F2EA] transition-all duration-200 focus:outline-none focus:border-[#2FA885] focus:shadow-[0_0_12px_rgba(47,168,133,0.3)]"
               >
                 {servicesData.map((s) => (
                   <option key={s.id} value={s.id} className="bg-[#041F1B] text-[#F4F2EA]">
@@ -205,7 +212,7 @@ Transmitted directly to AGLETRAS Research Operations.`;
                 value={formData.targetEntity}
                 onChange={(e) => setFormData({ ...formData, targetEntity: e.target.value })}
                 placeholder="e.g. target-domain.com or Legal Entity Name"
-                className="w-full bg-[#041F1B] border border-[#B7E4D5]/20 rounded-xl px-4 py-3 text-sm text-[#F4F2EA] placeholder-[#718E84] focus:outline-none focus:border-[#2FA885]"
+                className="w-full bg-[#041F1B] border border-[#B7E4D5]/20 rounded-xl px-4 py-3 text-sm text-[#F4F2EA] placeholder-[#718E84] transition-all duration-200 focus:outline-none focus:border-[#2FA885] focus:shadow-[0_0_12px_rgba(47,168,133,0.3)]"
               />
             </div>
 
@@ -216,7 +223,7 @@ Transmitted directly to AGLETRAS Research Operations.`;
               <select
                 value={formData.timeframe}
                 onChange={(e) => setFormData({ ...formData, timeframe: e.target.value })}
-                className="w-full bg-[#041F1B] border border-[#B7E4D5]/20 rounded-xl px-4 py-3 text-sm text-[#F4F2EA] focus:outline-none focus:border-[#2FA885]"
+                className="w-full bg-[#041F1B] border border-[#B7E4D5]/20 rounded-xl px-4 py-3 text-sm text-[#F4F2EA] transition-all duration-200 focus:outline-none focus:border-[#2FA885] focus:shadow-[0_0_12px_rgba(47,168,133,0.3)]"
               >
                 <option value="1-2 weeks (Expedited Priority)">1-2 weeks (Expedited Priority)</option>
                 <option value="2-4 weeks (Standard Research Window)">2-4 weeks (Standard Research Window)</option>
@@ -236,7 +243,7 @@ Transmitted directly to AGLETRAS Research Operations.`;
               value={formData.objective}
               onChange={(e) => setFormData({ ...formData, objective: e.target.value })}
               placeholder="Describe the business or security challenge, specific questions you need answered, and any context that will help us scope the inquiry."
-              className="w-full bg-[#041F1B] border border-[#B7E4D5]/20 rounded-xl p-4 text-sm text-[#F4F2EA] placeholder-[#718E84] focus:outline-none focus:border-[#2FA885]"
+              className="w-full bg-[#041F1B] border border-[#B7E4D5]/20 rounded-xl p-4 text-sm text-[#F4F2EA] placeholder-[#718E84] transition-all duration-200 focus:outline-none focus:border-[#2FA885] focus:shadow-[0_0_12px_rgba(47,168,133,0.3)]"
             />
           </div>
 

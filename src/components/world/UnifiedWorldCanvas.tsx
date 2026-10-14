@@ -17,6 +17,8 @@ interface UnifiedWorldCanvasProps {
   onSelectNode?: (node: GraphNode | null) => void;
   selectedMethodologyStage?: number | null;
   onSelectMethodologyStage?: (stage: number | null) => void;
+  selectedAboutStage?: number | null;
+  onSelectAboutStage?: (stage: number | null) => void;
 }
 
 export function UnifiedWorldCanvas({
@@ -27,6 +29,8 @@ export function UnifiedWorldCanvas({
   onSelectNode: setPropNode,
   selectedMethodologyStage: propStage,
   onSelectMethodologyStage: setPropStage,
+  selectedAboutStage: propAboutStage,
+  onSelectAboutStage: setPropAboutStage,
 }: UnifiedWorldCanvasProps) {
   const mountRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<UnifiedWorldEngine | null>(null);
@@ -67,6 +71,13 @@ export function UnifiedWorldCanvas({
     }
   }, [propStage]);
 
+  // Synchronize controlled external about stage selection
+  useEffect(() => {
+    if (propAboutStage !== undefined && engineRef.current) {
+      engineRef.current.focusAboutStage(propAboutStage);
+    }
+  }, [propAboutStage]);
+
   // Check WebGL and Reduced Motion
   useEffect(() => {
     try {
@@ -101,6 +112,7 @@ export function UnifiedWorldCanvas({
             setSelectedService(null);
             if (setPropService) setPropService(null);
             if (setPropStage) setPropStage(null);
+            if (setPropAboutStage) setPropAboutStage(null);
           }
         },
         onServiceSelect: (service) => {
@@ -110,6 +122,7 @@ export function UnifiedWorldCanvas({
             setSelectedNode(null);
             if (setPropNode) setPropNode(null);
             if (setPropStage) setPropStage(null);
+            if (setPropAboutStage) setPropAboutStage(null);
           }
         },
         onMethodologyStageSelect: (stage) => {
@@ -119,6 +132,17 @@ export function UnifiedWorldCanvas({
             setSelectedService(null);
             if (setPropNode) setPropNode(null);
             if (setPropService) setPropService(null);
+            if (setPropAboutStage) setPropAboutStage(null);
+          }
+        },
+        onAboutStageSelect: (stage) => {
+          if (setPropAboutStage) setPropAboutStage(stage);
+          if (stage !== null) {
+            setSelectedNode(null);
+            setSelectedService(null);
+            if (setPropNode) setPropNode(null);
+            if (setPropService) setPropService(null);
+            if (setPropStage) setPropStage(null);
           }
         },
       },

@@ -8,6 +8,7 @@ export interface CameraControllerCallbacks {
   onNodeSelect: (node: GraphNode | null) => void;
   onServiceSelect: (service: ServiceItem | null) => void;
   onMethodologyStageSelect?: (stage: number | null) => void;
+  onAboutStageSelect?: (stage: number | null) => void;
   onNodeHover: (node: GraphNode | null) => void;
   onServiceHover: (service: ServiceItem | null) => void;
 }
@@ -30,6 +31,7 @@ export class UnifiedCameraController {
   private selectedNode: GraphNode | null = null;
   private selectedService: ServiceItem | null = null;
   private selectedMethodologyStage: number | null = null;
+  private selectedAboutStage: number | null = null;
 
   // Orbit & Parallax
   private isDragging = false;
@@ -192,12 +194,16 @@ export class UnifiedCameraController {
           this.focusMethodologyStage(cur.userData.stageNumber as number);
           return;
         }
+        if (cur.userData?.isAboutStage && cur.userData.stageNumber) {
+          this.focusAboutStage(cur.userData.stageNumber as number);
+          return;
+        }
         cur = cur.parent;
       }
     }
 
     // Clicked into empty space
-    if (this.selectedNode || this.selectedService || this.selectedMethodologyStage) {
+    if (this.selectedNode || this.selectedService || this.selectedMethodologyStage || this.selectedAboutStage) {
       this.clearFocus();
     }
   }
@@ -207,10 +213,12 @@ export class UnifiedCameraController {
     this.selectedNode = null;
     this.selectedService = null;
     this.selectedMethodologyStage = null;
+    this.selectedAboutStage = null;
     this.callbacks.onDestinationChange(destId);
     this.callbacks.onNodeSelect(null);
     this.callbacks.onServiceSelect(null);
     this.callbacks.onMethodologyStageSelect?.(null);
+    this.callbacks.onAboutStageSelect?.(null);
 
     const wp = WORLD_DESTINATIONS[destId];
     this.targetCameraPos.set(...wp.cameraPos);
@@ -322,6 +330,46 @@ export class UnifiedCameraController {
     this.targetRotationAngle = { yaw: 0, pitch: 0 };
   }
 
+  public focusAboutStage(stage: number | null) {
+    if (stage === null) {
+      this.selectedAboutStage = null;
+      this.callbacks.onAboutStageSelect?.(null);
+      const wp = WORLD_DESTINATIONS["ABOUT"] || WORLD_DESTINATIONS["ENTRANCE"];
+      this.targetCameraPos.set(...wp.cameraPos);
+      this.targetLookAt.set(...wp.lookAt);
+      this.targetFov = wp.fov || 44;
+      this.targetRotationAngle = { yaw: 0, pitch: 0 };
+      return;
+    }
+
+    const aboutStagePositions = [
+      [-3.3, 2.4, -2.4], // 01 Discover
+      [-1.1, 2.5, -2.8], // 02 Verify
+      [1.1, 2.5, -2.8],  // 03 Connect
+      [3.3, 2.4, -2.4],  // 04 Deliver
+    ];
+    const s = Math.max(1, Math.min(4, stage));
+    this.selectedAboutStage = s;
+    this.selectedNode = null;
+    this.selectedService = null;
+    this.selectedMethodologyStage = null;
+    this.callbacks.onAboutStageSelect?.(s);
+    this.callbacks.onNodeSelect(null);
+    this.callbacks.onServiceSelect(null);
+    this.callbacks.onMethodologyStageSelect?.(null);
+
+    const target = aboutStagePositions[s - 1];
+    const px = target[0];
+    const py = target[1];
+    const pz = target[2];
+
+    // Frame camera laterally: monument in left-center, right side open for stage dossier
+    this.targetCameraPos.set(px + 1.4, py + 0.9, pz + 3.6);
+    this.targetLookAt.set(px + 0.3, py + 0.2, pz);
+    this.targetFov = 40;
+    this.targetRotationAngle = { yaw: 0, pitch: 0 };
+  }
+
   public focusOperationalStage(stage: "investigate" | "verify" | "operationalize" | null) {
     if (!stage) {
       this.selectedNode = null;
@@ -361,9 +409,11 @@ export class UnifiedCameraController {
     this.selectedNode = null;
     this.selectedService = null;
     this.selectedMethodologyStage = null;
+    this.selectedAboutStage = null;
     this.callbacks.onNodeSelect(null);
     this.callbacks.onServiceSelect(null);
     this.callbacks.onMethodologyStageSelect?.(null);
+    this.callbacks.onAboutStageSelect?.(null);
     this.setDestination(this.activeDestination);
   }
 

@@ -16,11 +16,14 @@ interface WorldContextType {
   setSelectedNode: (node: GraphNode | null) => void;
   methodologyStage: number | null;
   setMethodologyStage: (stage: number | null) => void;
+  aboutStage: number | null;
+  setAboutStage: (stage: number | null) => void;
   operationalStage: "investigate" | "verify" | "operationalize" | null;
   setOperationalStage: (stage: "investigate" | "verify" | "operationalize" | null) => void;
   focusOperationalStage: (stage: "investigate" | "verify" | "operationalize" | null) => void;
   focusService: (service: ServiceItem | null) => void;
   focusMethodologyStage: (stage: number | null) => void;
+  focusAboutStage: (stage: number | null) => void;
   focusNode: (node: GraphNode | null) => void;
   resetToOverview: () => void;
   engine: UnifiedWorldEngine | null;
@@ -37,6 +40,7 @@ export function WorldProvider({ children }: { children: React.ReactNode }) {
   const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
   const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
   const [methodologyStage, setMethodologyStage] = useState<number | null>(null);
+  const [aboutStage, setAboutStage] = useState<number | null>(null);
   const [operationalStage, setOperationalStage] = useState<"investigate" | "verify" | "operationalize" | null>(null);
   const [isReducedMotion, setIsReducedMotion] = useState(false);
 
@@ -54,6 +58,7 @@ export function WorldProvider({ children }: { children: React.ReactNode }) {
     setSelectedService(null);
     setSelectedNode(null);
     setMethodologyStage(null);
+    setAboutStage(null);
 
     if (!engine) return;
 
@@ -81,9 +86,9 @@ export function WorldProvider({ children }: { children: React.ReactNode }) {
       engine.setDestination("ATLAS");
       setActiveDestination("ATLAS");
     } else if (pathname === "/about") {
-      // Sanctuary wide perspective
-      engine.setDestination("ENTRANCE");
-      setActiveDestination("ENTRANCE");
+      // Intelligence Philosophy Sanctum perspective
+      engine.setDestination("ABOUT");
+      setActiveDestination("ABOUT");
     } else if (pathname === "/contact") {
       // Grand elevated sanctuary terminus
       engine.setDestination("CONTACT");
@@ -121,12 +126,28 @@ export function WorldProvider({ children }: { children: React.ReactNode }) {
     [engine]
   );
 
+  const focusAboutStage = useCallback(
+    (stage: number | null) => {
+      setAboutStage(stage);
+      if (stage !== null) {
+        setSelectedService(null);
+        setSelectedNode(null);
+        setMethodologyStage(null);
+        if (engine) engine.focusAboutStage(stage);
+      } else {
+        if (engine) engine.focusAboutStage(null);
+      }
+    },
+    [engine]
+  );
+
   const focusNode = useCallback(
     (node: GraphNode | null) => {
       setSelectedNode(node);
       if (node) {
         setSelectedService(null);
         setMethodologyStage(null);
+        setAboutStage(null);
         if (engine) engine.focusNode(node);
       } else {
         if (engine) engine.resetToOverview();
@@ -147,6 +168,7 @@ export function WorldProvider({ children }: { children: React.ReactNode }) {
     setSelectedService(null);
     setSelectedNode(null);
     setMethodologyStage(null);
+    setAboutStage(null);
     setOperationalStage(null);
     if (engine) engine.resetToOverview();
   }, [engine]);
@@ -162,11 +184,14 @@ export function WorldProvider({ children }: { children: React.ReactNode }) {
         setSelectedNode,
         methodologyStage,
         setMethodologyStage,
+        aboutStage,
+        setAboutStage,
         operationalStage,
         setOperationalStage,
         focusOperationalStage,
         focusService,
         focusMethodologyStage,
+        focusAboutStage,
         focusNode,
         resetToOverview,
         engine,
