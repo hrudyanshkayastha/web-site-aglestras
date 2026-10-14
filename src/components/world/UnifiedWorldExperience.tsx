@@ -14,6 +14,7 @@ import { ServiceItem } from "@/data/services";
 export function UnifiedWorldExperience() {
   const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
   const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
+  const [methodologyStage, setMethodologyStage] = useState<number>(1);
 
   const scrollToSection = useCallback((sectionId: string) => {
     const el = document.getElementById(sectionId);
@@ -28,6 +29,8 @@ export function UnifiedWorldExperience() {
       onSelectService={setSelectedService}
       selectedNode={selectedNode}
       onSelectNode={setSelectedNode}
+      selectedMethodologyStage={methodologyStage}
+      onSelectMethodologyStage={setMethodologyStage}
     >
       {/* Destination A: Entrance */}
       <EntranceOverlay
@@ -42,7 +45,10 @@ export function UnifiedWorldExperience() {
       />
 
       {/* Destination C: Methodology Conduits */}
-      <MethodologyOverlay />
+      <MethodologyOverlay
+        activeStage={methodologyStage}
+        onSelectStage={setMethodologyStage}
+      />
 
       {/* Destination D: Intelligence Atlas */}
       <AtlasOverlay

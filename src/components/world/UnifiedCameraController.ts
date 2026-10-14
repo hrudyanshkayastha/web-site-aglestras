@@ -270,6 +270,27 @@ export class UnifiedCameraController {
     this.targetRotationAngle = { yaw: 0, pitch: 0 };
   }
 
+  public focusMethodologyStage(stage: number) {
+    const portalPositions = [
+      [-2.4, -3.4, 4.4], // 01 Define
+      [-1.4, -3.6, 3.2], // 02 Collect
+      [-0.4, -3.8, 2.0], // 03 Verify
+      [0.6, -4.0, 0.8],  // 04 Correlate
+      [1.6, -4.2, -0.4], // 05 Analyze
+      [2.6, -4.4, -1.6], // 06 Deliver
+    ];
+    const s = Math.max(1, Math.min(6, stage));
+    const targetPortal = portalPositions[s - 1];
+    const px = targetPortal[0];
+    const py = targetPortal[1];
+    const pz = targetPortal[2];
+
+    this.targetCameraPos.set(px + 0.8, py + 1.8, pz + 4.2);
+    this.targetLookAt.set(px, py + 0.5, pz);
+    this.targetFov = 42;
+    this.targetRotationAngle = { yaw: 0, pitch: 0 };
+  }
+
   public clearFocus() {
     this.selectedNode = null;
     this.selectedService = null;

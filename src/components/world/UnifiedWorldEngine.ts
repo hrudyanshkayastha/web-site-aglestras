@@ -127,6 +127,11 @@ export class UnifiedWorldEngine {
     this.architecture.setPylonSelected(service.id);
   }
 
+  public focusMethodologyStage(stage: number) {
+    this.architecture.setMethodologyStage(stage);
+    this.controller.focusMethodologyStage(stage);
+  }
+
   public resetToOverview() {
     this.controller.clearFocus();
     this.architecture.setPylonSelected(null);

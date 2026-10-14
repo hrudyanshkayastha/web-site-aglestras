@@ -15,6 +15,8 @@ interface UnifiedWorldCanvasProps {
   onSelectService?: (service: ServiceItem | null) => void;
   selectedNode?: GraphNode | null;
   onSelectNode?: (node: GraphNode | null) => void;
+  selectedMethodologyStage?: number;
+  onSelectMethodologyStage?: (stage: number) => void;
 }
 
 export function UnifiedWorldCanvas({
@@ -23,6 +25,8 @@ export function UnifiedWorldCanvas({
   onSelectService: setPropService,
   selectedNode: propNode,
   onSelectNode: setPropNode,
+  selectedMethodologyStage: propStage,
+  onSelectMethodologyStage: setPropStage,
 }: UnifiedWorldCanvasProps) {
   const mountRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<UnifiedWorldEngine | null>(null);
@@ -55,6 +59,13 @@ export function UnifiedWorldCanvas({
       }
     }
   }, [propNode]);
+
+  // Synchronize controlled external methodology stage selection
+  useEffect(() => {
+    if (propStage !== undefined && engineRef.current) {
+      engineRef.current.focusMethodologyStage(propStage);
+    }
+  }, [propStage]);
 
   // Check WebGL and Reduced Motion
   useEffect(() => {

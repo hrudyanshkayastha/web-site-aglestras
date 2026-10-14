@@ -140,7 +140,8 @@ export function createBioluminescentJungle(): JungleElements {
   group.add(nucleusGroup);
 
   // -------------------------------------------------------------
-  // 4. DUAL-HOURGLASS NEURAL BRANCH SYSTEM (UPPER FAN & LOWER FAN)
+  // 4. ORGANIC NEURAL TRUNK & VAULTED CANOPY ARCHES
+  // (Frames the central viewing aperture cleanly without lines crossing the hero text)
   // -------------------------------------------------------------
   const branchCurves: THREE.CatmullRomCurve3[] = [];
   const branchGroup = new THREE.Group();
@@ -149,71 +150,139 @@ export function createBioluminescentJungle(): JungleElements {
   const nodeGroup = new THREE.Group();
   group.add(nodeGroup);
 
-  // A. Upper Neural Canopy (Radiates upward and outward)
-  const numUpperBranches = 16;
-  for (let i = 0; i < numUpperBranches; i++) {
-    const angle = (i / numUpperBranches) * Math.PI * 2 + 0.15;
-    const spread = 2.4 + ((i % 3) * 0.8);
-    const endX = treeCenter.x + Math.cos(angle) * spread;
-    const endY = treeCenter.y + 2.2 + ((i % 4) * 0.6);
-    const endZ = treeCenter.z + Math.sin(angle) * (spread * 0.85);
+  // A. Organic Central Trunk Cables (Rising from Dais at Y = -1.18 to Nucleus at Y = 1.05)
+  const numTrunkCables = 6;
+  for (let i = 0; i < numTrunkCables; i++) {
+    const angle = (i / numTrunkCables) * Math.PI * 2;
+    const baseRadius = 0.55;
+    const waistRadius = 0.22;
+    const topRadius = 0.32;
 
-    const midX = treeCenter.x + Math.cos(angle) * (spread * 0.45);
-    const midY = treeCenter.y + 0.8 + ((i % 2) * 0.4);
-    const midZ = treeCenter.z + Math.sin(angle) * (spread * 0.4);
+    const startX = treeCenter.x + Math.cos(angle) * baseRadius;
+    const startY = -1.18;
+    const startZ = treeCenter.z + Math.sin(angle) * baseRadius;
+
+    const midAngle = angle + 0.45; // Gentle organic twist
+    const midX = treeCenter.x + Math.cos(midAngle) * waistRadius;
+    const midY = (treeCenter.y - 1.18) * 0.45;
+    const midZ = treeCenter.z + Math.sin(midAngle) * waistRadius;
+
+    const topAngle = angle + 0.8;
+    const endX = treeCenter.x + Math.cos(topAngle) * topRadius;
+    const endY = treeCenter.y - 0.15;
+    const endZ = treeCenter.z + Math.sin(topAngle) * topRadius;
+
+    const trunkCurve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(startX, startY, startZ),
+      new THREE.Vector3(midX, midY, midZ),
+      new THREE.Vector3(endX, endY, endZ),
+      treeCenter.clone(),
+    ]);
+    branchCurves.push(trunkCurve);
+
+    const trunkGeo = new THREE.TubeGeometry(trunkCurve, 24, 0.045, 6, false);
+    disposables.push(trunkGeo);
+    const trunkMesh = new THREE.Mesh(trunkGeo, neuralBranchMaterial);
+    branchGroup.add(trunkMesh);
+  }
+
+  // B. Upper Canopy Arches (Gracefully sweep to Left Flank, Right Flank, and Rear Vault)
+  // Strict aperture rule: For Z > treeCenter.z + 0.2, |X| must be >= 2.4.
+  // Left Flank Arches (8 branches)
+  const leftConfigs = [
+    { targetX: -2.8, targetY: 2.4, targetZ: -1.2, midSpread: 1.6 },
+    { targetX: -3.6, targetY: 2.9, targetZ: -1.8, midSpread: 2.1 },
+    { targetX: -4.4, targetY: 3.3, targetZ: -2.4, midSpread: 2.6 },
+    { targetX: -3.8, targetY: 3.8, targetZ: -3.2, midSpread: 2.3 },
+    { targetX: -2.9, targetY: 4.1, targetZ: -3.8, midSpread: 1.8 },
+    { targetX: -4.6, targetY: 2.6, targetZ: -0.8, midSpread: 2.7 },
+    { targetX: -3.2, targetY: 3.4, targetZ: -2.0, midSpread: 2.0 },
+    { targetX: -5.0, targetY: 3.7, targetZ: -2.8, midSpread: 3.0 },
+  ];
+
+  // Right Flank Arches (8 branches)
+  const rightConfigs = [
+    { targetX: 2.8, targetY: 2.4, targetZ: -1.2, midSpread: 1.6 },
+    { targetX: 3.6, targetY: 2.9, targetZ: -1.8, midSpread: 2.1 },
+    { targetX: 4.4, targetY: 3.3, targetZ: -2.4, midSpread: 2.6 },
+    { targetX: 3.8, targetY: 3.8, targetZ: -3.2, midSpread: 2.3 },
+    { targetX: 2.9, targetY: 4.1, targetZ: -3.8, midSpread: 1.8 },
+    { targetX: 4.6, targetY: 2.6, targetZ: -0.8, midSpread: 2.7 },
+    { targetX: 3.2, targetY: 3.4, targetZ: -2.0, midSpread: 2.0 },
+    { targetX: 5.0, targetY: 3.7, targetZ: -2.8, midSpread: 3.0 },
+  ];
+
+  // High Rear Cathedral Vault Arches (6 branches rising behind and above)
+  const rearConfigs = [
+    { targetX: -1.4, targetY: 4.4, targetZ: -4.4, midSpread: 1.0 },
+    { targetX: 0.0, targetY: 4.7, targetZ: -4.8, midSpread: 0.2 },
+    { targetX: 1.4, targetY: 4.4, targetZ: -4.4, midSpread: 1.0 },
+    { targetX: -2.0, targetY: 4.0, targetZ: -4.2, midSpread: 1.4 },
+    { targetX: 2.0, targetY: 4.0, targetZ: -4.2, midSpread: 1.4 },
+    { targetX: 0.0, targetY: 4.2, targetZ: -5.2, midSpread: 0.3 },
+  ];
+
+  const allCanopyConfigs = [...leftConfigs, ...rightConfigs, ...rearConfigs];
+
+  allCanopyConfigs.forEach((cfg) => {
+    const midX = treeCenter.x + (cfg.targetX - treeCenter.x) * 0.45;
+    const midY = treeCenter.y + (cfg.targetY - treeCenter.y) * 0.55 + 0.35;
+    const midZ = treeCenter.z + (cfg.targetZ - treeCenter.z) * 0.4;
 
     const curve = new THREE.CatmullRomCurve3([
       treeCenter.clone(),
       new THREE.Vector3(midX, midY, midZ),
-      new THREE.Vector3(endX, endY, endZ),
+      new THREE.Vector3(cfg.targetX, cfg.targetY, cfg.targetZ),
     ]);
     branchCurves.push(curve);
 
-    const tubeGeo = new THREE.TubeGeometry(curve, 24, 0.026, 6, false);
+    const tubeGeo = new THREE.TubeGeometry(curve, 22, 0.024, 6, false);
     disposables.push(tubeGeo);
     const branchMesh = new THREE.Mesh(tubeGeo, neuralBranchMaterial);
     branchGroup.add(branchMesh);
 
-    // Synaptic Terminal Node Sphere at the end
-    const nodeGeo = new THREE.SphereGeometry(0.065, 12, 12);
+    // Terminal Synaptic Node
+    const nodeGeo = new THREE.SphereGeometry(0.062, 12, 12);
     disposables.push(nodeGeo);
     const nodeMesh = new THREE.Mesh(nodeGeo, synapticNodeMaterial);
-    nodeMesh.position.set(endX, endY, endZ);
+    nodeMesh.position.set(cfg.targetX, cfg.targetY, cfg.targetZ);
     nodeGroup.add(nodeMesh);
 
-    // Secondary sub-twig
-    const twigEndX = endX + Math.cos(angle + 0.4) * 0.85;
-    const twigEndY = endY + 0.45;
-    const twigEndZ = endZ + Math.sin(angle + 0.4) * 0.75;
+    // Secondary Delicate Twig
+    const twigSign = cfg.targetX >= 0 ? 1 : -1;
+    const twigX = cfg.targetX + twigSign * 0.7;
+    const twigY = cfg.targetY + 0.4;
+    const twigZ = cfg.targetZ - 0.3;
+
     const twigCurve = new THREE.CatmullRomCurve3([
       new THREE.Vector3(midX, midY, midZ),
-      new THREE.Vector3(twigEndX, twigEndY, twigEndZ),
+      new THREE.Vector3(twigX, twigY, twigZ),
     ]);
     branchCurves.push(twigCurve);
 
-    const twigGeo = new THREE.TubeGeometry(twigCurve, 16, 0.016, 5, false);
+    const twigGeo = new THREE.TubeGeometry(twigCurve, 14, 0.014, 5, false);
     disposables.push(twigGeo);
     const twigMesh = new THREE.Mesh(twigGeo, neuralBranchMaterial);
     branchGroup.add(twigMesh);
 
-    const twigNodeGeo = new THREE.SphereGeometry(0.045, 10, 10);
+    const twigNodeGeo = new THREE.SphereGeometry(0.042, 10, 10);
     disposables.push(twigNodeGeo);
     const twigNodeMesh = new THREE.Mesh(twigNodeGeo, synapticNodeMaterial);
-    twigNodeMesh.position.set(twigEndX, twigEndY, twigEndZ);
+    twigNodeMesh.position.set(twigX, twigY, twigZ);
     nodeGroup.add(twigNodeMesh);
-  }
+  });
 
-  // B. Lower Neural Roots (Radiates downward across the dais)
+  // C. Lower Neural Roots (Radiates downward across the dais floor, hugging Y = -1.18)
   const numLowerRoots = 14;
   for (let i = 0; i < numLowerRoots; i++) {
     const angle = (i / numLowerRoots) * Math.PI * 2;
-    const spread = 2.0 + ((i % 4) * 0.75);
+    const spread = 2.4 + ((i % 4) * 0.7);
     const endX = treeCenter.x + Math.cos(angle) * spread;
     const endY = -1.18;
     const endZ = treeCenter.z + Math.sin(angle) * (spread * 0.9);
 
     const midX = treeCenter.x + Math.cos(angle) * (spread * 0.45);
-    const midY = treeCenter.y - 1.1;
+    const midY = -0.95;
     const midZ = treeCenter.z + Math.sin(angle) * (spread * 0.4);
 
     const curve = new THREE.CatmullRomCurve3([
@@ -223,13 +292,13 @@ export function createBioluminescentJungle(): JungleElements {
     ]);
     branchCurves.push(curve);
 
-    const tubeGeo = new THREE.TubeGeometry(curve, 20, 0.032, 6, false);
+    const tubeGeo = new THREE.TubeGeometry(curve, 20, 0.03, 6, false);
     disposables.push(tubeGeo);
     const rootMesh = new THREE.Mesh(tubeGeo, neuralBranchMaterial);
     branchGroup.add(rootMesh);
 
     // Root Terminal Contact Node
-    const nodeGeo = new THREE.SphereGeometry(0.055, 10, 10);
+    const nodeGeo = new THREE.SphereGeometry(0.05, 10, 10);
     disposables.push(nodeGeo);
     const nodeMesh = new THREE.Mesh(nodeGeo, synapticNodeMaterial);
     nodeMesh.position.set(endX, endY, endZ);

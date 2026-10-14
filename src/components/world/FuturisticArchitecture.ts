@@ -7,6 +7,7 @@ export interface ArchitectureElements {
   update: (delta: number, elapsed: number, activeDestination?: WorldDestinationId) => void;
   setPylonHovered: (serviceId: string | null) => void;
   setPylonSelected: (serviceId: string | null) => void;
+  setMethodologyStage: (stage: number) => void;
   dispose: () => void;
 }
 
@@ -56,21 +57,23 @@ export function createFuturisticArchitecture(): ArchitectureElements {
 
   // -------------------------------------------------------------
   // A. ENTRANCE GATEWAY MONOLITHS (FLANKING ARCHITECTURAL PORTAL)
-  // Monumental vertical stelae situated strictly on the far flanks (|X| >= 6.0),
-  // leaving the entire central frustum (|X| < 5.5) completely open and clear for hero text.
+  // -------------------------------------------------------------
+  // A. ENTRANCE GATEWAY MONOLITHS (FLANKING ARCHITECTURAL PORTAL)
+  // Monumental vertical stelae situated strictly on the far flanks (|X| >= 7.4),
+  // leaving the entire central frustum completely open and clear for hero text.
   // -------------------------------------------------------------
   const entranceRibsGroup = new THREE.Group();
 
   // Left and Right colonnade positions: [x, z, height, width]
   const colonnadeConfigs = [
-    // Left Flank
-    { x: -6.4, z: 6.2, h: 3.2, w: 0.38 },
-    { x: -7.2, z: 8.0, h: 2.8, w: 0.34 },
-    { x: -6.8, z: 9.8, h: 2.4, w: 0.32 },
-    // Right Flank
-    { x: 6.4, z: 6.2, h: 3.2, w: 0.38 },
-    { x: 7.2, z: 8.0, h: 2.8, w: 0.34 },
-    { x: 6.8, z: 9.8, h: 2.4, w: 0.32 },
+    // Left Flank (Pushed wide to |X| >= 7.4)
+    { x: -7.5, z: 6.5, h: 2.8, w: 0.32 },
+    { x: -8.2, z: 8.2, h: 2.4, w: 0.28 },
+    { x: -7.8, z: 9.8, h: 2.0, w: 0.26 },
+    // Right Flank (Pushed wide to |X| >= 7.4)
+    { x: 7.5, z: 6.5, h: 2.8, w: 0.32 },
+    { x: 8.2, z: 8.2, h: 2.4, w: 0.28 },
+    { x: 7.8, z: 9.8, h: 2.0, w: 0.26 },
   ];
 
   colonnadeConfigs.forEach((cfg) => {
@@ -110,8 +113,8 @@ export function createFuturisticArchitecture(): ArchitectureElements {
   group.add(entranceRibsGroup);
 
   // -------------------------------------------------------------
-  // B. SERVICES PAVILION & 6 MONUMENTAL SERVICE PYLONS (WEST)
-  // Suspended stone plaza with 6 architectural beacons
+  // B. SERVICES PAVILION & 6 MONUMENTAL SERVICE STATIONS (WEST)
+  // Suspended stone plaza with 6 distinctive architectural beacons
   // -------------------------------------------------------------
   const servicesPlazaGroup = new THREE.Group();
 
@@ -130,7 +133,7 @@ export function createFuturisticArchitecture(): ArchitectureElements {
   plazaRingMesh.position.set(-4.6, -0.39, 1.0);
   servicesPlazaGroup.add(plazaRingMesh);
 
-  // 6 Service Pylons
+  // 6 Distinctive Service Stations with unique geometric motifs
   SERVICE_PYLONS.forEach((cfg) => {
     const pylonGroup = new THREE.Group();
     pylonGroup.name = `Pylon_${cfg.service.id}`;
@@ -143,7 +146,7 @@ export function createFuturisticArchitecture(): ArchitectureElements {
     };
 
     // 1. Tapered Basalt Stele Body
-    const height = cfg.service.isPrimary ? 2.2 : 1.6;
+    const height = cfg.service.isPrimary ? 2.0 : 1.5;
     const bodyGeo = new THREE.CylinderGeometry(0.12, 0.22, height, 6);
     disposables.push(bodyGeo);
     const bodyMesh = new THREE.Mesh(bodyGeo, basaltMat);
@@ -151,9 +154,38 @@ export function createFuturisticArchitecture(): ArchitectureElements {
     bodyMesh.userData = pylonGroup.userData;
     pylonGroup.add(bodyMesh);
 
-    // 2. Luminous Service Aperture Core
-    const coreGeo = new THREE.OctahedronGeometry(0.18, 1);
+    // 2. Distinctive Luminous Service Emblem / Aperture Core
+    let coreGeo: THREE.BufferGeometry;
+    let ringGeo: THREE.BufferGeometry;
+
+    if (cfg.service.id === "osint-investigative-research") {
+      // Dual-gimbal astrolabe with octahedral core
+      coreGeo = new THREE.OctahedronGeometry(0.2, 1);
+      ringGeo = new THREE.TorusGeometry(0.32, 0.016, 16, 32);
+    } else if (cfg.service.id === "business-due-diligence") {
+      // Interlocking corporate hierarchy cubes
+      coreGeo = new THREE.BoxGeometry(0.25, 0.25, 0.25);
+      ringGeo = new THREE.TorusGeometry(0.34, 0.018, 4, 4);
+    } else if (cfg.service.id === "recruitment-verification") {
+      // Faceted verification crystal obelisk
+      coreGeo = new THREE.ConeGeometry(0.2, 0.4, 6);
+      ringGeo = new THREE.TorusGeometry(0.3, 0.016, 16, 32);
+    } else if (cfg.service.id === "brand-impersonation-research") {
+      // Radar sensor disk
+      coreGeo = new THREE.CylinderGeometry(0.22, 0.22, 0.06, 24);
+      ringGeo = new THREE.TorusGeometry(0.35, 0.014, 16, 32);
+    } else if (cfg.service.id === "external-threat-intelligence") {
+      // Multi-faceted defense shield core
+      coreGeo = new THREE.IcosahedronGeometry(0.22, 0);
+      ringGeo = new THREE.TorusGeometry(0.36, 0.02, 6, 6);
+    } else {
+      // research-automation: continuous pipeline knot
+      coreGeo = new THREE.TorusKnotGeometry(0.13, 0.04, 32, 8, 2, 3);
+      ringGeo = new THREE.TorusGeometry(0.32, 0.015, 16, 32);
+    }
     disposables.push(coreGeo);
+    disposables.push(ringGeo);
+
     const coreMat = new THREE.MeshStandardMaterial({
       color: cfg.color,
       emissive: cfg.color,
@@ -167,9 +199,7 @@ export function createFuturisticArchitecture(): ArchitectureElements {
     coreMesh.userData = pylonGroup.userData;
     pylonGroup.add(coreMesh);
 
-    // 3. Floating Astrolabe Ring over Aperture
-    const ringGeo = new THREE.TorusGeometry(0.3, 0.016, 16, 32);
-    disposables.push(ringGeo);
+    // 3. Floating Orbital Ring over Aperture
     const ringMat = new THREE.MeshStandardMaterial({
       color: 0xd4af37,
       roughness: 0.3,
@@ -222,16 +252,16 @@ export function createFuturisticArchitecture(): ArchitectureElements {
 
   // -------------------------------------------------------------
   // C. METHODOLOGY SUBTERRANEAN CONDUIT PORTALS (SOUTH-DOWN)
-  // 6 sequential stepped arch portals: Define -> Collect -> Validate -> Correlate -> Analyze -> Report
+  // 6 sequential stepped arch portals: Define -> Collect -> Verify -> Correlate -> Analyze -> Deliver
   // -------------------------------------------------------------
   const methodologyPortalsGroup = new THREE.Group();
   const portalPositions = [
-    new THREE.Vector3(-2.2, -3.6, 4.8), // 01 Define
-    new THREE.Vector3(-1.3, -3.8, 3.6), // 02 Collect
-    new THREE.Vector3(-0.4, -4.0, 2.4), // 03 Validate
-    new THREE.Vector3(0.5, -4.2, 1.2),  // 04 Correlate
-    new THREE.Vector3(1.4, -4.4, 0.0),  // 05 Analyze
-    new THREE.Vector3(2.3, -4.6, -1.2), // 06 Report
+    new THREE.Vector3(-2.4, -3.4, 4.4), // 01 Define
+    new THREE.Vector3(-1.4, -3.6, 3.2), // 02 Collect
+    new THREE.Vector3(-0.4, -3.8, 2.0), // 03 Verify
+    new THREE.Vector3(0.6, -4.0, 0.8),  // 04 Correlate
+    new THREE.Vector3(1.6, -4.2, -0.4), // 05 Analyze
+    new THREE.Vector3(2.6, -4.4, -1.6), // 06 Deliver
   ];
 
   const methodologyThresholdMeshes: THREE.Mesh[] = [];
@@ -239,6 +269,7 @@ export function createFuturisticArchitecture(): ArchitectureElements {
   portalPositions.forEach((pos, idx) => {
     const portalSubGroup = new THREE.Group();
     portalSubGroup.position.copy(pos);
+    portalSubGroup.userData = { isMethodologyPortal: true, stageIndex: idx + 1 };
 
     // Stepped Arch Frame
     const frameGeo = new THREE.TorusGeometry(0.85, 0.065, 12, 32, Math.PI);
@@ -265,6 +296,35 @@ export function createFuturisticArchitecture(): ArchitectureElements {
 
     methodologyPortalsGroup.add(portalSubGroup);
   });
+
+  // Connecting Pathway Conduit Curve between portals
+  const pathwayCurve = new THREE.CatmullRomCurve3(portalPositions);
+  const pathwayTubeGeo = new THREE.TubeGeometry(pathwayCurve, 48, 0.035, 8, false);
+  disposables.push(pathwayTubeGeo);
+  const pathwayTubeMat = new THREE.MeshStandardMaterial({
+    color: 0x073B32,
+    emissive: 0x2FA885,
+    emissiveIntensity: 0.35,
+    roughness: 0.4,
+    metalness: 0.6,
+  });
+  disposables.push(pathwayTubeMat);
+  const pathwayTubeMesh = new THREE.Mesh(pathwayTubeGeo, pathwayTubeMat);
+  methodologyPortalsGroup.add(pathwayTubeMesh);
+
+  // Traveling Pathway Signal Pulse
+  const pathwayPulseGeo = new THREE.SphereGeometry(0.08, 12, 12);
+  disposables.push(pathwayPulseGeo);
+  const pathwayPulseMat = new THREE.MeshBasicMaterial({
+    color: 0xE6FFF8,
+    transparent: true,
+    opacity: 0.9,
+    blending: THREE.AdditiveBlending,
+  });
+  disposables.push(pathwayPulseMat);
+  const pathwayPulseMesh = new THREE.Mesh(pathwayPulseGeo, pathwayPulseMat);
+  methodologyPortalsGroup.add(pathwayPulseMesh);
+
   group.add(methodologyPortalsGroup);
 
   // -------------------------------------------------------------
@@ -311,6 +371,7 @@ export function createFuturisticArchitecture(): ArchitectureElements {
   // Hover and selection state management
   let hoveredServiceId: string | null = null;
   let selectedServiceId: string | null = null;
+  let currentMethodologyStage = 1;
 
   const setPylonHovered = (serviceId: string | null) => {
     hoveredServiceId = serviceId;
@@ -318,6 +379,10 @@ export function createFuturisticArchitecture(): ArchitectureElements {
 
   const setPylonSelected = (serviceId: string | null) => {
     selectedServiceId = serviceId;
+  };
+
+  const setMethodologyStage = (stage: number) => {
+    currentMethodologyStage = Math.max(1, Math.min(6, stage));
   };
 
   // Animation update
@@ -342,11 +407,30 @@ export function createFuturisticArchitecture(): ArchitectureElements {
       });
     }
 
-    // Methodology threshold rings emissive intensity
-    methodologyThresholdMeshes.forEach((mesh) => {
+    // Methodology pathway signal pulse and threshold rings emissive intensity
+    if (isMethodologyDest) {
+      const pulseT = (elapsed * 0.35) % 1.0;
+      const maxT = (currentMethodologyStage - 0.5) / 5.0;
+      const clampedPulseT = Math.min(pulseT, maxT);
+      const pulsePt = pathwayCurve.getPointAt(clampedPulseT);
+      pathwayPulseMesh.position.copy(pulsePt);
+      pathwayPulseMesh.visible = true;
+    } else {
+      pathwayPulseMesh.visible = false;
+    }
+
+    methodologyThresholdMeshes.forEach((mesh, idx) => {
       const mat = mesh.material as THREE.MeshStandardMaterial;
-      const targetEmissive = isMethodologyDest ? 0.85 : 0.15;
+      const stageNum = idx + 1;
+      const isCurrent = stageNum === currentMethodologyStage;
+      const isPast = stageNum < currentMethodologyStage;
+      const targetEmissive = isMethodologyDest
+        ? (isCurrent ? 2.2 : isPast ? 0.9 : 0.25)
+        : 0.15;
       mat.emissiveIntensity = THREE.MathUtils.lerp(mat.emissiveIntensity, targetEmissive, delta * 6);
+      if (isCurrent && isMethodologyDest) {
+        mesh.rotation.z = elapsed * 0.5;
+      }
     });
 
     // Pylon animations
@@ -405,6 +489,7 @@ export function createFuturisticArchitecture(): ArchitectureElements {
     update,
     setPylonHovered,
     setPylonSelected,
+    setMethodologyStage,
     dispose,
   };
 }

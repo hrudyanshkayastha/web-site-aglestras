@@ -22,10 +22,10 @@ export function WorldNavigatorHUD({
       aria-label="3D World Navigation Controls"
       className="fixed bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 z-40 max-w-4xl w-[96%] sm:w-auto pointer-events-none"
     >
-      <div className="flex items-center justify-between sm:justify-start gap-1 sm:gap-2 p-1.5 sm:p-2 rounded-2xl bg-[#031714]/94 border border-[#B7E4D5]/25 backdrop-blur-xl shadow-[0_8px_32px_rgba(3,23,20,0.7)] pointer-events-auto">
+      <div className="flex items-center justify-between sm:justify-start gap-1 sm:gap-2 p-1.5 sm:p-2 rounded-2xl bg-[#031714]/85 border border-[#B7E4D5]/20 backdrop-blur-md shadow-[0_8px_32px_rgba(3,23,20,0.6)] pointer-events-auto">
         {/* World Destinational Waypoints */}
         <nav
-          className="flex items-center justify-center gap-1 sm:gap-1.5 flex-nowrap overflow-x-hidden no-scrollbar"
+          className="flex items-center justify-center gap-1 sm:gap-1.5 flex-nowrap overflow-x-auto no-scrollbar"
           aria-label="World Destinations"
         >
           {ORDERED_DESTINATIONS.map((destId, idx) => {

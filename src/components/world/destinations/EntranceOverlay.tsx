@@ -219,7 +219,7 @@ export function EntranceOverlay({
         <div className="absolute inset-0 bg-gradient-to-t from-[#041F1B] via-transparent to-[#020F0C]/80" />
       </div>
 
-      {/* Hero Content Container (Airy Frosted Glass for 100% Readability while Revealing 3D World) */}
+      {/* Hero Content Container (Luminous Airy Frosted Pedestal for Seamless 3D Depth & 100% Readability) */}
       <motion.div
         initial="hidden"
         animate="visible"
@@ -233,7 +233,7 @@ export function EntranceOverlay({
             },
           },
         }}
-        className="relative z-10 max-w-3xl mx-auto space-y-7 pointer-events-auto p-8 sm:p-12 rounded-3xl bg-[#031714]/75 border border-[#B7E4D5]/30 backdrop-blur-xl shadow-[0_16px_48px_rgba(3,23,20,0.6)]"
+        className="relative z-10 max-w-3xl mx-auto space-y-6 sm:space-y-7 pointer-events-auto px-6 py-8 sm:px-10 sm:py-10 rounded-3xl bg-gradient-to-b from-[#031714]/50 via-[#031714]/38 to-[#031714]/50 border border-[#B7E4D5]/25 backdrop-blur-md shadow-[0_16px_48px_rgba(2,15,12,0.45)]"
       >
         {/* Eyebrow Brand Badge with Unaltered Authentic Logo */}
         <motion.div
@@ -275,7 +275,7 @@ export function EntranceOverlay({
             hidden: { opacity: 0, y: isReducedMotion ? 0 : 12 },
             visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } },
           }}
-          className="text-editorial-hero text-[#F4F2EA] tracking-tight drop-shadow-md"
+          className="text-editorial-hero text-[#F4F2EA] tracking-tight drop-shadow-[0_4px_24px_rgba(2,15,12,0.95)]"
         >
           Intelligence From{" "}
           <span className="italic font-normal text-[#B7E4D5]">
@@ -289,7 +289,7 @@ export function EntranceOverlay({
             hidden: { opacity: 0, y: isReducedMotion ? 0 : 10 },
             visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } },
           }}
-          className="text-base sm:text-lg md:text-xl text-[#C5D9D2] max-w-2xl mx-auto font-light leading-relaxed drop-shadow-sm"
+          className="text-base sm:text-lg md:text-xl text-[#D6E7E1] max-w-2xl mx-auto font-light leading-relaxed drop-shadow-[0_2px_12px_rgba(2,15,12,0.9)]"
         >
           Agletras helps organizations investigate digital threats, assess exposure, verify information, and turn fragmented open-source data into structured, actionable intelligence.
         </motion.p>
@@ -321,25 +321,25 @@ export function EntranceOverlay({
         </motion.div>
       </motion.div>
 
-      {/* Floating Ambient Motion Control (Play/Pause Toggle for User Agency) */}
+      {/* Floating Ambient Motion Control (Unobtrusive Top-Right Status) */}
       {!isReducedMotion && !videoError && (
-        <div className="absolute bottom-6 right-6 z-30 pointer-events-auto">
+        <div className="absolute top-24 right-4 sm:right-8 z-30 pointer-events-auto">
           <button
             type="button"
             onClick={handleTogglePlayback}
             aria-label={isPlaying ? "Pause cinematic background video" : "Play cinematic background video"}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#031714]/90 border border-[#B7E4D5]/30 hover:border-[#2FA885] text-[11px] font-mono text-[#B7E4D5] hover:text-[#FFFFFF] transition-all backdrop-blur-md shadow-lg group"
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#031714]/80 border border-[#B7E4D5]/25 hover:border-[#2FA885] text-[10px] font-mono text-[#B7E4D5] hover:text-[#FFFFFF] transition-all backdrop-blur-md shadow-md group"
             title={isPlaying ? "Pause background animation" : "Resume background animation"}
           >
             {isPlaying ? (
               <>
-                <Pause size={12} className="text-[#2FA885] group-hover:scale-110 transition-transform" />
+                <Pause size={10} className="text-[#2FA885] group-hover:scale-110 transition-transform" />
                 <span className="hidden sm:inline">Motion Active</span>
               </>
             ) : (
               <>
-                <Play size={12} className="text-[#2FA885] group-hover:scale-110 transition-transform" />
-                <span>{autoplayBlocked ? "Play Cinematic Motion" : "Resume Motion"}</span>
+                <Play size={10} className="text-[#2FA885] group-hover:scale-110 transition-transform" />
+                <span>{autoplayBlocked ? "Play Motion" : "Resume Motion"}</span>
               </>
             )}
           </button>
