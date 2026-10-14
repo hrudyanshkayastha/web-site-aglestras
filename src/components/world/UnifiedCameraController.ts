@@ -235,9 +235,10 @@ export class UnifiedCameraController {
     const nz = coords[2];
 
     // Frame node with lateral offset so it appears in the left-center of viewport,
-    // leaving the right side 100% free of collision with the EntityDetailsPanel.
-    this.targetCameraPos.set(nx + 0.85, ny + 0.35, nz + 3.2);
-    this.targetLookAt.set(nx + 0.85, ny, nz);
+    // backed up sufficiently to keep radiating conduits and connected neighboring nodes clearly in view,
+    // leaving the right side 100% free of obstruction for the compact Evidence Inspector dossier.
+    this.targetCameraPos.set(nx + 1.8, ny + 1.1, nz + 4.6);
+    this.targetLookAt.set(nx + 0.5, ny + 0.1, nz);
     this.targetFov = 42;
     this.targetRotationAngle = { yaw: 0, pitch: 0 };
   }

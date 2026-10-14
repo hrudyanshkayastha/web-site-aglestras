@@ -5,13 +5,63 @@ export type EntityCategory =
   | "DIGITAL_IDENTITY"
   | "EVIDENCE_RECORD";
 
+export type EpistemicTier = "FACT" | "INDICATOR" | "INFERENCE" | "UNRESOLVED";
+
+export interface EpistemicTierMeta {
+  tier: EpistemicTier;
+  label: string;
+  sublabel: string;
+  color: string;
+  badgeClass: string;
+  description: string;
+}
+
+export const EPISTEMIC_TIERS: Record<EpistemicTier, EpistemicTierMeta> = {
+  FACT: {
+    tier: "FACT",
+    label: "Demonstration Fact",
+    sublabel: "Statutory / Authenticated Primary Record",
+    color: "#2FA885",
+    badgeClass: "bg-[#2FA885]/20 text-[#B7E4D5] border-[#2FA885]/40",
+    description:
+      "Direct statutory records, registered incorporation charters, authenticated cryptographic transparency logs, or government gazette entries.",
+  },
+  INDICATOR: {
+    tier: "INDICATOR",
+    label: "Investigative Lead",
+    sublabel: "Empirical Observable Network Telemetry",
+    color: "#60A5FA",
+    badgeClass: "bg-blue-500/20 text-blue-200 border-blue-500/40",
+    description:
+      "Observable technical telemetry, passive DNS history, hosting IP allocations, BGP routing data, and domain whois records.",
+  },
+  INFERENCE: {
+    tier: "INFERENCE",
+    label: "Corroborated Inference",
+    sublabel: "Evaluative Analytical Deduction",
+    color: "#FBBF24",
+    badgeClass: "bg-amber-500/20 text-amber-200 border-amber-500/40",
+    description:
+      "Multi-source pattern correlation, pseudonym cross-referencing, shared digital handles, or structural relationship hypotheses established by analysts.",
+  },
+  UNRESOLVED: {
+    tier: "UNRESOLVED",
+    label: "Unverified Indicator",
+    sublabel: "Pending Multi-Source Corroboration",
+    color: "#C084FC",
+    badgeClass: "bg-purple-500/20 text-purple-200 border-purple-500/40",
+    description:
+      "Single-source anomalies, uncorroborated third-party notifications, or volatile low-TTL DNS records awaiting secondary cryptographic validation.",
+  },
+};
+
 export interface GraphNode {
   id: string;
   name: string;
   category: EntityCategory;
   categoryLabel: string;
   position: [number, number, number];
-  epistemicTier: "FACT" | "INDICATOR" | "INFERENCE" | "ASSUMPTION" | "UNRESOLVED";
+  epistemicTier: EpistemicTier;
   epistemicLabel: string;
   summary: string;
   details: string;
@@ -112,8 +162,8 @@ export const ILLUSTRATIVE_GRAPH_NODES: GraphNode[] = [
     category: "INFRASTRUCTURE",
     categoryLabel: "Hosting IP Infrastructure",
     position: [-1.4, -1.2, -2.6],
-    epistemicTier: "FACT",
-    epistemicLabel: "Primary Record Attributed — High Confidence",
+    epistemicTier: "INDICATOR",
+    epistemicLabel: "Investigative Lead — Observable Telemetry",
     summary: "Dedicated virtual server hosting lookalike web server with open ports 80, 443.",
     details:
       "Geolocated in neutral hosting jurisdiction under AS64512. Observed hosting 3 distinct brand impersonation attempts over past 90 days.",
@@ -226,13 +276,13 @@ export const ILLUSTRATIVE_GRAPH_NODES: GraphNode[] = [
     category: "INFRASTRUCTURE",
     categoryLabel: "Mail Exchange Infrastructure",
     position: [-2.2, -1.8, 1.5],
-    epistemicTier: "FACT",
-    epistemicLabel: "Primary Record Attributed — High Confidence",
-    summary: "Disposable mail exchange server configured with low TTL DNS records.",
+    epistemicTier: "UNRESOLVED",
+    epistemicLabel: "Unverified Indicator — Volatile Low-TTL Record",
+    summary: "Disposable mail exchange server configured with low-TTL DNS records pending second-source corroboration.",
     details:
-      "Accepts incoming email on behalf of lookalike domain. SPF record configured to permit spoofed outbound message routing.",
-    evidenceSource: "DNS MX / SPF Query Telemetry (TTL: 300s)",
-    evidenceArtifact: "v=spf1 include:_spf.disposable-relay.org ~all",
+      "Observed accepting incoming email on behalf of lookalike domain. Volatile 300s TTL observed; awaiting secondary MX telemetry to confirm persistence.",
+    evidenceSource: "Passive DNS MX / SPF Query Telemetry (TTL: 300s)",
+    evidenceArtifact: "v=spf1 include:_spf.disposable-relay.org ~all (Demonstration Log)",
     sampleRelationships: [
       "Configured as active MX recipient for acme-portal-sso[.]net",
       "Points to staging network infrastructure cluster",

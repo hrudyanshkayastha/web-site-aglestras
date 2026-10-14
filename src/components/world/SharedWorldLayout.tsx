@@ -136,23 +136,6 @@ function SharedWorldCanvasInner({ children }: { children: React.ReactNode }) {
         </div>
       )}
 
-      {/* Slide-in Entity Details Inspector Panel (Only when an Atlas node is actively selected) */}
-      {selectedNode && pathname === "/" && activeDestination === "ATLAS" && (
-        <aside
-          aria-label="Entity Inspection Dossier"
-          className="fixed top-20 right-4 sm:right-8 bottom-24 z-50 w-[calc(100%-2rem)] sm:w-96 max-w-sm flex items-start overflow-y-auto pointer-events-auto shadow-2xl"
-        >
-          <EntityDetailsPanel
-            node={selectedNode}
-            onClose={() => setSelectedNode(null)}
-            onSelectNode={(nodeId) => {
-              const found = ILLUSTRATIVE_GRAPH_NODES.find((n) => n.id === nodeId) || null;
-              setSelectedNode(found);
-            }}
-          />
-        </aside>
-      )}
-
       {/* Page Content Layers (Rendered above the shared 3D canvas) */}
       <div className="relative z-10 w-full">{children}</div>
     </div>

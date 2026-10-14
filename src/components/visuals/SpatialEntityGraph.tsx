@@ -59,6 +59,14 @@ export function SpatialEntityGraph({
   // Currently selected node object
   const selectedNode = ILLUSTRATIVE_GRAPH_NODES.find((n) => n.id === selectedNodeId) || null;
 
+  const filteredNodes = ILLUSTRATIVE_GRAPH_NODES.filter(
+    (n) => activeCategoryFilter === "ALL" || n.category === activeCategoryFilter
+  );
+
+  const currentIndex = selectedNode
+    ? filteredNodes.findIndex((n) => n.id === selectedNode.id)
+    : -1;
+
   // Handle node selection
   const handleSelectNode = useCallback(
     (id: string | null) => {
@@ -68,10 +76,10 @@ export function SpatialEntityGraph({
 
       if (node && cameraRef.current) {
         setCameraMode("focus");
-        // Frame camera toward selected node with depth offset
+        // Frame camera toward selected node with lateral offset
         const [nx, ny, nz] = node.position;
-        targetCameraPosRef.current.set(nx + 0.8, ny + 0.4, nz + 4.2);
-        targetLookAtRef.current.set(nx, ny, nz);
+        targetCameraPosRef.current.set(nx + 1.4, ny + 0.6, nz + 4.6);
+        targetLookAtRef.current.set(nx + 0.4, ny, nz);
       } else {
         setCameraMode("orbit");
         // Reset camera to angled 3D perspective
@@ -81,6 +89,24 @@ export function SpatialEntityGraph({
     },
     [onNodeSelect]
   );
+
+  const handlePrevNode = useCallback(() => {
+    if (filteredNodes.length === 0) return;
+    if (currentIndex <= 0) {
+      handleSelectNode(filteredNodes[filteredNodes.length - 1].id);
+    } else {
+      handleSelectNode(filteredNodes[currentIndex - 1].id);
+    }
+  }, [currentIndex, filteredNodes, handleSelectNode]);
+
+  const handleNextNode = useCallback(() => {
+    if (filteredNodes.length === 0) return;
+    if (currentIndex >= filteredNodes.length - 1 || currentIndex === -1) {
+      handleSelectNode(filteredNodes[0].id);
+    } else {
+      handleSelectNode(filteredNodes[currentIndex + 1].id);
+    }
+  }, [currentIndex, filteredNodes, handleSelectNode]);
 
   const handleResetOverview = useCallback(() => {
     handleSelectNode(null);
@@ -706,6 +732,8 @@ export function SpatialEntityGraph({
             node={selectedNode}
             onClose={() => handleSelectNode(null)}
             onSelectNode={handleSelectNode}
+            onPrevNode={handlePrevNode}
+            onNextNode={handleNextNode}
           />
         </div>
       )}

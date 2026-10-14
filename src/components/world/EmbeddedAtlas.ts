@@ -13,7 +13,7 @@ export interface AtlasObject {
   group: THREE.Group;
   coreMesh: THREE.Mesh;
   outerRing?: THREE.Mesh;
-  labelSprite: THREE.Sprite;
+  haloMesh?: THREE.Mesh;
   baseY: number;
 }
 
@@ -37,73 +37,6 @@ const ATLAS_NODE_COORDINATES: Record<string, [number, number, number]> = {
   "nominee-director": [5.7, 2.0, -0.8],
   "gazette-record": [4.9, -1.1, -1.8],
 };
-
-function createAtlasLabelSprite(node: GraphNode): THREE.Sprite {
-  const canvas = document.createElement("canvas");
-  canvas.width = 400;
-  canvas.height = 100;
-  const ctx = canvas.getContext("2d");
-
-  if (ctx) {
-    // Background container
-    ctx.fillStyle = "rgba(3, 23, 20, 0.95)";
-    ctx.strokeStyle = "rgba(183, 228, 213, 0.5)";
-    ctx.lineWidth = 2.5;
-
-    const roundRect = (x: number, y: number, w: number, h: number, r: number) => {
-      ctx.beginPath();
-      ctx.moveTo(x + r, y);
-      ctx.arcTo(x + w, y, x + w, y + h, r);
-      ctx.arcTo(x + w, y + h, x, y + h, r);
-      ctx.arcTo(x, y + h, x, y, r);
-      ctx.arcTo(x, y, x + r, y, r);
-      ctx.closePath();
-    };
-
-    roundRect(4, 4, 392, 92, 16);
-    ctx.fill();
-    ctx.stroke();
-
-    // Category dot
-    const categoryInfo = ENTITY_CATEGORIES[node.category];
-    ctx.fillStyle = categoryInfo?.color || "#2FA885";
-    ctx.beginPath();
-    ctx.arc(28, 36, 8, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Display Name
-    ctx.fillStyle = "#F4F2EA";
-    ctx.font = "bold 22px sans-serif";
-    ctx.textAlign = "left";
-    ctx.textBaseline = "middle";
-
-    let displayName = node.name;
-    if (displayName.length > 22) displayName = displayName.substring(0, 21) + "…";
-    ctx.fillText(displayName, 46, 36);
-
-    // Epistemic subtitle
-    ctx.fillStyle = "#B7E4D5";
-    ctx.font = "14px monospace";
-    ctx.fillText(`${node.categoryLabel} // [${node.epistemicTier}]`, 28, 72);
-  }
-
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.minFilter = THREE.LinearFilter;
-  texture.generateMipmaps = false;
-
-  const spriteMat = new THREE.SpriteMaterial({
-    map: texture,
-    transparent: true,
-    opacity: 0.0, // Initially hidden until Atlas destination is active
-    depthTest: true, // Respect 3D depth to prevent floating over foreground geometry
-  });
-
-  const sprite = new THREE.Sprite(spriteMat);
-  sprite.scale.set(1.15, 0.29, 1);
-  sprite.position.set(0, 0.42, 0); // Position above node
-  sprite.visible = false;
-  return sprite;
-}
 
 export function createEmbeddedAtlas(): EmbeddedAtlasElements {
   const group = new THREE.Group();
@@ -132,14 +65,15 @@ export function createEmbeddedAtlas(): EmbeddedAtlasElements {
     let outerRing: THREE.Mesh | undefined;
 
     if (node.id === "target-enterprise") {
+      // Primary Target: Faceted Octahedron Gem with Dual Orbital Rings
       const cGeo = new THREE.OctahedronGeometry(0.38, 2);
       disposables.push(cGeo);
       const cMat = new THREE.MeshStandardMaterial({
         color: 0x2fa885,
-        emissive: 0x145a46,
-        emissiveIntensity: 0.7,
-        roughness: 0.25,
-        metalness: 0.75,
+        emissive: 0x2fa885,
+        emissiveIntensity: 0.75,
+        roughness: 0.2,
+        metalness: 0.8,
       });
       disposables.push(cMat);
       coreMesh = new THREE.Mesh(cGeo, cMat);
@@ -156,15 +90,37 @@ export function createEmbeddedAtlas(): EmbeddedAtlasElements {
       outerRing = new THREE.Mesh(rGeo, rMat);
       outerRing.rotation.x = Math.PI / 3;
       bGroup.add(outerRing);
+
+      // Secondary inclined ring for central target
+      const r2Geo = new THREE.TorusGeometry(0.68, 0.012, 16, 48);
+      disposables.push(r2Geo);
+      const r2Mat = new THREE.MeshStandardMaterial({
+        color: 0xb7e4d5,
+        roughness: 0.3,
+        metalness: 0.8,
+      });
+      disposables.push(r2Mat);
+      const outerRing2 = new THREE.Mesh(r2Geo, r2Mat);
+      outerRing2.rotation.y = Math.PI / 3;
+      bGroup.add(outerRing2);
     } else {
-      const cGeo =
-        node.category === "DOMAIN"
-          ? new THREE.ConeGeometry(0.24, 0.45, 6)
-          : node.category === "INFRASTRUCTURE"
-          ? new THREE.BoxGeometry(0.28, 0.42, 0.28)
-          : node.category === "DIGITAL_IDENTITY"
-          ? new THREE.DodecahedronGeometry(0.24, 0)
-          : new THREE.CylinderGeometry(0.24, 0.24, 0.12, 8);
+      // Category-Specific Geometric Nodes
+      let cGeo: THREE.BufferGeometry;
+      switch (node.category) {
+        case "DOMAIN":
+          cGeo = new THREE.IcosahedronGeometry(0.28, 0); // Faceted multifaceted crystal
+          break;
+        case "INFRASTRUCTURE":
+          cGeo = new THREE.CylinderGeometry(0.22, 0.22, 0.38, 8); // Technical cylindrical pillar
+          break;
+        case "DIGITAL_IDENTITY":
+          cGeo = new THREE.OctahedronGeometry(0.3, 0); // Sharp diamond persona
+          break;
+        case "EVIDENCE_RECORD":
+        default:
+          cGeo = new THREE.DodecahedronGeometry(0.24, 0); // Polyhedral documentary node
+          break;
+      }
 
       disposables.push(cGeo);
       const cMat = new THREE.MeshStandardMaterial({
@@ -178,7 +134,7 @@ export function createEmbeddedAtlas(): EmbeddedAtlasElements {
       coreMesh = new THREE.Mesh(cGeo, cMat);
       bGroup.add(coreMesh);
 
-      const rGeo = new THREE.TorusGeometry(0.38, 0.015, 16, 32);
+      const rGeo = new THREE.TorusGeometry(0.42, 0.016, 16, 32);
       disposables.push(rGeo);
       const rMat = new THREE.MeshStandardMaterial({
         color: 0xb7e4d5,
@@ -194,12 +150,22 @@ export function createEmbeddedAtlas(): EmbeddedAtlasElements {
     coreMesh.userData = bGroup.userData;
     if (outerRing) outerRing.userData = bGroup.userData;
 
-    const labelSprite = createAtlasLabelSprite(node);
-    labelSprite.position.set(0, 0.5, 0);
-    labelSprite.userData = bGroup.userData;
-    disposables.push((labelSprite.material as THREE.SpriteMaterial).map as THREE.Texture);
-    disposables.push(labelSprite.material as THREE.Material);
-    bGroup.add(labelSprite);
+    // Horizontal Energy Halo on Floor Plane below Node
+    const haloGeo = new THREE.RingGeometry(0.28, 0.48, 32);
+    disposables.push(haloGeo);
+    const haloMat = new THREE.MeshBasicMaterial({
+      color: colorHex,
+      transparent: true,
+      opacity: 0.15,
+      side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    disposables.push(haloMat);
+    const haloMesh = new THREE.Mesh(haloGeo, haloMat);
+    haloMesh.rotation.x = Math.PI / 2;
+    haloMesh.position.y = -0.38;
+    bGroup.add(haloMesh);
 
     group.add(bGroup);
 
@@ -208,7 +174,7 @@ export function createEmbeddedAtlas(): EmbeddedAtlasElements {
       group: bGroup,
       coreMesh,
       outerRing,
-      labelSprite,
+      haloMesh,
       baseY: node.worldPos[1],
     });
   });
@@ -225,7 +191,7 @@ export function createEmbeddedAtlas(): EmbeddedAtlasElements {
     targetId: string;
   }[] = [];
 
-  const photonGeo = new THREE.SphereGeometry(0.04, 8, 8);
+  const photonGeo = new THREE.SphereGeometry(0.045, 8, 8);
   disposables.push(photonGeo);
 
   ILLUSTRATIVE_GRAPH_EDGES.forEach((edge) => {
@@ -247,7 +213,7 @@ export function createEmbeddedAtlas(): EmbeddedAtlasElements {
     const lineMat = new THREE.LineBasicMaterial({
       color: 0x2fa885,
       transparent: true,
-      opacity: 0.0, // Initially hidden
+      opacity: 0.35,
       blending: THREE.AdditiveBlending,
     });
     disposables.push(lineMat);
@@ -262,7 +228,7 @@ export function createEmbeddedAtlas(): EmbeddedAtlasElements {
       const pMat = new THREE.MeshBasicMaterial({
         color: 0xb7e4d5,
         transparent: true,
-        opacity: 0.0,
+        opacity: 0.35,
         blending: THREE.AdditiveBlending,
       });
       disposables.push(pMat);
@@ -320,81 +286,104 @@ export function createEmbeddedAtlas(): EmbeddedAtlasElements {
       });
     }
 
-    // Update beacons
+    // Update nodes with selective illumination & connection hierarchy
     nodeMeshes.forEach((item, id) => {
       const isHovered = id === activeHoverId;
       const isSelected = id === activeSelectId;
+      const isConnected = connectedNodeIds.has(id);
+      const hasAnySelected = Boolean(activeSelectId);
 
-      // Vertical oscillation
-      const floatOffset = Math.sin(elapsed * 1.8 + item.node.position[0]) * 0.05;
+      // Vertical floating oscillation
+      const floatOffset = Math.sin(elapsed * 1.6 + item.node.position[0] * 1.5) * 0.04;
       item.group.position.y = item.baseY + floatOffset;
 
       // Rotations
-      item.coreMesh.rotation.y = elapsed * 0.4;
+      item.coreMesh.rotation.y = elapsed * (isSelected ? 0.9 : isConnected ? 0.6 : 0.3);
       if (item.outerRing) {
-        item.outerRing.rotation.z = elapsed * 0.6;
-        item.outerRing.rotation.x = Math.PI / 3 + Math.sin(elapsed * 0.8) * 0.15;
+        item.outerRing.rotation.z = elapsed * (isSelected ? 1.4 : isConnected ? 0.8 : 0.4);
+        item.outerRing.rotation.x = Math.PI / 3 + Math.sin(elapsed * 0.8) * 0.12;
       }
 
-      // Scale
-      const targetScale = isSelected ? 1.35 : isHovered ? 1.2 : 1.0;
-      item.group.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), delta * 6);
+      // Selective scale & emissive illumination
+      let targetScale = 1.0;
+      let baseEmissive = 0.6;
+      let haloOpacity = 0.15;
+      let haloScale = 1.0;
 
-      // Emissive brightness
+      if (hasAnySelected) {
+        if (isSelected) {
+          targetScale = 1.4;
+          baseEmissive = 2.4; // Radiant brilliant highlight
+          haloOpacity = 0.85;
+          haloScale = 1.6;
+        } else if (isConnected) {
+          targetScale = 1.15;
+          baseEmissive = 1.25; // Clearly illuminated neighbor
+          haloOpacity = 0.45;
+          haloScale = 1.2;
+        } else {
+          targetScale = 0.88;
+          baseEmissive = 0.12; // Dimmed resting silhouette
+          haloOpacity = 0.03;
+          haloScale = 0.8;
+        }
+      } else if (isHovered) {
+        targetScale = 1.25;
+        baseEmissive = 1.35;
+        haloOpacity = 0.5;
+        haloScale = 1.3;
+      }
+
+      item.group.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), delta * 6);
       const coreMat = item.coreMesh.material as THREE.MeshStandardMaterial;
-      const baseEmissive = isSelected ? 0.95 : isHovered ? 0.8 : 0.5;
       coreMat.emissiveIntensity = THREE.MathUtils.lerp(coreMat.emissiveIntensity, baseEmissive, delta * 6);
 
-      // Label Visibility: Uncluttered hierarchical visibility
-      let targetSpriteOpacity = 0.0;
-      if (isHovered) {
-        targetSpriteOpacity = 1.0;
-      } else if (activeSelectId) {
-        if (isSelected) {
-          targetSpriteOpacity = 1.0;
-        } else if (connectedNodeIds.has(id)) {
-          targetSpriteOpacity = 0.75;
-        } else {
-          targetSpriteOpacity = 0.0;
-        }
-      } else {
-        // High-level anchor nodes only when idle
-        if (id === "target-enterprise" || id === "lookalike-domain" || id === "shell-company") {
-          targetSpriteOpacity = 0.85;
-        } else {
-          targetSpriteOpacity = 0.0;
-        }
+      if (item.haloMesh) {
+        const haloMat = item.haloMesh.material as THREE.MeshBasicMaterial;
+        haloMat.opacity = THREE.MathUtils.lerp(haloMat.opacity, haloOpacity, delta * 6);
+        item.haloMesh.scale.lerp(new THREE.Vector3(haloScale, haloScale, haloScale), delta * 6);
       }
-
-      const spriteMat = item.labelSprite.material as THREE.SpriteMaterial;
-      spriteMat.opacity = THREE.MathUtils.lerp(spriteMat.opacity, targetSpriteOpacity, delta * 8);
-      item.labelSprite.visible = spriteMat.opacity > 0.02;
     });
 
-    // Update pathways
+    // Update relationship conduits with selective signal propagation
     pathwaysList.forEach((pw) => {
-      const isConnected =
-        !activeSelectId && !activeHoverId
-          ? true
-          : pw.sourceId === activeSelectId ||
-            pw.targetId === activeSelectId ||
-            pw.sourceId === activeHoverId ||
-            pw.targetId === activeHoverId;
+      const isConnectedToSelected =
+        activeSelectId ? pw.sourceId === activeSelectId || pw.targetId === activeSelectId : false;
+      const isConnectedToHovered =
+        activeHoverId ? pw.sourceId === activeHoverId || pw.targetId === activeHoverId : false;
 
-      const targetOpacity = !activeSelectId && !activeHoverId ? 0.45 : isConnected ? 0.9 : 0.12;
+      let targetOpacity = 0.35;
+      let photonSpeedMultiplier = 1.0;
+      let photonMaxOpacity = 0.4;
+
+      if (activeSelectId) {
+        if (isConnectedToSelected) {
+          targetOpacity = 0.95; // Highly illuminated active pathway
+          photonSpeedMultiplier = 2.0;
+          photonMaxOpacity = 0.95;
+        } else {
+          targetOpacity = 0.05; // Dimmed away
+          photonSpeedMultiplier = 0.5;
+          photonMaxOpacity = 0.0;
+        }
+      } else if (activeHoverId && isConnectedToHovered) {
+        targetOpacity = 0.8;
+        photonSpeedMultiplier = 1.5;
+        photonMaxOpacity = 0.8;
+      }
+
       pw.lineMat.opacity = THREE.MathUtils.lerp(pw.lineMat.opacity, targetOpacity, delta * 6);
 
       pw.photons.forEach((photon) => {
-        photon.mesh.visible = pw.lineMat.opacity > 0.05;
-        const speedMultiplier = isConnected ? 1.4 : 0.8;
-        photon.progress = (photon.progress + delta * photon.speed * speedMultiplier) % 1.0;
+        photon.mesh.visible = photonMaxOpacity > 0.02;
+        photon.progress = (photon.progress + delta * photon.speed * photonSpeedMultiplier) % 1.0;
 
         const pos = pw.curve.getPointAt(photon.progress);
         photon.mesh.position.copy(pos);
 
         const edgeFade = Math.sin(photon.progress * Math.PI);
         const pMat = photon.mesh.material as THREE.MeshBasicMaterial;
-        pMat.opacity = isConnected ? edgeFade * 0.95 : edgeFade * 0.25;
+        pMat.opacity = edgeFade * photonMaxOpacity;
       });
     });
   };

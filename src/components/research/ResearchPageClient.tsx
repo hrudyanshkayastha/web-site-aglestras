@@ -199,16 +199,26 @@ export function ResearchPageClient() {
                 Neural Architecture of Disparate Open Records
               </h2>
             </div>
-            <span className="text-[10px] font-mono px-3 py-1 rounded-full bg-[#073B32] text-[#B7E4D5] border border-[#B7E4D5]/20 self-start sm:self-auto">
-              INTERACTIVE 3D GRAPH
-            </span>
+            <div className="flex items-center gap-2 self-start sm:self-auto">
+              <span className="text-[10px] font-mono px-3 py-1 rounded-full bg-[#073B32] text-[#B7E4D5] border border-[#B7E4D5]/20">
+                INTERACTIVE 3D GRAPH
+              </span>
+              <Link
+                href="/#destination-atlas"
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono text-[#041F1B] bg-[#B7E4D5] hover:bg-[#C8EFE2] font-semibold transition-all shadow-md group"
+                title="Explore full-screen 3D Evidence Atlas in the sanctuary"
+              >
+                <span>Sanctuary View</span>
+                <ArrowUpRight size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </Link>
+            </div>
           </div>
 
           <p className="text-xs sm:text-sm text-[#C5D9D2] font-light max-w-3xl">
             Explore our interactive relationship model. Click or drag to rotate in 3D; select any entity node to inspect its provenance, classification, and relational edges in the dossier inspector.
           </p>
 
-          <div className="rounded-3xl border border-[#B7E4D5]/25 overflow-hidden shadow-2xl bg-[#031714]">
+          <div className="rounded-3xl border border-[#B7E4D5]/25 overflow-hidden shadow-2xl bg-[#031714]/85 backdrop-blur-2xl">
             <SpatialEntityGraph className="w-full" />
           </div>
         </div>
