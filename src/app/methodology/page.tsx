@@ -17,6 +17,7 @@ import {
   Layers,
   HelpCircle,
   Sparkles,
+  Cpu,
 } from "lucide-react";
 import { epistemicStandards, intelligenceStages, sampleBriefData, IntelligenceStage } from "@/data/methodology";
 import { LivingKnowledgeSystem } from "@/components/visuals/LivingKnowledgeSystem";
@@ -57,6 +58,17 @@ export default function MethodologyPage() {
             Intelligence without provenance is conjecture. We subject every piece of public information
             to systematic verification, clear epistemic labeling, and senior analyst peer review.
           </p>
+
+          <div className="flex flex-wrap items-center gap-3 pt-2">
+            <Link
+              href="/#destination-methodology"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#073B32] border border-[#2FA885]/40 text-xs font-mono text-[#B7E4D5] hover:text-[#FFFFFF] hover:border-[#2FA885] transition-all shadow-md group"
+            >
+              <Sparkles size={14} className="text-[#2FA885] group-hover:rotate-12 transition-transform" />
+              <span>Explore in 3D Conduit Sanctuary</span>
+              <ArrowRight size={13} className="text-[#2FA885] group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+          </div>
         </div>
 
         {/* The 6-Stage Intelligence Lifecycle — Connected Visual Pathway */}
@@ -154,9 +166,17 @@ export default function MethodologyPage() {
                     <ActiveIcon size={24} />
                   </div>
                   <div>
-                    <span className="font-mono text-xs text-[#2FA885] font-semibold tracking-wider block">
-                      STAGE {activeStage.step} // {activeStage.phase.toUpperCase()}
-                    </span>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-mono text-xs text-[#2FA885] font-semibold tracking-wider block">
+                        STAGE {activeStage.step} // {activeStage.phase.toUpperCase()}
+                      </span>
+                      {activeStage.visualMotif && (
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-[#041F1B] border border-[#2FA885]/35 text-[#8DA99E]">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#2FA885]" />
+                          Motif: {activeStage.visualMotif}
+                        </span>
+                      )}
+                    </div>
                     <h3 className="text-2xl sm:text-3xl font-editorial font-semibold text-[#F4F2EA]">
                       {activeStage.title}
                     </h3>
@@ -224,6 +244,67 @@ export default function MethodologyPage() {
                     {activeStage.outputAdvancingInvestigation}
                   </p>
                 </div>
+              </div>
+
+              {/* Quality Control & Execution Pipeline Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2 relative z-10">
+                {/* Inputs */}
+                <div className="p-4 rounded-xl bg-[#031714]/90 border border-white/5 space-y-2">
+                  <span className="text-[11px] font-mono text-[#8DA99E] uppercase tracking-wider block font-semibold flex items-center gap-1.5">
+                    <Database size={12} className="text-[#2FA885]" />
+                    Stage Inputs
+                  </span>
+                  <p className="text-xs text-[#C5D9D2] leading-relaxed">
+                    {activeStage.inputs}
+                  </p>
+                </div>
+
+                {/* Verification Checks */}
+                <div className="p-4 rounded-xl bg-[#031714]/90 border border-white/5 space-y-2">
+                  <span className="text-[11px] font-mono text-[#8DA99E] uppercase tracking-wider block font-semibold flex items-center gap-1.5">
+                    <CheckCircle2 size={12} className="text-[#2FA885]" />
+                    Verification Checks
+                  </span>
+                  <p className="text-xs text-[#C5D9D2] leading-relaxed">
+                    {activeStage.verificationChecks}
+                  </p>
+                </div>
+
+                {/* Expected Artifact */}
+                <div className="p-4 rounded-xl bg-[#031714]/90 border border-[#2FA885]/20 space-y-2">
+                  <span className="text-[11px] font-mono text-[#8DA99E] uppercase tracking-wider block font-semibold flex items-center gap-1.5">
+                    <FileText size={12} className="text-[#2FA885]" />
+                    Expected Artifact
+                  </span>
+                  <p className="text-xs text-[#E2F4EE] font-mono leading-relaxed bg-[#041F1B] p-2.5 rounded-lg border border-[#2FA885]/15">
+                    {activeStage.expectedArtifact}
+                  </p>
+                </div>
+              </div>
+
+              {/* Repeatable Workflow & Business Service Linkage */}
+              <div className="p-5 rounded-2xl bg-[#041F1B] border border-[#2FA885]/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 relative z-10">
+                <div className="space-y-1 max-w-xl">
+                  <div className="flex items-center gap-2">
+                    <Cpu size={14} className="text-[#2FA885]" />
+                    <span className="text-xs font-mono font-semibold text-[#B7E4D5] uppercase tracking-wider">
+                      {activeStage.workflowAutomationPotential?.automationType}: {activeStage.workflowAutomationPotential?.title}
+                    </span>
+                  </div>
+                  <p className="text-xs text-[#8DA99E] leading-relaxed">
+                    {activeStage.workflowAutomationPotential?.description}
+                  </p>
+                </div>
+
+                {activeStage.businessServiceLink && (
+                  <Link
+                    href={activeStage.businessServiceLink.href}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#073B32] border border-[#2FA885]/40 text-xs font-mono text-[#B7E4D5] hover:text-[#FFFFFF] hover:border-[#2FA885] transition-all shrink-0"
+                  >
+                    <span>Service: {activeStage.businessServiceLink.name}</span>
+                    <ArrowRight size={13} className="text-[#2FA885]" />
+                  </Link>
+                )}
               </div>
             </motion.div>
           </AnimatePresence>

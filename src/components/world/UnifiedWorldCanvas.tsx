@@ -15,8 +15,8 @@ interface UnifiedWorldCanvasProps {
   onSelectService?: (service: ServiceItem | null) => void;
   selectedNode?: GraphNode | null;
   onSelectNode?: (node: GraphNode | null) => void;
-  selectedMethodologyStage?: number;
-  onSelectMethodologyStage?: (stage: number) => void;
+  selectedMethodologyStage?: number | null;
+  onSelectMethodologyStage?: (stage: number | null) => void;
 }
 
 export function UnifiedWorldCanvas({
@@ -100,6 +100,7 @@ export function UnifiedWorldCanvas({
           if (node) {
             setSelectedService(null);
             if (setPropService) setPropService(null);
+            if (setPropStage) setPropStage(null);
           }
         },
         onServiceSelect: (service) => {
@@ -108,6 +109,16 @@ export function UnifiedWorldCanvas({
           if (service) {
             setSelectedNode(null);
             if (setPropNode) setPropNode(null);
+            if (setPropStage) setPropStage(null);
+          }
+        },
+        onMethodologyStageSelect: (stage) => {
+          if (setPropStage) setPropStage(stage);
+          if (stage !== null) {
+            setSelectedNode(null);
+            setSelectedService(null);
+            if (setPropNode) setPropNode(null);
+            if (setPropService) setPropService(null);
           }
         },
       },

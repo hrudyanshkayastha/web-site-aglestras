@@ -7,6 +7,7 @@ export interface CameraControllerCallbacks {
   onDestinationChange: (dest: WorldDestinationId) => void;
   onNodeSelect: (node: GraphNode | null) => void;
   onServiceSelect: (service: ServiceItem | null) => void;
+  onMethodologyStageSelect?: (stage: number | null) => void;
   onNodeHover: (node: GraphNode | null) => void;
   onServiceHover: (service: ServiceItem | null) => void;
 }
@@ -28,6 +29,7 @@ export class UnifiedCameraController {
   private activeDestination: WorldDestinationId = "ENTRANCE";
   private selectedNode: GraphNode | null = null;
   private selectedService: ServiceItem | null = null;
+  private selectedMethodologyStage: number | null = null;
 
   // Orbit & Parallax
   private isDragging = false;
@@ -186,12 +188,16 @@ export class UnifiedCameraController {
           this.focusServicePylon(cur.userData.service as ServiceItem);
           return;
         }
+        if (cur.userData?.isMethodologyStage && cur.userData.stageNumber) {
+          this.focusMethodologyStage(cur.userData.stageNumber as number);
+          return;
+        }
         cur = cur.parent;
       }
     }
 
     // Clicked into empty space
-    if (this.selectedNode || this.selectedService) {
+    if (this.selectedNode || this.selectedService || this.selectedMethodologyStage) {
       this.clearFocus();
     }
   }
@@ -200,9 +206,11 @@ export class UnifiedCameraController {
     this.activeDestination = destId;
     this.selectedNode = null;
     this.selectedService = null;
+    this.selectedMethodologyStage = null;
     this.callbacks.onDestinationChange(destId);
     this.callbacks.onNodeSelect(null);
     this.callbacks.onServiceSelect(null);
+    this.callbacks.onMethodologyStageSelect?.(null);
 
     const wp = WORLD_DESTINATIONS[destId];
     this.targetCameraPos.set(...wp.cameraPos);
@@ -272,8 +280,19 @@ export class UnifiedCameraController {
     this.targetRotationAngle = { yaw: 0, pitch: 0 };
   }
 
-  public focusMethodologyStage(stage: number) {
-    const portalPositions = [
+  public focusMethodologyStage(stage: number | null) {
+    if (stage === null) {
+      this.selectedMethodologyStage = null;
+      this.callbacks.onMethodologyStageSelect?.(null);
+      const wp = WORLD_DESTINATIONS.METHODOLOGY;
+      this.targetCameraPos.set(...wp.cameraPos);
+      this.targetLookAt.set(...wp.lookAt);
+      this.targetFov = wp.fov || 44;
+      this.targetRotationAngle = { yaw: 0, pitch: 0 };
+      return;
+    }
+
+    const stagePositions = [
       [-2.4, -3.4, 4.4], // 01 Define
       [-1.4, -3.6, 3.2], // 02 Collect
       [-0.4, -3.8, 2.0], // 03 Verify
@@ -282,14 +301,24 @@ export class UnifiedCameraController {
       [2.6, -4.4, -1.6], // 06 Deliver
     ];
     const s = Math.max(1, Math.min(6, stage));
-    const targetPortal = portalPositions[s - 1];
+    this.selectedMethodologyStage = s;
+    this.selectedNode = null;
+    this.selectedService = null;
+    this.callbacks.onMethodologyStageSelect?.(s);
+    this.callbacks.onNodeSelect(null);
+    this.callbacks.onServiceSelect(null);
+
+    const targetPortal = stagePositions[s - 1];
     const px = targetPortal[0];
     const py = targetPortal[1];
     const pz = targetPortal[2];
 
-    this.targetCameraPos.set(px + 0.8, py + 1.8, pz + 4.2);
-    this.targetLookAt.set(px, py + 0.5, pz);
-    this.targetFov = 42;
+    // Frame camera so that the stage monument is positioned in the left-center of viewport,
+    // backed up enough to clearly see incoming and outgoing glowing conduits,
+    // leaving the right ~440px free for the compact stage explanation panel.
+    this.targetCameraPos.set(px + 1.8, py + 1.2, pz + 4.2);
+    this.targetLookAt.set(px + 0.4, py + 0.2, pz);
+    this.targetFov = 40;
     this.targetRotationAngle = { yaw: 0, pitch: 0 };
   }
 
@@ -331,8 +360,10 @@ export class UnifiedCameraController {
   public clearFocus() {
     this.selectedNode = null;
     this.selectedService = null;
+    this.selectedMethodologyStage = null;
     this.callbacks.onNodeSelect(null);
     this.callbacks.onServiceSelect(null);
+    this.callbacks.onMethodologyStageSelect?.(null);
     this.setDestination(this.activeDestination);
   }
 

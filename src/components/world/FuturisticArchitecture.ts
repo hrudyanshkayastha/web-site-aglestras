@@ -7,7 +7,7 @@ export interface ArchitectureElements {
   update: (delta: number, elapsed: number, activeDestination?: WorldDestinationId) => void;
   setPylonHovered: (serviceId: string | null) => void;
   setPylonSelected: (serviceId: string | null) => void;
-  setMethodologyStage: (stage: number) => void;
+  setMethodologyStage: (stage: number | null) => void;
   dispose: () => void;
 }
 
@@ -287,11 +287,15 @@ export function createFuturisticArchitecture(): ArchitectureElements {
   group.add(servicesPlazaGroup);
 
   // -------------------------------------------------------------
-  // C. METHODOLOGY SUBTERRANEAN CONDUIT PORTALS (SOUTH-DOWN)
-  // 6 sequential stepped arch portals: Define -> Collect -> Verify -> Correlate -> Analyze -> Deliver
+  // -------------------------------------------------------------
+  // C. 6 DISTINCT ARCHITECTURAL METHODOLOGY MONUMENTS & SPATIAL PATHWAY
+  // Sequential descending investigation journey:
+  // 01 Define -> 02 Collect -> 03 Verify -> 04 Correlate -> 05 Analyze -> 06 Deliver
   // -------------------------------------------------------------
   const methodologyPortalsGroup = new THREE.Group();
-  const portalPositions = [
+  methodologyPortalsGroup.name = "MethodologyConduitSanctuary";
+
+  const stagePositions = [
     new THREE.Vector3(-2.4, -3.4, 4.4), // 01 Define
     new THREE.Vector3(-1.4, -3.6, 3.2), // 02 Collect
     new THREE.Vector3(-0.4, -3.8, 2.0), // 03 Verify
@@ -300,66 +304,642 @@ export function createFuturisticArchitecture(): ArchitectureElements {
     new THREE.Vector3(2.6, -4.4, -1.6), // 06 Deliver
   ];
 
-  const methodologyThresholdMeshes: THREE.Mesh[] = [];
+  interface StageStructure {
+    group: THREE.Group;
+    stageIndex: number;
+    coreMesh: THREE.Mesh;
+    secondaryMesh?: THREE.Mesh;
+    beaconMesh: THREE.Mesh;
+    haloMesh: THREE.Mesh;
+    color: number;
+  }
 
-  portalPositions.forEach((pos, idx) => {
-    const portalSubGroup = new THREE.Group();
-    portalSubGroup.position.copy(pos);
-    portalSubGroup.userData = { isMethodologyPortal: true, stageIndex: idx + 1 };
+  const stageStructures: StageStructure[] = [];
 
-    // Stepped Arch Frame
-    const frameGeo = new THREE.TorusGeometry(0.85, 0.065, 12, 32, Math.PI);
-    disposables.push(frameGeo);
-    const frameMesh = new THREE.Mesh(frameGeo, slateMat);
-    frameMesh.rotation.y = Math.PI / 4;
-    portalSubGroup.add(frameMesh);
+  // Stage 01: Define (Scope Stela & Directional Reticle Prism)
+  {
+    const idx = 0;
+    const pos = stagePositions[idx];
+    const sGroup = new THREE.Group();
+    sGroup.position.copy(pos);
+    sGroup.userData = { isMethodologyStage: true, stageNumber: 1 };
 
-    // Glowing Inner Threshold Ring
-    const innerRingGeo = new THREE.TorusGeometry(0.72, 0.02, 12, 32, Math.PI);
-    disposables.push(innerRingGeo);
-    const innerRingMat = new THREE.MeshStandardMaterial({
-      color: 0xb7e4d5,
-      roughness: 0.3,
-      metalness: 0.7,
-      emissive: 0x2fa885,
-      emissiveIntensity: 0.2,
+    // Stepped octagonal basalt plinth
+    const plinthGeo = new THREE.CylinderGeometry(0.55, 0.65, 0.22, 8);
+    disposables.push(plinthGeo);
+    const plinthMesh = new THREE.Mesh(plinthGeo, basaltMat);
+    plinthMesh.userData = sGroup.userData;
+    sGroup.add(plinthMesh);
+
+    // Brass perimeter ring
+    const rimGeo = new THREE.TorusGeometry(0.55, 0.02, 12, 32);
+    disposables.push(rimGeo);
+    const rimMesh = new THREE.Mesh(rimGeo, brassMat);
+    rimMesh.rotation.x = Math.PI / 2;
+    rimMesh.position.y = 0.11;
+    rimMesh.userData = sGroup.userData;
+    sGroup.add(rimMesh);
+
+    // Twin flanking scope boundary stelae
+    [-0.42, 0.42].forEach((xOffset) => {
+      const stelaGeo = new THREE.BoxGeometry(0.06, 1.25, 0.06);
+      disposables.push(stelaGeo);
+      const stelaMesh = new THREE.Mesh(stelaGeo, basaltMat);
+      stelaMesh.position.set(xOffset, 0.62, 0);
+      stelaMesh.userData = sGroup.userData;
+      sGroup.add(stelaMesh);
+
+      const stelaInlayGeo = new THREE.BoxGeometry(0.02, 1.2, 0.07);
+      disposables.push(stelaInlayGeo);
+      const stelaInlay = new THREE.Mesh(stelaInlayGeo, brassMat);
+      stelaInlay.position.set(xOffset, 0.62, 0);
+      stelaInlay.userData = sGroup.userData;
+      sGroup.add(stelaInlay);
     });
-    disposables.push(innerRingMat);
-    const innerRingMesh = new THREE.Mesh(innerRingGeo, innerRingMat);
-    innerRingMesh.rotation.y = Math.PI / 4;
-    portalSubGroup.add(innerRingMesh);
-    methodologyThresholdMeshes.push(innerRingMesh);
 
-    methodologyPortalsGroup.add(portalSubGroup);
-  });
+    // Precision calibration scope ring
+    const scopeRingGeo = new THREE.TorusGeometry(0.36, 0.02, 16, 32);
+    disposables.push(scopeRingGeo);
+    const scopeRing = new THREE.Mesh(scopeRingGeo, brassMat);
+    scopeRing.position.y = 0.65;
+    scopeRing.userData = sGroup.userData;
+    sGroup.add(scopeRing);
 
-  // Connecting Pathway Conduit Curve between portals
-  const pathwayCurve = new THREE.CatmullRomCurve3(portalPositions);
-  const pathwayTubeGeo = new THREE.TubeGeometry(pathwayCurve, 48, 0.035, 8, false);
-  disposables.push(pathwayTubeGeo);
-  const pathwayTubeMat = new THREE.MeshStandardMaterial({
-    color: 0x073B32,
-    emissive: 0x2FA885,
-    emissiveIntensity: 0.35,
-    roughness: 0.4,
-    metalness: 0.6,
-  });
-  disposables.push(pathwayTubeMat);
-  const pathwayTubeMesh = new THREE.Mesh(pathwayTubeGeo, pathwayTubeMat);
-  methodologyPortalsGroup.add(pathwayTubeMesh);
+    // Directional Core Octahedron
+    const coreGeo = new THREE.OctahedronGeometry(0.22, 0);
+    disposables.push(coreGeo);
+    const coreMat = new THREE.MeshStandardMaterial({
+      color: 0xb7e4d5,
+      roughness: 0.2,
+      metalness: 0.8,
+      emissive: 0x2fa885,
+      emissiveIntensity: 0.75,
+    });
+    disposables.push(coreMat);
+    const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+    coreMesh.position.y = 0.65;
+    coreMesh.userData = sGroup.userData;
+    sGroup.add(coreMesh);
 
-  // Traveling Pathway Signal Pulse
-  const pathwayPulseGeo = new THREE.SphereGeometry(0.08, 12, 12);
-  disposables.push(pathwayPulseGeo);
-  const pathwayPulseMat = new THREE.MeshBasicMaterial({
-    color: 0xE6FFF8,
-    transparent: true,
-    opacity: 0.9,
-    blending: THREE.AdditiveBlending,
-  });
-  disposables.push(pathwayPulseMat);
-  const pathwayPulseMesh = new THREE.Mesh(pathwayPulseGeo, pathwayPulseMat);
-  methodologyPortalsGroup.add(pathwayPulseMesh);
+    // Vertical Beacon
+    const beaconGeo = new THREE.CylinderGeometry(0.06, 0.22, 4.2, 16, 1, true);
+    disposables.push(beaconGeo);
+    const beaconMat = new THREE.MeshBasicMaterial({
+      color: 0x2fa885,
+      transparent: true,
+      opacity: 0.0,
+      side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    disposables.push(beaconMat);
+    const beaconMesh = new THREE.Mesh(beaconGeo, beaconMat);
+    beaconMesh.position.y = 2.4;
+    sGroup.add(beaconMesh);
+
+    // Ground Target Halo
+    const haloGeo = new THREE.RingGeometry(0.32, 0.52, 32);
+    disposables.push(haloGeo);
+    const haloMat = new THREE.MeshBasicMaterial({
+      color: 0x2fa885,
+      transparent: true,
+      opacity: 0.15,
+      side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    disposables.push(haloMat);
+    const haloMesh = new THREE.Mesh(haloGeo, haloMat);
+    haloMesh.rotation.x = -Math.PI / 2;
+    haloMesh.position.y = 0.02;
+    sGroup.add(haloMesh);
+
+    methodologyPortalsGroup.add(sGroup);
+    stageStructures.push({
+      group: sGroup,
+      stageIndex: 1,
+      coreMesh,
+      secondaryMesh: scopeRing,
+      beaconMesh,
+      haloMesh,
+      color: 0x2fa885,
+    });
+  }
+
+  // Stage 02: Collect (Telemetry Ingestion Funnel & Sensor Array)
+  {
+    const idx = 1;
+    const pos = stagePositions[idx];
+    const sGroup = new THREE.Group();
+    sGroup.position.copy(pos);
+    sGroup.userData = { isMethodologyStage: true, stageNumber: 2 };
+
+    // Stepped circular slate plinth
+    const plinthGeo = new THREE.CylinderGeometry(0.62, 0.72, 0.22, 24);
+    disposables.push(plinthGeo);
+    const plinthMesh = new THREE.Mesh(plinthGeo, slateMat);
+    plinthMesh.userData = sGroup.userData;
+    sGroup.add(plinthMesh);
+
+    // Inverted sensor funnel cone
+    const funnelGeo = new THREE.CylinderGeometry(0.44, 0.14, 0.48, 16, 1, true);
+    disposables.push(funnelGeo);
+    const funnelMesh = new THREE.Mesh(funnelGeo, basaltMat);
+    funnelMesh.position.y = 0.42;
+    funnelMesh.userData = sGroup.userData;
+    sGroup.add(funnelMesh);
+
+    // 4 vertical sensor intake needles
+    for (let i = 0; i < 4; i++) {
+      const angle = (i * Math.PI) / 2;
+      const needleGeo = new THREE.CylinderGeometry(0.018, 0.018, 1.05, 8);
+      disposables.push(needleGeo);
+      const needleMesh = new THREE.Mesh(needleGeo, brassMat);
+      needleMesh.position.set(Math.cos(angle) * 0.38, 0.52, Math.sin(angle) * 0.38);
+      needleMesh.userData = sGroup.userData;
+      sGroup.add(needleMesh);
+    }
+
+    // Ingestion Pulsing Torus Core
+    const coreGeo = new THREE.TorusGeometry(0.3, 0.025, 16, 32);
+    disposables.push(coreGeo);
+    const coreMat = new THREE.MeshStandardMaterial({
+      color: 0x60a5fa,
+      roughness: 0.2,
+      metalness: 0.8,
+      emissive: 0x2563eb,
+      emissiveIntensity: 0.75,
+    });
+    disposables.push(coreMat);
+    const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+    coreMesh.rotation.x = Math.PI / 2;
+    coreMesh.position.y = 0.65;
+    coreMesh.userData = sGroup.userData;
+    sGroup.add(coreMesh);
+
+    // Vertical Beacon
+    const beaconGeo = new THREE.CylinderGeometry(0.06, 0.22, 4.2, 16, 1, true);
+    disposables.push(beaconGeo);
+    const beaconMat = new THREE.MeshBasicMaterial({
+      color: 0x60a5fa,
+      transparent: true,
+      opacity: 0.0,
+      side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    disposables.push(beaconMat);
+    const beaconMesh = new THREE.Mesh(beaconGeo, beaconMat);
+    beaconMesh.position.y = 2.4;
+    sGroup.add(beaconMesh);
+
+    // Ground Target Halo
+    const haloGeo = new THREE.RingGeometry(0.32, 0.52, 32);
+    disposables.push(haloGeo);
+    const haloMat = new THREE.MeshBasicMaterial({
+      color: 0x60a5fa,
+      transparent: true,
+      opacity: 0.15,
+      side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    disposables.push(haloMat);
+    const haloMesh = new THREE.Mesh(haloGeo, haloMat);
+    haloMesh.rotation.x = -Math.PI / 2;
+    haloMesh.position.y = 0.02;
+    sGroup.add(haloMesh);
+
+    methodologyPortalsGroup.add(sGroup);
+    stageStructures.push({
+      group: sGroup,
+      stageIndex: 2,
+      coreMesh,
+      beaconMesh,
+      haloMesh,
+      color: 0x60a5fa,
+    });
+  }
+
+  // Stage 03: Verify (Cryptographic Calibration Crucible)
+  {
+    const idx = 2;
+    const pos = stagePositions[idx];
+    const sGroup = new THREE.Group();
+    sGroup.position.copy(pos);
+    sGroup.userData = { isMethodologyStage: true, stageNumber: 3 };
+
+    // Hexagonal basalt plinth with gold rim
+    const plinthGeo = new THREE.CylinderGeometry(0.58, 0.68, 0.22, 6);
+    disposables.push(plinthGeo);
+    const plinthMesh = new THREE.Mesh(plinthGeo, basaltMat);
+    plinthMesh.userData = sGroup.userData;
+    sGroup.add(plinthMesh);
+
+    // Protective twin vault arches
+    const archGeo = new THREE.TorusGeometry(0.48, 0.026, 12, 32, Math.PI);
+    disposables.push(archGeo);
+    const arch1 = new THREE.Mesh(archGeo, brassMat);
+    arch1.position.y = 0.15;
+    arch1.userData = sGroup.userData;
+    sGroup.add(arch1);
+
+    const arch2 = new THREE.Mesh(archGeo, slateMat);
+    arch2.rotation.y = Math.PI / 2;
+    arch2.position.y = 0.15;
+    arch2.userData = sGroup.userData;
+    sGroup.add(arch2);
+
+    // Dual counter-rotating cryptographic verification tetrahedrons
+    const tetraGeo = new THREE.TetrahedronGeometry(0.32, 0);
+    disposables.push(tetraGeo);
+    const tetraMat = new THREE.MeshStandardMaterial({
+      color: 0xb7e4d5,
+      roughness: 0.2,
+      metalness: 0.8,
+      emissive: 0x2fa885,
+      emissiveIntensity: 0.75,
+    });
+    disposables.push(tetraMat);
+    const coreMesh = new THREE.Mesh(tetraGeo, tetraMat);
+    coreMesh.position.y = 0.62;
+    coreMesh.userData = sGroup.userData;
+    sGroup.add(coreMesh);
+
+    const innerTetraGeo = new THREE.TetrahedronGeometry(0.18, 0);
+    disposables.push(innerTetraGeo);
+    const innerTetra = new THREE.Mesh(innerTetraGeo, brassMat);
+    innerTetra.position.y = 0.62;
+    innerTetra.userData = sGroup.userData;
+    sGroup.add(innerTetra);
+
+    // Vertical Beacon
+    const beaconGeo = new THREE.CylinderGeometry(0.06, 0.22, 4.2, 16, 1, true);
+    disposables.push(beaconGeo);
+    const beaconMat = new THREE.MeshBasicMaterial({
+      color: 0x2fa885,
+      transparent: true,
+      opacity: 0.0,
+      side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    disposables.push(beaconMat);
+    const beaconMesh = new THREE.Mesh(beaconGeo, beaconMat);
+    beaconMesh.position.y = 2.4;
+    sGroup.add(beaconMesh);
+
+    // Ground Target Halo
+    const haloGeo = new THREE.RingGeometry(0.32, 0.52, 32);
+    disposables.push(haloGeo);
+    const haloMat = new THREE.MeshBasicMaterial({
+      color: 0x2fa885,
+      transparent: true,
+      opacity: 0.15,
+      side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    disposables.push(haloMat);
+    const haloMesh = new THREE.Mesh(haloGeo, haloMat);
+    haloMesh.rotation.x = -Math.PI / 2;
+    haloMesh.position.y = 0.02;
+    sGroup.add(haloMesh);
+
+    methodologyPortalsGroup.add(sGroup);
+    stageStructures.push({
+      group: sGroup,
+      stageIndex: 3,
+      coreMesh,
+      secondaryMesh: innerTetra,
+      beaconMesh,
+      haloMesh,
+      color: 0x2fa885,
+    });
+  }
+
+  // Stage 04: Correlate (Relational Topology Nexus & Orbital Rings)
+  {
+    const idx = 3;
+    const pos = stagePositions[idx];
+    const sGroup = new THREE.Group();
+    sGroup.position.copy(pos);
+    sGroup.userData = { isMethodologyStage: true, stageNumber: 4 };
+
+    // Stepped square dais plinth
+    const plinthGeo = new THREE.BoxGeometry(0.85, 0.22, 0.85);
+    disposables.push(plinthGeo);
+    const plinthMesh = new THREE.Mesh(plinthGeo, slateMat);
+    plinthMesh.userData = sGroup.userData;
+    sGroup.add(plinthMesh);
+
+    // Faceted Dodecahedron Core
+    const dodecGeo = new THREE.DodecahedronGeometry(0.26, 0);
+    disposables.push(dodecGeo);
+    const coreMat = new THREE.MeshStandardMaterial({
+      color: 0xb7e4d5,
+      roughness: 0.25,
+      metalness: 0.75,
+      emissive: 0x2fa885,
+      emissiveIntensity: 0.75,
+    });
+    disposables.push(coreMat);
+    const coreMesh = new THREE.Mesh(dodecGeo, coreMat);
+    coreMesh.position.y = 0.65;
+    coreMesh.userData = sGroup.userData;
+    sGroup.add(coreMesh);
+
+    // Dual intersecting orbital brass rings
+    const ringGeo = new THREE.TorusGeometry(0.44, 0.016, 16, 32);
+    disposables.push(ringGeo);
+    const ring1 = new THREE.Mesh(ringGeo, brassMat);
+    ring1.position.y = 0.65;
+    ring1.userData = sGroup.userData;
+    sGroup.add(ring1);
+
+    const ring2 = new THREE.Mesh(ringGeo, mintTrimMat);
+    ring2.rotation.x = Math.PI / 3;
+    ring2.position.y = 0.65;
+    ring2.userData = sGroup.userData;
+    sGroup.add(ring2);
+
+    // Vertical Beacon
+    const beaconGeo = new THREE.CylinderGeometry(0.06, 0.22, 4.2, 16, 1, true);
+    disposables.push(beaconGeo);
+    const beaconMat = new THREE.MeshBasicMaterial({
+      color: 0x2fa885,
+      transparent: true,
+      opacity: 0.0,
+      side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    disposables.push(beaconMat);
+    const beaconMesh = new THREE.Mesh(beaconGeo, beaconMat);
+    beaconMesh.position.y = 2.4;
+    sGroup.add(beaconMesh);
+
+    // Ground Target Halo
+    const haloGeo = new THREE.RingGeometry(0.32, 0.52, 32);
+    disposables.push(haloGeo);
+    const haloMat = new THREE.MeshBasicMaterial({
+      color: 0x2fa885,
+      transparent: true,
+      opacity: 0.15,
+      side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    disposables.push(haloMat);
+    const haloMesh = new THREE.Mesh(haloGeo, haloMat);
+    haloMesh.rotation.x = -Math.PI / 2;
+    haloMesh.position.y = 0.02;
+    sGroup.add(haloMesh);
+
+    methodologyPortalsGroup.add(sGroup);
+    stageStructures.push({
+      group: sGroup,
+      stageIndex: 4,
+      coreMesh,
+      secondaryMesh: ring1,
+      beaconMesh,
+      haloMesh,
+      color: 0x2fa885,
+    });
+  }
+
+  // Stage 05: Analyze (Epistemic Spectrum Plinth)
+  {
+    const idx = 4;
+    const pos = stagePositions[idx];
+    const sGroup = new THREE.Group();
+    sGroup.position.copy(pos);
+    sGroup.userData = { isMethodologyStage: true, stageNumber: 5 };
+
+    // Stepped pyramid plinth
+    const plinth1Geo = new THREE.BoxGeometry(0.95, 0.11, 0.95);
+    disposables.push(plinth1Geo);
+    const p1 = new THREE.Mesh(plinth1Geo, basaltMat);
+    p1.userData = sGroup.userData;
+    sGroup.add(p1);
+
+    const plinth2Geo = new THREE.BoxGeometry(0.75, 0.11, 0.75);
+    disposables.push(plinth2Geo);
+    const p2 = new THREE.Mesh(plinth2Geo, slateMat);
+    p2.position.y = 0.11;
+    p2.userData = sGroup.userData;
+    sGroup.add(p2);
+
+    // 4 vertical spectrum prism bars (Fact, Indicator, Inference, Unverified)
+    const prismColors = [0x2fa885, 0x60a5fa, 0xfbbf24, 0xc084fc];
+    prismColors.forEach((col, pIdx) => {
+      const angle = (pIdx * Math.PI) / 3 - Math.PI / 3;
+      const pGeo = new THREE.CylinderGeometry(0.035, 0.045, 0.55, 4);
+      disposables.push(pGeo);
+      const pMat = new THREE.MeshStandardMaterial({
+        color: col,
+        emissive: col,
+        emissiveIntensity: 0.6,
+        roughness: 0.2,
+      });
+      disposables.push(pMat);
+      const pMesh = new THREE.Mesh(pGeo, pMat);
+      pMesh.position.set(Math.cos(angle) * 0.32, 0.42, Math.sin(angle) * 0.32);
+      pMesh.userData = sGroup.userData;
+      sGroup.add(pMesh);
+    });
+
+    // Central Analytical Lens Core
+    const coreGeo = new THREE.OctahedronGeometry(0.24, 1);
+    disposables.push(coreGeo);
+    const coreMat = new THREE.MeshStandardMaterial({
+      color: 0xfbbf24,
+      roughness: 0.2,
+      metalness: 0.8,
+      emissive: 0xd97706,
+      emissiveIntensity: 0.75,
+    });
+    disposables.push(coreMat);
+    const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+    coreMesh.position.y = 0.68;
+    coreMesh.userData = sGroup.userData;
+    sGroup.add(coreMesh);
+
+    // Vertical Beacon
+    const beaconGeo = new THREE.CylinderGeometry(0.06, 0.22, 4.2, 16, 1, true);
+    disposables.push(beaconGeo);
+    const beaconMat = new THREE.MeshBasicMaterial({
+      color: 0xfbbf24,
+      transparent: true,
+      opacity: 0.0,
+      side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    disposables.push(beaconMat);
+    const beaconMesh = new THREE.Mesh(beaconGeo, beaconMat);
+    beaconMesh.position.y = 2.4;
+    sGroup.add(beaconMesh);
+
+    // Ground Target Halo
+    const haloGeo = new THREE.RingGeometry(0.32, 0.52, 32);
+    disposables.push(haloGeo);
+    const haloMat = new THREE.MeshBasicMaterial({
+      color: 0xfbbf24,
+      transparent: true,
+      opacity: 0.15,
+      side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    disposables.push(haloMat);
+    const haloMesh = new THREE.Mesh(haloGeo, haloMat);
+    haloMesh.rotation.x = -Math.PI / 2;
+    haloMesh.position.y = 0.02;
+    sGroup.add(haloMesh);
+
+    methodologyPortalsGroup.add(sGroup);
+    stageStructures.push({
+      group: sGroup,
+      stageIndex: 5,
+      coreMesh,
+      beaconMesh,
+      haloMesh,
+      color: 0xfbbf24,
+    });
+  }
+
+  // Stage 06: Deliver (Crystalline Transmission Monolith & Ascending Beacon)
+  {
+    const idx = 5;
+    const pos = stagePositions[idx];
+    const sGroup = new THREE.Group();
+    sGroup.position.copy(pos);
+    sGroup.userData = { isMethodologyStage: true, stageNumber: 6 };
+
+    // Stepped 12-sided dais
+    const plinthGeo = new THREE.CylinderGeometry(0.62, 0.72, 0.24, 12);
+    disposables.push(plinthGeo);
+    const plinthMesh = new THREE.Mesh(plinthGeo, basaltMat);
+    plinthMesh.userData = sGroup.userData;
+    sGroup.add(plinthMesh);
+
+    // Tall tapered basalt obelisk
+    const obeliskGeo = new THREE.CylinderGeometry(0.18, 0.28, 1.4, 4);
+    disposables.push(obeliskGeo);
+    const obeliskMesh = new THREE.Mesh(obeliskGeo, basaltMat);
+    obeliskMesh.position.y = 0.82;
+    obeliskMesh.userData = sGroup.userData;
+    sGroup.add(obeliskMesh);
+
+    // Crystalline transmission pyramid capstone
+    const capGeo = new THREE.ConeGeometry(0.24, 0.42, 4);
+    disposables.push(capGeo);
+    const capMat = new THREE.MeshStandardMaterial({
+      color: 0xb7e4d5,
+      roughness: 0.15,
+      metalness: 0.85,
+      emissive: 0x2fa885,
+      emissiveIntensity: 0.85,
+    });
+    disposables.push(capMat);
+    const coreMesh = new THREE.Mesh(capGeo, capMat);
+    coreMesh.position.y = 1.72;
+    coreMesh.userData = sGroup.userData;
+    sGroup.add(coreMesh);
+
+    // Vertical High-Power Transmission Beacon
+    const beaconGeo = new THREE.CylinderGeometry(0.06, 0.24, 4.8, 16, 1, true);
+    disposables.push(beaconGeo);
+    const beaconMat = new THREE.MeshBasicMaterial({
+      color: 0x2fa885,
+      transparent: true,
+      opacity: 0.0,
+      side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    disposables.push(beaconMat);
+    const beaconMesh = new THREE.Mesh(beaconGeo, beaconMat);
+    beaconMesh.position.y = 3.2;
+    sGroup.add(beaconMesh);
+
+    // Ground Target Halo
+    const haloGeo = new THREE.RingGeometry(0.32, 0.52, 32);
+    disposables.push(haloGeo);
+    const haloMat = new THREE.MeshBasicMaterial({
+      color: 0x2fa885,
+      transparent: true,
+      opacity: 0.15,
+      side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    disposables.push(haloMat);
+    const haloMesh = new THREE.Mesh(haloGeo, haloMat);
+    haloMesh.rotation.x = -Math.PI / 2;
+    haloMesh.position.y = 0.02;
+    sGroup.add(haloMesh);
+
+    methodologyPortalsGroup.add(sGroup);
+    stageStructures.push({
+      group: sGroup,
+      stageIndex: 6,
+      coreMesh,
+      beaconMesh,
+      haloMesh,
+      color: 0x2fa885,
+    });
+  }
+
+  // -------------------------------------------------------------
+  // 5 CONNECTING CONDUIT SEGMENTS & SIGNAL TRAVEL PULSES
+  // -------------------------------------------------------------
+  const conduitMeshes: THREE.Mesh[] = [];
+  const conduitCurves: THREE.CatmullRomCurve3[] = [];
+  const conduitPulseMeshes: THREE.Mesh[] = [];
+
+  for (let i = 0; i < stagePositions.length - 1; i++) {
+    const pStart = stagePositions[i].clone();
+    const pEnd = stagePositions[i + 1].clone();
+    const pMid = pStart.clone().lerp(pEnd, 0.5);
+    pMid.y -= 0.15; // Graceful downward curve
+
+    const curve = new THREE.CatmullRomCurve3([pStart, pMid, pEnd]);
+    conduitCurves.push(curve);
+
+    const tubeGeo = new THREE.TubeGeometry(curve, 24, 0.032, 8, false);
+    disposables.push(tubeGeo);
+
+    const tubeMat = new THREE.MeshStandardMaterial({
+      color: 0x073b32,
+      emissive: 0x2fa885,
+      emissiveIntensity: 0.55,
+      roughness: 0.35,
+      metalness: 0.7,
+      transparent: true,
+      opacity: 0.75,
+    });
+    disposables.push(tubeMat);
+
+    const tubeMesh = new THREE.Mesh(tubeGeo, tubeMat);
+    methodologyPortalsGroup.add(tubeMesh);
+    conduitMeshes.push(tubeMesh);
+
+    // Traveling photon pulse sphere
+    const pulseGeo = new THREE.SphereGeometry(0.065, 12, 12);
+    disposables.push(pulseGeo);
+    const pulseMat = new THREE.MeshBasicMaterial({
+      color: 0xe6fff8,
+      transparent: true,
+      opacity: 0.9,
+      blending: THREE.AdditiveBlending,
+    });
+    disposables.push(pulseMat);
+    const pulseMesh = new THREE.Mesh(pulseGeo, pulseMat);
+    methodologyPortalsGroup.add(pulseMesh);
+    conduitPulseMeshes.push(pulseMesh);
+  }
 
   group.add(methodologyPortalsGroup);
 
@@ -407,7 +987,7 @@ export function createFuturisticArchitecture(): ArchitectureElements {
   // Hover and selection state management
   let hoveredServiceId: string | null = null;
   let selectedServiceId: string | null = null;
-  let currentMethodologyStage = 1;
+  let currentMethodologyStage: number | null = null;
 
   const setPylonHovered = (serviceId: string | null) => {
     hoveredServiceId = serviceId;
@@ -417,8 +997,12 @@ export function createFuturisticArchitecture(): ArchitectureElements {
     selectedServiceId = serviceId;
   };
 
-  const setMethodologyStage = (stage: number) => {
-    currentMethodologyStage = Math.max(1, Math.min(6, stage));
+  const setMethodologyStage = (stage: number | null) => {
+    if (stage === null) {
+      currentMethodologyStage = null;
+    } else {
+      currentMethodologyStage = Math.max(1, Math.min(6, stage));
+    }
   };
 
   // Animation update
@@ -443,31 +1027,107 @@ export function createFuturisticArchitecture(): ArchitectureElements {
       });
     }
 
-    // Methodology pathway signal pulse and threshold rings emissive intensity
+    // Methodology monuments & conduit animations with selective illumination
     if (isMethodologyDest) {
-      const pulseT = (elapsed * 0.35) % 1.0;
-      const maxT = (currentMethodologyStage - 0.5) / 5.0;
-      const clampedPulseT = Math.min(pulseT, maxT);
-      const pulsePt = pathwayCurve.getPointAt(clampedPulseT);
-      pathwayPulseMesh.position.copy(pulsePt);
-      pathwayPulseMesh.visible = true;
-    } else {
-      pathwayPulseMesh.visible = false;
-    }
+      const hasStageSelected = currentMethodologyStage !== null;
 
-    methodologyThresholdMeshes.forEach((mesh, idx) => {
-      const mat = mesh.material as THREE.MeshStandardMaterial;
-      const stageNum = idx + 1;
-      const isCurrent = stageNum === currentMethodologyStage;
-      const isPast = stageNum < currentMethodologyStage;
-      const targetEmissive = isMethodologyDest
-        ? (isCurrent ? 2.2 : isPast ? 0.9 : 0.25)
-        : 0.15;
-      mat.emissiveIntensity = THREE.MathUtils.lerp(mat.emissiveIntensity, targetEmissive, delta * 6);
-      if (isCurrent && isMethodologyDest) {
-        mesh.rotation.z = elapsed * 0.5;
-      }
-    });
+      // Animate 6 stage structures
+      stageStructures.forEach((st) => {
+        const isCurrent = currentMethodologyStage === st.stageIndex;
+
+        // Rotate kinetic core
+        if (st.coreMesh) {
+          st.coreMesh.rotation.y = elapsed * (isCurrent ? 1.2 : 0.4);
+          if (st.stageIndex === 3) {
+            // Verify tetrahedrons counter-rotate
+            st.coreMesh.rotation.x = elapsed * 0.8;
+          }
+          if (st.secondaryMesh) {
+            st.secondaryMesh.rotation.z = elapsed * (isCurrent ? 1.6 : 0.6);
+          }
+
+          let targetScale = 1.0;
+          let targetEmissive = 0.75; // Ambient radiance in overview
+
+          if (hasStageSelected) {
+            if (isCurrent) {
+              targetScale = 1.35;
+              targetEmissive = 2.6; // High brilliance when selected
+            } else {
+              targetScale = 0.92;
+              targetEmissive = 0.22; // Resting silhouette for unselected
+            }
+          }
+
+          st.coreMesh.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), delta * 6);
+          const mat = st.coreMesh.material as THREE.MeshStandardMaterial;
+          mat.emissiveIntensity = THREE.MathUtils.lerp(mat.emissiveIntensity, targetEmissive, delta * 6);
+        }
+
+        // Beacon light column
+        if (st.beaconMesh) {
+          const bMat = st.beaconMesh.material as THREE.MeshBasicMaterial;
+          const targetBeaconOp = isCurrent ? 0.85 : 0.0;
+          bMat.opacity = THREE.MathUtils.lerp(bMat.opacity, targetBeaconOp, delta * 8);
+          if (isCurrent) {
+            st.beaconMesh.rotation.y = elapsed * 0.5;
+          }
+        }
+
+        // Floor halo
+        if (st.haloMesh) {
+          const hMat = st.haloMesh.material as THREE.MeshBasicMaterial;
+          const targetHaloOp = isCurrent ? 0.9 : hasStageSelected ? 0.06 : 0.16;
+          hMat.opacity = THREE.MathUtils.lerp(hMat.opacity, targetHaloOp, delta * 6);
+          const targetHaloScale = isCurrent ? 1.45 : hasStageSelected ? 0.85 : 1.0;
+          st.haloMesh.scale.lerp(new THREE.Vector3(targetHaloScale, targetHaloScale, targetHaloScale), delta * 6);
+          st.haloMesh.rotation.z = elapsed * (isCurrent ? 0.8 : 0.2);
+        }
+      });
+
+      // Animate 5 connecting conduit segments
+      conduitMeshes.forEach((cMesh, idx) => {
+        const cMat = cMesh.material as THREE.MeshStandardMaterial;
+        // Segment idx connects stage (idx+1) to stage (idx+2)
+        // Incoming to currentStage s: idx == s - 2
+        // Outgoing from currentStage s: idx == s - 1
+        const isIncoming = currentMethodologyStage !== null && idx === currentMethodologyStage - 2;
+        const isOutgoing = currentMethodologyStage !== null && idx === currentMethodologyStage - 1;
+        const isConnectedToActive = isIncoming || isOutgoing;
+
+        let targetEmissive = 0.55;
+        let targetOpacity = 0.75;
+
+        if (hasStageSelected) {
+          if (isConnectedToActive) {
+            targetEmissive = 1.8;
+            targetOpacity = 0.95;
+          } else {
+            targetEmissive = 0.18;
+            targetOpacity = 0.35;
+          }
+        }
+
+        cMat.emissiveIntensity = THREE.MathUtils.lerp(cMat.emissiveIntensity, targetEmissive, delta * 6);
+        cMat.opacity = THREE.MathUtils.lerp(cMat.opacity, targetOpacity, delta * 6);
+
+        // Traveling photon pulse on segment
+        const pulseMesh = conduitPulseMeshes[idx];
+        if (pulseMesh) {
+          pulseMesh.visible = true;
+          const speed = isConnectedToActive ? 0.9 : 0.45;
+          const pT = ((elapsed * speed) + (idx * 0.2)) % 1.0;
+          const curve = conduitCurves[idx];
+          if (curve) {
+            pulseMesh.position.copy(curve.getPointAt(pT));
+          }
+        }
+      });
+    } else {
+      conduitPulseMeshes.forEach((p) => {
+        p.visible = false;
+      });
+    }
 
     // Pylon animations with selective illumination
     pylonMeshes.forEach((pGroup, sId) => {

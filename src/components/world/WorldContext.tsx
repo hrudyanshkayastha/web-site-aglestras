@@ -14,13 +14,13 @@ interface WorldContextType {
   setSelectedService: (service: ServiceItem | null) => void;
   selectedNode: GraphNode | null;
   setSelectedNode: (node: GraphNode | null) => void;
-  methodologyStage: number;
-  setMethodologyStage: (stage: number) => void;
+  methodologyStage: number | null;
+  setMethodologyStage: (stage: number | null) => void;
   operationalStage: "investigate" | "verify" | "operationalize" | null;
   setOperationalStage: (stage: "investigate" | "verify" | "operationalize" | null) => void;
   focusOperationalStage: (stage: "investigate" | "verify" | "operationalize" | null) => void;
   focusService: (service: ServiceItem | null) => void;
-  focusMethodologyStage: (stage: number) => void;
+  focusMethodologyStage: (stage: number | null) => void;
   focusNode: (node: GraphNode | null) => void;
   resetToOverview: () => void;
   engine: UnifiedWorldEngine | null;
@@ -36,7 +36,7 @@ export function WorldProvider({ children }: { children: React.ReactNode }) {
   const [activeDestination, setActiveDestination] = useState<WorldDestinationId>("ENTRANCE");
   const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
   const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
-  const [methodologyStage, setMethodologyStage] = useState<number>(1);
+  const [methodologyStage, setMethodologyStage] = useState<number | null>(null);
   const [operationalStage, setOperationalStage] = useState<"investigate" | "verify" | "operationalize" | null>(null);
   const [isReducedMotion, setIsReducedMotion] = useState(false);
 
@@ -53,6 +53,7 @@ export function WorldProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     setSelectedService(null);
     setSelectedNode(null);
+    setMethodologyStage(null);
 
     if (!engine) return;
 
@@ -107,9 +108,15 @@ export function WorldProvider({ children }: { children: React.ReactNode }) {
   );
 
   const focusMethodologyStage = useCallback(
-    (stage: number) => {
+    (stage: number | null) => {
       setMethodologyStage(stage);
-      if (engine) engine.focusMethodologyStage(stage);
+      if (stage !== null) {
+        setSelectedService(null);
+        setSelectedNode(null);
+        if (engine) engine.focusMethodologyStage(stage);
+      } else {
+        if (engine) engine.focusMethodologyStage(null);
+      }
     },
     [engine]
   );
@@ -119,6 +126,7 @@ export function WorldProvider({ children }: { children: React.ReactNode }) {
       setSelectedNode(node);
       if (node) {
         setSelectedService(null);
+        setMethodologyStage(null);
         if (engine) engine.focusNode(node);
       } else {
         if (engine) engine.resetToOverview();
@@ -138,6 +146,7 @@ export function WorldProvider({ children }: { children: React.ReactNode }) {
   const resetToOverview = useCallback(() => {
     setSelectedService(null);
     setSelectedNode(null);
+    setMethodologyStage(null);
     setOperationalStage(null);
     if (engine) engine.resetToOverview();
   }, [engine]);
