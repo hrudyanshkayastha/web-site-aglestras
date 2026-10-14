@@ -4,6 +4,7 @@ export interface JungleElements {
   group: THREE.Group;
   update: (delta: number, elapsed: number) => void;
   dispose: () => void;
+  setOperationalHighlight: (stage: "investigate" | "verify" | "operationalize" | null) => void;
 }
 
 export function createBioluminescentJungle(): JungleElements {
@@ -384,11 +385,50 @@ export function createBioluminescentJungle(): JungleElements {
   // -------------------------------------------------------------
   // 7. ANIMATION LOOP & LIFECYCLE
   // -------------------------------------------------------------
+  let activeHighlight: "investigate" | "verify" | "operationalize" | null = null;
+  let totalTime = 0;
+
+  const setOperationalHighlight = (stage: "investigate" | "verify" | "operationalize" | null) => {
+    activeHighlight = stage;
+  };
+
   const update = (delta: number, elapsed: number) => {
+    totalTime += delta;
+    // Coordinated entrance lighting reveal: gentle bloom from 0.4 up to 1.0 over initial 1.2s
+    const entranceReveal = Math.min(1.0, 0.4 + (totalTime / 1.2) * 0.6);
+
     // 1. Nucleus breathing pulse
     const breath = Math.sin(elapsed * 2.2);
-    nucleusMaterial.emissiveIntensity = 2.4 + breath * 0.8;
-    nucleusLight.intensity = 3.2 + breath * 1.2;
+
+    if (activeHighlight === "verify") {
+      // Epistemic verification harmonic: intense focused core pulse
+      nucleusMaterial.emissiveIntensity = (3.6 + breath * 0.9) * entranceReveal;
+      nucleusLight.intensity = (4.8 + breath * 1.5) * entranceReveal;
+      goldenDaisMaterial.emissiveIntensity = (0.75 + Math.sin(elapsed * 2.0) * 0.25) * entranceReveal;
+      neuralBranchMaterial.emissiveIntensity = (0.85 + Math.sin(elapsed * 1.8) * 0.2) * entranceReveal;
+      synapticNodeMaterial.emissiveIntensity = (2.0 + Math.sin(elapsed * 2.4) * 0.5) * entranceReveal;
+    } else if (activeHighlight === "investigate") {
+      // Active peripheral sensory search: high synaptic node pulse
+      nucleusMaterial.emissiveIntensity = (2.2 + breath * 0.6) * entranceReveal;
+      nucleusLight.intensity = (3.0 + breath * 1.0) * entranceReveal;
+      goldenDaisMaterial.emissiveIntensity = (0.45 + Math.sin(elapsed * 1.5) * 0.15) * entranceReveal;
+      neuralBranchMaterial.emissiveIntensity = (1.1 + Math.sin(elapsed * 2.4) * 0.35) * entranceReveal;
+      synapticNodeMaterial.emissiveIntensity = (2.8 + Math.sin(elapsed * 3.0) * 0.8) * entranceReveal;
+    } else if (activeHighlight === "operationalize") {
+      // Repeatable architectural conduits: illuminate roots and dais rings
+      nucleusMaterial.emissiveIntensity = (2.4 + breath * 0.7) * entranceReveal;
+      nucleusLight.intensity = (3.4 + breath * 1.1) * entranceReveal;
+      goldenDaisMaterial.emissiveIntensity = (0.85 + Math.sin(elapsed * 2.2) * 0.3) * entranceReveal;
+      neuralBranchMaterial.emissiveIntensity = (1.2 + Math.sin(elapsed * 2.2) * 0.35) * entranceReveal;
+      synapticNodeMaterial.emissiveIntensity = (2.2 + Math.sin(elapsed * 2.4) * 0.6) * entranceReveal;
+    } else {
+      // Default harmonious ambient pulsation
+      nucleusMaterial.emissiveIntensity = (2.4 + breath * 0.8) * entranceReveal;
+      nucleusLight.intensity = (3.2 + breath * 1.2) * entranceReveal;
+      goldenDaisMaterial.emissiveIntensity = (0.4 + Math.sin(elapsed * 1.5) * 0.15) * entranceReveal;
+      neuralBranchMaterial.emissiveIntensity = (0.75 + Math.sin(elapsed * 1.8) * 0.25) * entranceReveal;
+      synapticNodeMaterial.emissiveIntensity = (1.8 + Math.sin(elapsed * 2.4 + 0.5) * 0.6) * entranceReveal;
+    }
 
     // Corona rings gentle rotation & pulsation
     coronaRings.forEach((ring, idx) => {
@@ -397,18 +437,14 @@ export function createBioluminescentJungle(): JungleElements {
       ring.scale.set(s, s, s);
     });
 
-    // 2. Neural branch & node pulsation
-    neuralBranchMaterial.emissiveIntensity = 0.75 + Math.sin(elapsed * 1.8) * 0.25;
-    synapticNodeMaterial.emissiveIntensity = 1.8 + Math.sin(elapsed * 2.4 + 0.5) * 0.6;
-    goldenDaisMaterial.emissiveIntensity = 0.4 + Math.sin(elapsed * 1.5) * 0.15;
-
     // 3. Travel Signal Packets along branch curves
     const sigPosAttr = signalGeo.attributes.position as THREE.BufferAttribute;
     const sigArr = sigPosAttr.array as Float32Array;
+    const speedMultiplier = activeHighlight === "investigate" ? 1.6 : 1.0;
 
     for (let i = 0; i < signalCount; i++) {
       const s = signalData[i];
-      s.progress += delta * s.speed;
+      s.progress += delta * s.speed * speedMultiplier;
       if (s.progress > 1.0) s.progress = 0.0;
 
       const curve = branchCurves[s.curveIndex];
@@ -447,5 +483,6 @@ export function createBioluminescentJungle(): JungleElements {
     group,
     update,
     dispose,
+    setOperationalHighlight,
   };
 }

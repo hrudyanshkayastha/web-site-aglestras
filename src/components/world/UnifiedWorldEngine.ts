@@ -132,6 +132,13 @@ export class UnifiedWorldEngine {
     this.controller.focusMethodologyStage(stage);
   }
 
+  public focusOperationalStage(stage: "investigate" | "verify" | "operationalize" | null) {
+    this.controller.focusOperationalStage(stage);
+    if (this.jungle) {
+      this.jungle.setOperationalHighlight(stage);
+    }
+  }
+
   public resetToOverview() {
     this.controller.clearFocus();
     this.architecture.setPylonSelected(null);

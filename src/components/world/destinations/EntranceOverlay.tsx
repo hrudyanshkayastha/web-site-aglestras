@@ -3,17 +3,19 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, ArrowDown, Play, Pause } from "lucide-react";
+import { ArrowUpRight, ArrowRight, ArrowDown, Play, Pause } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface EntranceOverlayProps {
   onExploreServices: () => void;
+  onExploreEngine?: () => void;
   onExploreMethodology?: () => void;
   onExploreAtlas?: () => void;
 }
 
 export function EntranceOverlay({
   onExploreServices,
+  onExploreEngine,
   onExploreAtlas,
 }: EntranceOverlayProps) {
   const [isReducedMotion, setIsReducedMotion] = useState(false);
@@ -182,10 +184,10 @@ export function EntranceOverlay({
   return (
     <section
       id="destination-entrance"
-      className="min-h-screen flex flex-col justify-center items-center px-6 md:px-10 pt-28 pb-32 text-center relative z-20 pointer-events-none overflow-hidden"
+      className="min-h-screen flex flex-col justify-center items-center px-4 sm:px-8 md:px-12 pt-24 pb-28 text-center relative z-20 pointer-events-none overflow-hidden"
     >
-      {/* Atmospheric Media Blend (Supports the 3D Scene Without Obscuring the Living World) */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0 opacity-35 mix-blend-screen">
+      {/* Ambient Atmospheric Blend with Clean Center Aperture (Zero lines crossing text) */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0 opacity-20 mix-blend-screen">
         {/* Layer 1: High-Resolution Reference Poster (Guaranteed Fallback) */}
         <div className="absolute inset-0 w-full h-full">
           <Image
@@ -193,7 +195,7 @@ export function EntranceOverlay({
             alt="Agletras Cinematic Neural Sanctuary Reference"
             fill
             priority
-            className="object-cover object-center filter brightness-[0.6] contrast-[1.14]"
+            className="object-cover object-center filter brightness-[0.55] contrast-[1.1]"
           />
         </div>
 
@@ -208,7 +210,7 @@ export function EntranceOverlay({
             playsInline
             preload="auto"
             poster="/images/agletras-emerald-world.png"
-            className={`absolute inset-0 w-full h-full object-cover object-center scale-105 filter brightness-[0.68] contrast-[1.18] transition-opacity duration-1000 ${
+            className={`absolute inset-0 w-full h-full object-cover object-center scale-105 filter brightness-[0.62] contrast-[1.15] transition-opacity duration-1000 ${
               isPlaying ? "opacity-100" : "opacity-0"
             }`}
             aria-hidden="true"
@@ -217,15 +219,12 @@ export function EntranceOverlay({
           </video>
         )}
 
-        {/* Layer 3: Atmospheric Gradient Vignette */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#041F1B] via-transparent to-[#020F0C]/80" />
+        {/* Layer 3: Central Radial Clear Aperture (Keeps center 100% clean and transparent for the live 3D tree) */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_25%,#041F1B_80%)]" />
       </div>
 
       {/* Hero Content Container (Luminous Airy Frosted Pedestal for Seamless 3D Depth & 100% Readability) */}
-      {/* Hero Content Container (Luminous Airy Frosted Pedestal for Seamless 3D Depth & 100% Readability) */}
-      <div
-        className="relative z-10 max-w-3xl mx-auto space-y-6 sm:space-y-7 pointer-events-auto px-6 py-8 sm:px-10 sm:py-10 rounded-3xl bg-gradient-to-b from-[#031714]/65 via-[#031714]/45 to-[#031714]/65 border border-[#B7E4D5]/30 backdrop-blur-md shadow-[0_16px_48px_rgba(2,15,12,0.5)]"
-      >
+      <div className="relative z-10 max-w-3xl mx-auto space-y-6 pointer-events-auto px-6 py-8 sm:px-10 sm:py-9 rounded-3xl bg-gradient-to-b from-[#031714]/75 via-[#031714]/55 to-[#031714]/75 border border-[#B7E4D5]/25 backdrop-blur-md shadow-[0_20px_50px_rgba(2,15,12,0.65)] animate-in fade-in duration-500">
         {/* Eyebrow Brand Badge with Unaltered Authentic Logo */}
         <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#073B32]/90 border border-[#B7E4D5]/35 shadow-lg backdrop-blur-md">
           <div className="relative w-5 h-5 rounded-full bg-gradient-to-b from-[#0a4237] to-[#041F1B] p-0.5 border border-[#B7E4D5]/40 flex items-center justify-center shrink-0">
@@ -244,12 +243,12 @@ export function EntranceOverlay({
         </div>
 
         {/* Restrained Category Label */}
-        <div className="text-xs uppercase tracking-[0.25em] font-mono text-[#8DA99E]">
-          OSINT · RESEARCH · AUTOMATION · CYBER INTELLIGENCE
+        <div className="text-[11px] sm:text-xs uppercase tracking-[0.25em] font-mono text-[#8DA99E]">
+          OSINT · CYBER INTELLIGENCE · INVESTIGATIVE RESEARCH · REPEATABLE AUTOMATION
         </div>
 
         {/* Headline */}
-        <h1 className="text-editorial-hero text-[#F4F2EA] tracking-tight drop-shadow-[0_4px_24px_rgba(2,15,12,0.95)]">
+        <h1 className="text-editorial-hero text-[#F4F2EA] tracking-tight drop-shadow-[0_4px_30px_rgba(2,15,12,0.95)]">
           Intelligence From{" "}
           <span className="italic font-normal text-[#B7E4D5]">
             Open Information.
@@ -258,78 +257,58 @@ export function EntranceOverlay({
 
         {/* Plain-Language 5-Second Explanation */}
         <p className="text-base sm:text-lg md:text-xl text-[#D6E7E1] max-w-2xl mx-auto font-light leading-relaxed drop-shadow-[0_2px_12px_rgba(2,15,12,0.9)]">
-          Agletras helps organizations investigate digital threats, assess exposure, verify information, and turn fragmented open-source data into structured, actionable intelligence.
+          Agletras helps organizations investigate digital risks, research relevant entities and relationships, verify information, and turn fragmented public-source data into structured intelligence.
         </p>
 
         {/* Primary and Secondary Calls to Action */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
           <button
             type="button"
             onClick={onExploreServices}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-semibold tracking-wide text-[#041F1B] bg-[#B7E4D5] hover:bg-[#C8EFE2] transition-all shadow-[0_4px_24px_rgba(47,168,133,0.3)] hover:shadow-[0_6px_32px_rgba(47,168,133,0.45)] cursor-pointer"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-xs font-mono font-semibold tracking-wider uppercase text-[#041F1B] bg-[#B7E4D5] hover:bg-[#C8EFE2] transition-all shadow-[0_4px_24px_rgba(47,168,133,0.35)] hover:-translate-y-0.5 cursor-pointer"
           >
-            <span>Explore Services</span>
-            <ArrowDown size={15} />
+            <span>Explore 6 Services</span>
+            <ArrowDown size={14} />
           </button>
 
-          {onExploreAtlas ? (
+          {onExploreEngine ? (
             <button
               type="button"
-              onClick={onExploreAtlas}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-medium tracking-wide text-[#F4F2EA] bg-[#073B32]/80 hover:bg-[#073B32] border border-[#B7E4D5]/35 hover:border-[#B7E4D5]/65 transition-all backdrop-blur-md shadow-md cursor-pointer"
+              onClick={onExploreEngine}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full text-xs font-mono font-medium tracking-wider uppercase text-[#F4F2EA] bg-[#073B32]/80 hover:bg-[#073B32] border border-[#B7E4D5]/35 hover:border-[#B7E4D5]/65 transition-all backdrop-blur-md shadow-md hover:-translate-y-0.5 cursor-pointer"
             >
-              <span>Explore Intelligence Atlas</span>
-              <ArrowUpRight size={15} className="text-[#B7E4D5]" />
+              <span>How We Work</span>
+              <ArrowRight size={14} className="text-[#B7E4D5]" />
             </button>
           ) : (
             <Link
-              href="/research"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-medium tracking-wide text-[#F4F2EA] bg-[#073B32]/80 hover:bg-[#073B32] border border-[#B7E4D5]/35 hover:border-[#B7E4D5]/65 transition-all backdrop-blur-md shadow-md cursor-pointer"
+              href="#operational-engine"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full text-xs font-mono font-medium tracking-wider uppercase text-[#F4F2EA] bg-[#073B32]/80 hover:bg-[#073B32] border border-[#B7E4D5]/35 hover:border-[#B7E4D5]/65 transition-all backdrop-blur-md shadow-md hover:-translate-y-0.5 cursor-pointer"
             >
-              <span>Explore Intelligence Atlas</span>
-              <ArrowUpRight size={15} className="text-[#B7E4D5]" />
+              <span>How We Work</span>
+              <ArrowRight size={14} className="text-[#B7E4D5]" />
             </Link>
           )}
+
+          <Link
+            href="/contact"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-5 py-3.5 rounded-full text-xs font-mono font-medium tracking-wider uppercase text-[#B7E4D5] hover:text-[#FFFFFF] hover:bg-[#073B32]/40 transition-all cursor-pointer"
+          >
+            <span>Discuss Scope</span>
+            <ArrowUpRight size={14} />
+          </Link>
         </div>
 
-        {/* Research-to-Automation Startup Blueprint */}
-        <div className="pt-6 border-t border-[#B7E4D5]/15 space-y-3">
-          <div className="flex items-center justify-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#2FA885]" />
-            <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[#B7E4D5] font-semibold">
-              From Research to Repeatable Automation
-            </span>
-            <span className="w-1.5 h-1.5 rounded-full bg-[#2FA885]" />
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
-            <div className="p-3.5 rounded-2xl bg-[#041F1B]/75 border border-[#B7E4D5]/15 space-y-1">
-              <span className="font-mono text-[10px] uppercase tracking-wider text-[#2FA885] font-semibold block">
-                01. Empirical Research
-              </span>
-              <p className="text-[11px] text-[#C5D9D2] font-light leading-relaxed">
-                Manual, rigorous OSINT and threat intelligence investigations answering immediate client inquiries.
-              </p>
-            </div>
-
-            <div className="p-3.5 rounded-2xl bg-[#041F1B]/75 border border-[#B7E4D5]/15 space-y-1">
-              <span className="font-mono text-[10px] uppercase tracking-wider text-amber-400 font-semibold block">
-                02. Epistemic Rigor
-              </span>
-              <p className="text-[11px] text-[#C5D9D2] font-light leading-relaxed">
-                Structured 5-tier attribution separating confirmed facts from hypotheses, inferences, and open gaps.
-              </p>
-            </div>
-
-            <div className="p-3.5 rounded-2xl bg-[#041F1B]/75 border border-[#B7E4D5]/15 space-y-1">
-              <span className="font-mono text-[10px] uppercase tracking-wider text-[#B7E4D5] font-semibold block">
-                03. Repeatable Pipelines
-              </span>
-              <p className="text-[11px] text-[#C5D9D2] font-light leading-relaxed">
-                Codifying validated analytical workflows into automated ingestion pipelines and reproducible tools.
-              </p>
-            </div>
-          </div>
+        {/* Subtle Scroll Cue */}
+        <div className="pt-2 text-center">
+          <button
+            type="button"
+            onClick={onExploreEngine || onExploreServices}
+            className="inline-flex items-center gap-1.5 text-[10px] font-mono text-[#8DA99E] hover:text-[#B7E4D5] transition-colors cursor-pointer group"
+          >
+            <span className="tracking-[0.2em] uppercase">Scroll to explore operational model</span>
+            <ArrowDown size={11} className="group-hover:translate-y-0.5 transition-transform text-[#2FA885]" />
+          </button>
         </div>
       </div>
 

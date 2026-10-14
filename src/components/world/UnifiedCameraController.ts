@@ -291,6 +291,41 @@ export class UnifiedCameraController {
     this.targetRotationAngle = { yaw: 0, pitch: 0 };
   }
 
+  public focusOperationalStage(stage: "investigate" | "verify" | "operationalize" | null) {
+    if (!stage) {
+      this.selectedNode = null;
+      this.selectedService = null;
+      const wp = WORLD_DESTINATIONS[this.activeDestination];
+      this.targetCameraPos.set(...wp.cameraPos);
+      this.targetLookAt.set(...wp.lookAt);
+      this.targetFov = wp.fov || 44;
+      this.targetRotationAngle = { yaw: 0, pitch: 0 };
+      return;
+    }
+
+    this.selectedNode = null;
+    this.selectedService = null;
+
+    if (stage === "investigate") {
+      // Slanted high-angle perspective looking at the peripheral branches and source ingestion
+      this.targetCameraPos.set(2.4, 2.2, 7.6);
+      this.targetLookAt.set(0.8, 1.2, -1.8);
+      this.targetFov = 43;
+    } else if (stage === "verify") {
+      // Front-on view framing the central glowing nucleus and golden dais rings
+      this.targetCameraPos.set(0.0, 1.5, 5.8);
+      this.targetLookAt.set(0.0, 1.05, -2.6);
+      this.targetFov = 40;
+    } else if (stage === "operationalize") {
+      // Perspective framing the architectural colonnade pylons on the left flank
+      this.targetCameraPos.set(-2.8, 2.4, 7.2);
+      this.targetLookAt.set(-4.2, 1.0, 0.4);
+      this.targetFov = 44;
+    }
+
+    this.targetRotationAngle = { yaw: 0, pitch: 0 };
+  }
+
   public clearFocus() {
     this.selectedNode = null;
     this.selectedService = null;

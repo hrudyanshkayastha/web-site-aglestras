@@ -5,6 +5,7 @@ import { useWorldContext } from "./WorldContext";
 import { WORLD_DESTINATIONS } from "./WorldConfig";
 import { WorldNavigatorHUD } from "./WorldNavigatorHUD";
 import { EntranceOverlay } from "./destinations/EntranceOverlay";
+import { OperationalEngineOverlay } from "./destinations/OperationalEngineOverlay";
 import { ServicesOverlay } from "./destinations/ServicesOverlay";
 import { MethodologyOverlay } from "./destinations/MethodologyOverlay";
 import { AtlasOverlay } from "./destinations/AtlasOverlay";
@@ -63,8 +64,14 @@ export function UnifiedWorldExperience() {
       {/* Destination A: Entrance */}
       <EntranceOverlay
         onExploreServices={() => scrollToSection("destination-services")}
-        onExploreMethodology={() => scrollToSection("destination-methodology")}
+        onExploreEngine={() => scrollToSection("operational-engine")}
         onExploreAtlas={() => scrollToSection("destination-atlas")}
+      />
+
+      {/* Operational Engine: Research Services -> Repeatable Workflows -> Research Automation */}
+      <OperationalEngineOverlay
+        onExploreServices={() => scrollToSection("destination-services")}
+        onExploreMethodology={() => scrollToSection("destination-methodology")}
       />
 
       {/* Destination B: Services Pavilion */}

@@ -16,6 +16,9 @@ interface WorldContextType {
   setSelectedNode: (node: GraphNode | null) => void;
   methodologyStage: number;
   setMethodologyStage: (stage: number) => void;
+  operationalStage: "investigate" | "verify" | "operationalize" | null;
+  setOperationalStage: (stage: "investigate" | "verify" | "operationalize" | null) => void;
+  focusOperationalStage: (stage: "investigate" | "verify" | "operationalize" | null) => void;
   focusService: (service: ServiceItem | null) => void;
   focusMethodologyStage: (stage: number) => void;
   focusNode: (node: GraphNode | null) => void;
@@ -34,6 +37,7 @@ export function WorldProvider({ children }: { children: React.ReactNode }) {
   const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
   const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
   const [methodologyStage, setMethodologyStage] = useState<number>(1);
+  const [operationalStage, setOperationalStage] = useState<"investigate" | "verify" | "operationalize" | null>(null);
   const [isReducedMotion, setIsReducedMotion] = useState(false);
 
   // Reduced motion preference
@@ -123,9 +127,18 @@ export function WorldProvider({ children }: { children: React.ReactNode }) {
     [engine]
   );
 
+  const focusOperationalStage = useCallback(
+    (stage: "investigate" | "verify" | "operationalize" | null) => {
+      setOperationalStage(stage);
+      if (engine) engine.focusOperationalStage(stage);
+    },
+    [engine]
+  );
+
   const resetToOverview = useCallback(() => {
     setSelectedService(null);
     setSelectedNode(null);
+    setOperationalStage(null);
     if (engine) engine.resetToOverview();
   }, [engine]);
 
@@ -140,6 +153,9 @@ export function WorldProvider({ children }: { children: React.ReactNode }) {
         setSelectedNode,
         methodologyStage,
         setMethodologyStage,
+        operationalStage,
+        setOperationalStage,
+        focusOperationalStage,
         focusService,
         focusMethodologyStage,
         focusNode,
