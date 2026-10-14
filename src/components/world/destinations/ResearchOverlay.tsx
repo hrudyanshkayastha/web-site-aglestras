@@ -41,7 +41,7 @@ export function ResearchOverlay() {
       id="destination-research"
       className="min-h-screen flex flex-col justify-center px-6 md:px-10 pt-28 pb-36 relative z-20 pointer-events-none"
     >
-      <div className="max-w-6xl mx-auto w-full space-y-8 pointer-events-auto p-6 sm:p-10 rounded-3xl bg-gradient-to-b from-[#031714]/95 via-[#031714]/92 to-[#031714]/94 border border-[#B7E4D5]/20 backdrop-blur-2xl shadow-2xl">
+      <div className="max-w-6xl mx-auto w-full space-y-8 pointer-events-auto p-6 sm:p-10 rounded-3xl bg-gradient-to-b from-[#031714]/70 via-[#031714]/55 to-[#031714]/70 border border-[#B7E4D5]/25 backdrop-blur-md shadow-[0_16px_48px_rgba(2,15,12,0.6)]">
         {/* Destination Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#B7E4D5]/15 pb-6">
           <div className="max-w-2xl space-y-2">
@@ -76,7 +76,7 @@ export function ResearchOverlay() {
             return (
               <div
                 key={idx}
-                className="p-5 rounded-2xl bg-[#041F1B]/80 border border-[#B7E4D5]/15 hover:border-[#2FA885]/40 transition-all flex flex-col justify-between space-y-4"
+                className="p-5 rounded-2xl bg-[#041F1B]/70 border border-[#B7E4D5]/15 hover:border-[#2FA885]/60 hover:bg-[#073B32]/50 hover:-translate-y-1 transition-all flex flex-col justify-between space-y-4 backdrop-blur-sm shadow-md"
               >
                 <div className="space-y-3">
                   <div className="w-10 h-10 rounded-xl bg-[#073B32] border border-[#B7E4D5]/20 flex items-center justify-center text-[#2FA885]">

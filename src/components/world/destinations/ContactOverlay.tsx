@@ -9,7 +9,7 @@ export function ContactOverlay() {
       id="destination-contact"
       className="min-h-screen flex flex-col justify-center items-center px-6 md:px-10 pt-28 pb-36 text-center relative z-20 pointer-events-none"
     >
-      <div className="max-w-4xl mx-auto space-y-7 pointer-events-auto p-8 sm:p-12 rounded-3xl bg-gradient-to-b from-[#031714]/95 via-[#031714]/92 to-[#031714]/90 border border-[#B7E4D5]/20 backdrop-blur-2xl shadow-2xl">
+      <div className="max-w-4xl mx-auto space-y-7 pointer-events-auto p-8 sm:p-12 rounded-3xl bg-gradient-to-b from-[#031714]/75 via-[#031714]/60 to-[#031714]/75 border border-[#B7E4D5]/25 backdrop-blur-md shadow-[0_16px_48px_rgba(2,15,12,0.6)]">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#073B32]/90 border border-[#B7E4D5]/30 text-xs font-mono text-[#B7E4D5] uppercase tracking-wider backdrop-blur-md shadow-lg">
           <span className="w-1.5 h-1.5 rounded-full bg-[#2FA885]" />
           <span>Destination 06 // Responsible Intelligence & Terminus</span>

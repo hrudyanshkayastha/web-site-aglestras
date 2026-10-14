@@ -36,6 +36,7 @@ export function UnifiedWorldExperience() {
       <EntranceOverlay
         onExploreServices={() => scrollToSection("destination-services")}
         onExploreMethodology={() => scrollToSection("destination-methodology")}
+        onExploreAtlas={() => scrollToSection("destination-atlas")}
       />
 
       {/* Destination B: Services Pavilion */}

@@ -9,10 +9,12 @@ import { motion } from "framer-motion";
 interface EntranceOverlayProps {
   onExploreServices: () => void;
   onExploreMethodology?: () => void;
+  onExploreAtlas?: () => void;
 }
 
 export function EntranceOverlay({
   onExploreServices,
+  onExploreAtlas,
 }: EntranceOverlayProps) {
   const [isReducedMotion, setIsReducedMotion] = useState(false);
   const [videoError, setVideoError] = useState(false);
@@ -311,13 +313,70 @@ export function EntranceOverlay({
             <ArrowDown size={15} />
           </button>
 
-          <Link
-            href="/research"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-medium tracking-wide text-[#F4F2EA] bg-[#073B32]/80 hover:bg-[#073B32] border border-[#B7E4D5]/35 hover:border-[#B7E4D5]/65 transition-all backdrop-blur-md shadow-md cursor-pointer"
-          >
-            <span>View Research</span>
-            <ArrowUpRight size={15} className="text-[#B7E4D5]" />
-          </Link>
+          {onExploreAtlas ? (
+            <button
+              type="button"
+              onClick={onExploreAtlas}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-medium tracking-wide text-[#F4F2EA] bg-[#073B32]/80 hover:bg-[#073B32] border border-[#B7E4D5]/35 hover:border-[#B7E4D5]/65 transition-all backdrop-blur-md shadow-md cursor-pointer"
+            >
+              <span>Explore Intelligence Atlas</span>
+              <ArrowUpRight size={15} className="text-[#B7E4D5]" />
+            </button>
+          ) : (
+            <Link
+              href="/research"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-medium tracking-wide text-[#F4F2EA] bg-[#073B32]/80 hover:bg-[#073B32] border border-[#B7E4D5]/35 hover:border-[#B7E4D5]/65 transition-all backdrop-blur-md shadow-md cursor-pointer"
+            >
+              <span>Explore Intelligence Atlas</span>
+              <ArrowUpRight size={15} className="text-[#B7E4D5]" />
+            </Link>
+          )}
+        </motion.div>
+
+        {/* Research-to-Automation Startup Blueprint */}
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, y: isReducedMotion ? 0 : 8 },
+            visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] } },
+          }}
+          className="pt-6 border-t border-[#B7E4D5]/15 space-y-3"
+        >
+          <div className="flex items-center justify-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#2FA885]" />
+            <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[#B7E4D5] font-semibold">
+              From Research to Repeatable Automation
+            </span>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#2FA885]" />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
+            <div className="p-3.5 rounded-2xl bg-[#041F1B]/75 border border-[#B7E4D5]/15 space-y-1">
+              <span className="font-mono text-[10px] uppercase tracking-wider text-[#2FA885] font-semibold block">
+                01. Empirical Research
+              </span>
+              <p className="text-[11px] text-[#C5D9D2] font-light leading-relaxed">
+                Manual, rigorous OSINT and threat intelligence investigations answering immediate client inquiries.
+              </p>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-[#041F1B]/75 border border-[#B7E4D5]/15 space-y-1">
+              <span className="font-mono text-[10px] uppercase tracking-wider text-amber-400 font-semibold block">
+                02. Epistemic Rigor
+              </span>
+              <p className="text-[11px] text-[#C5D9D2] font-light leading-relaxed">
+                Structured 5-tier attribution separating confirmed facts from hypotheses, inferences, and open gaps.
+              </p>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-[#041F1B]/75 border border-[#B7E4D5]/15 space-y-1">
+              <span className="font-mono text-[10px] uppercase tracking-wider text-[#B7E4D5] font-semibold block">
+                03. Repeatable Pipelines
+              </span>
+              <p className="text-[11px] text-[#C5D9D2] font-light leading-relaxed">
+                Codifying validated analytical workflows into automated ingestion pipelines and reproducible tools.
+              </p>
+            </div>
+          </div>
         </motion.div>
       </motion.div>
 
