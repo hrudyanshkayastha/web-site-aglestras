@@ -18,6 +18,7 @@ import {
 import { companyData } from "@/data/company";
 import { servicesData } from "@/data/services";
 import { SocialLinks } from "@/components/ui/SocialLinks";
+import { AmbientLivingCanvas } from "@/components/visuals/AmbientLivingCanvas";
 
 function ContactFormInner() {
   const searchParams = useSearchParams();
@@ -398,11 +399,14 @@ Transmitted directly to AGLETRAS Research Operations.`;
 
 export default function ContactPage() {
   return (
-    <div className="pt-32 pb-24 md:pt-40 md:pb-32 bg-[#041F1B] text-[#F4F2EA] min-h-screen">
-      <div className="max-w-6xl mx-auto px-6 md:px-10 space-y-16">
+    <div className="relative pt-32 pb-24 md:pt-40 md:pb-32 bg-[#041F1B] text-[#F4F2EA] min-h-screen overflow-hidden">
+      {/* Background Ambient Living World Canvas */}
+      <AmbientLivingCanvas opacity={0.6} particleCount={40} />
+
+      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-10 space-y-16">
         {/* Page Hero */}
         <div className="space-y-4 max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#073B32] border border-[#B7E4D5]/25 text-xs font-mono text-[#B7E4D5] uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#073B32] border border-[#B7E4D5]/25 text-xs font-mono text-[#B7E4D5] uppercase tracking-wider backdrop-blur-md shadow-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-[#2FA885]" />
             <span>Scope An Engagement</span>
           </div>
