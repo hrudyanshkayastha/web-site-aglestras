@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { companyData } from "@/data/company";
 import { ShieldCheck, Scale, AlertCircle } from "lucide-react";
-import { AmbientLivingCanvas } from "@/components/visuals/AmbientLivingCanvas";
 
 export const metadata: Metadata = {
   title: "Terms of Engagement & Ethical Charter — AGLETRAS",
@@ -12,9 +11,7 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="relative pt-32 pb-24 md:pt-40 md:pb-32 bg-[#041F1B] text-[#F4F2EA] min-h-screen overflow-hidden">
-      {/* Background Ambient Living World Canvas */}
-      <AmbientLivingCanvas opacity={0.45} particleCount={32} />
+    <div className="relative pt-32 pb-24 md:pt-40 md:pb-32 bg-gradient-to-b from-transparent via-[#041F1B]/40 to-[#041F1B]/80 text-[#F4F2EA] min-h-screen overflow-hidden">
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 md:px-10 space-y-16">
         {/* Page Hero */}

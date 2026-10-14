@@ -195,15 +195,15 @@ export function MethodologyOverlay({
       </div>
 
       {/* Center 3D Conduit Space is Wide Open! */}
-      {/* Floating Active Stage Inspector Panel (Anchored Right) */}
+      {/* Floating Active Stage Inspector Panel (Scoped strictly to Destination 03) */}
       <AnimatePresence mode="wait">
         <motion.aside
           key={activeStep.step}
-          initial={{ opacity: 0, x: 36, scale: 0.98 }}
-          animate={{ opacity: 1, x: 0, scale: 1 }}
-          exit={{ opacity: 0, x: 36, scale: 0.98 }}
+          initial={{ opacity: 0, y: 20, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 20, scale: 0.98 }}
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed top-24 right-4 sm:right-8 bottom-28 sm:bottom-auto sm:max-h-[82vh] w-[calc(100%-2rem)] sm:w-[490px] z-40 overflow-y-auto p-5 sm:p-6 rounded-3xl bg-[#031714]/92 border border-[#2FA885]/60 backdrop-blur-2xl shadow-[0_24px_64px_rgba(0,0,0,0.85)] pointer-events-auto space-y-4"
+          className="relative lg:absolute lg:right-8 lg:top-32 w-full lg:w-[480px] max-w-full z-20 overflow-y-auto max-h-[75vh] p-5 sm:p-6 rounded-3xl bg-[#031714]/92 border border-[#2FA885]/60 backdrop-blur-2xl shadow-[0_24px_64px_rgba(0,0,0,0.85)] pointer-events-auto space-y-4 my-6 lg:my-0"
           aria-label={`Methodology Stage ${activeStep.step} Briefing`}
         >
           {/* Top Bar: Stage index, title, portal active indicator */}

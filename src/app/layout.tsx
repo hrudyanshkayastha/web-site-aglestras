@@ -3,6 +3,7 @@ import { Newsreader, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { SharedWorldLayout } from "@/components/world/SharedWorldLayout";
 
 const newsreader = Newsreader({
   subsets: ["latin"],
@@ -130,9 +131,11 @@ export default function RootLayout({
         className="min-h-screen flex flex-col bg-[#041F1B] text-[#F4F2EA]"
         suppressHydrationWarning
       >
-        <Navbar />
-        <main className="flex-grow">{children}</main>
-        <Footer />
+        <SharedWorldLayout>
+          <Navbar />
+          <main className="flex-grow">{children}</main>
+          <Footer />
+        </SharedWorldLayout>
       </body>
     </html>
   );

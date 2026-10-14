@@ -20,7 +20,6 @@ import {
   Sparkles,
 } from "lucide-react";
 import { ServiceItem } from "@/data/services";
-import { AmbientLivingCanvas } from "@/components/visuals/AmbientLivingCanvas";
 
 interface ServicesCatalogClientProps {
   services: ServiceItem[];
@@ -58,9 +57,7 @@ export function ServicesCatalogClient({ services }: ServicesCatalogClientProps) 
   });
 
   return (
-    <div className="relative pt-32 pb-24 md:pt-40 md:pb-32 bg-[#041F1B] text-[#F4F2EA] min-h-screen overflow-hidden">
-      {/* Background Ambient World Canvas */}
-      <AmbientLivingCanvas opacity={0.6} particleCount={40} />
+    <div className="relative pt-32 pb-24 md:pt-40 md:pb-32 bg-gradient-to-b from-transparent via-[#041F1B]/40 to-[#041F1B]/80 text-[#F4F2EA] min-h-screen overflow-hidden">
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-10 space-y-16">
         {/* Page Hero */}

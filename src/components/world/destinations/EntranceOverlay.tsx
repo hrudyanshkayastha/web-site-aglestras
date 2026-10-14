@@ -222,29 +222,12 @@ export function EntranceOverlay({
       </div>
 
       {/* Hero Content Container (Luminous Airy Frosted Pedestal for Seamless 3D Depth & 100% Readability) */}
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={{
-          hidden: { opacity: 0 },
-          visible: {
-            opacity: 1,
-            transition: {
-              staggerChildren: isReducedMotion ? 0 : 0.08,
-              delayChildren: isReducedMotion ? 0 : 0.04,
-            },
-          },
-        }}
-        className="relative z-10 max-w-3xl mx-auto space-y-6 sm:space-y-7 pointer-events-auto px-6 py-8 sm:px-10 sm:py-10 rounded-3xl bg-gradient-to-b from-[#031714]/50 via-[#031714]/38 to-[#031714]/50 border border-[#B7E4D5]/25 backdrop-blur-md shadow-[0_16px_48px_rgba(2,15,12,0.45)]"
+      {/* Hero Content Container (Luminous Airy Frosted Pedestal for Seamless 3D Depth & 100% Readability) */}
+      <div
+        className="relative z-10 max-w-3xl mx-auto space-y-6 sm:space-y-7 pointer-events-auto px-6 py-8 sm:px-10 sm:py-10 rounded-3xl bg-gradient-to-b from-[#031714]/65 via-[#031714]/45 to-[#031714]/65 border border-[#B7E4D5]/30 backdrop-blur-md shadow-[0_16px_48px_rgba(2,15,12,0.5)]"
       >
         {/* Eyebrow Brand Badge with Unaltered Authentic Logo */}
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: isReducedMotion ? 0 : 8 },
-            visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] } },
-          }}
-          className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#073B32]/90 border border-[#B7E4D5]/35 shadow-lg backdrop-blur-md"
-        >
+        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#073B32]/90 border border-[#B7E4D5]/35 shadow-lg backdrop-blur-md">
           <div className="relative w-5 h-5 rounded-full bg-gradient-to-b from-[#0a4237] to-[#041F1B] p-0.5 border border-[#B7E4D5]/40 flex items-center justify-center shrink-0">
             <Image
               src="/logo.png"
@@ -258,52 +241,28 @@ export function EntranceOverlay({
           <span className="text-[11px] uppercase tracking-[0.22em] font-mono text-[#B7E4D5] font-semibold">
             AGLETRAS // RESEARCH INTELLIGENCE
           </span>
-        </motion.div>
+        </div>
 
         {/* Restrained Category Label */}
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: isReducedMotion ? 0 : 8 },
-            visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] } },
-          }}
-          className="text-xs uppercase tracking-[0.25em] font-mono text-[#8DA99E]"
-        >
+        <div className="text-xs uppercase tracking-[0.25em] font-mono text-[#8DA99E]">
           OSINT · RESEARCH · AUTOMATION · CYBER INTELLIGENCE
-        </motion.div>
+        </div>
 
         {/* Headline */}
-        <motion.h1
-          variants={{
-            hidden: { opacity: 0, y: isReducedMotion ? 0 : 12 },
-            visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } },
-          }}
-          className="text-editorial-hero text-[#F4F2EA] tracking-tight drop-shadow-[0_4px_24px_rgba(2,15,12,0.95)]"
-        >
+        <h1 className="text-editorial-hero text-[#F4F2EA] tracking-tight drop-shadow-[0_4px_24px_rgba(2,15,12,0.95)]">
           Intelligence From{" "}
           <span className="italic font-normal text-[#B7E4D5]">
             Open Information.
           </span>
-        </motion.h1>
+        </h1>
 
         {/* Plain-Language 5-Second Explanation */}
-        <motion.p
-          variants={{
-            hidden: { opacity: 0, y: isReducedMotion ? 0 : 10 },
-            visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } },
-          }}
-          className="text-base sm:text-lg md:text-xl text-[#D6E7E1] max-w-2xl mx-auto font-light leading-relaxed drop-shadow-[0_2px_12px_rgba(2,15,12,0.9)]"
-        >
+        <p className="text-base sm:text-lg md:text-xl text-[#D6E7E1] max-w-2xl mx-auto font-light leading-relaxed drop-shadow-[0_2px_12px_rgba(2,15,12,0.9)]">
           Agletras helps organizations investigate digital threats, assess exposure, verify information, and turn fragmented open-source data into structured, actionable intelligence.
-        </motion.p>
+        </p>
 
         {/* Primary and Secondary Calls to Action */}
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: isReducedMotion ? 0 : 8 },
-            visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] } },
-          }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2"
-        >
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
           <button
             type="button"
             onClick={onExploreServices}
@@ -331,16 +290,10 @@ export function EntranceOverlay({
               <ArrowUpRight size={15} className="text-[#B7E4D5]" />
             </Link>
           )}
-        </motion.div>
+        </div>
 
         {/* Research-to-Automation Startup Blueprint */}
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: isReducedMotion ? 0 : 8 },
-            visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] } },
-          }}
-          className="pt-6 border-t border-[#B7E4D5]/15 space-y-3"
-        >
+        <div className="pt-6 border-t border-[#B7E4D5]/15 space-y-3">
           <div className="flex items-center justify-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-[#2FA885]" />
             <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[#B7E4D5] font-semibold">
@@ -377,8 +330,8 @@ export function EntranceOverlay({
               </p>
             </div>
           </div>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
 
       {/* Floating Ambient Motion Control (Unobtrusive Top-Right Status) */}
       {!isReducedMotion && !videoError && (

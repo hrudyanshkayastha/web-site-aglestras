@@ -70,9 +70,9 @@ export const WORLD_DESTINATIONS: Record<WorldDestinationId, DestinationWaypoint>
     label: "Contact",
     sublabel: "Consultation & Engagement Scope",
     sectionId: "destination-contact",
-    cameraPos: [0.0, 2.0, -7.8],
-    lookAt: [0.0, 1.0, -17.0],
-    fov: 45,
+    cameraPos: [0.0, 2.8, 10.2],
+    lookAt: [0.0, 1.2, -2.8],
+    fov: 48,
   },
 };
 

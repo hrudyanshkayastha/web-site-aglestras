@@ -21,7 +21,6 @@ import {
   CheckCircle2,
   Sparkles,
 } from "lucide-react";
-import { AmbientLivingCanvas } from "@/components/visuals/AmbientLivingCanvas";
 import { SpatialEntityGraph } from "@/components/visuals/SpatialEntityGraph";
 
 interface ResearchDomain {
@@ -116,9 +115,7 @@ const illustrativeDatasets = [
 
 export function ResearchPageClient() {
   return (
-    <div className="relative pt-32 pb-24 md:pt-40 md:pb-32 bg-[#041F1B] text-[#F4F2EA] min-h-screen overflow-hidden">
-      {/* Background Ambient World Canvas */}
-      <AmbientLivingCanvas opacity={0.65} particleCount={42} />
+    <div className="relative pt-32 pb-24 md:pt-40 md:pb-32 bg-gradient-to-b from-transparent via-[#041F1B]/40 to-[#041F1B]/80 text-[#F4F2EA] min-h-screen overflow-hidden">
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-10 space-y-20">
         {/* Page Hero */}

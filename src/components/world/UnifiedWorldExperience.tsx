@@ -1,20 +1,29 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
-import { UnifiedWorldCanvas } from "./UnifiedWorldCanvas";
+import React, { useCallback } from "react";
+import { useWorldContext } from "./WorldContext";
+import { WORLD_DESTINATIONS } from "./WorldConfig";
+import { WorldNavigatorHUD } from "./WorldNavigatorHUD";
 import { EntranceOverlay } from "./destinations/EntranceOverlay";
 import { ServicesOverlay } from "./destinations/ServicesOverlay";
 import { MethodologyOverlay } from "./destinations/MethodologyOverlay";
 import { AtlasOverlay } from "./destinations/AtlasOverlay";
 import { ResearchOverlay } from "./destinations/ResearchOverlay";
 import { ContactOverlay } from "./destinations/ContactOverlay";
-import { GraphNode } from "@/data/entityGraphData";
-import { ServiceItem } from "@/data/services";
 
 export function UnifiedWorldExperience() {
-  const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
-  const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
-  const [methodologyStage, setMethodologyStage] = useState<number>(1);
+  const {
+    activeDestination,
+    selectedNode,
+    setSelectedNode,
+    selectedService,
+    setSelectedService,
+    methodologyStage,
+    setMethodologyStage,
+    focusService,
+    focusNode,
+    resetToOverview,
+  } = useWorldContext();
 
   const scrollToSection = useCallback((sectionId: string) => {
     const el = document.getElementById(sectionId);
@@ -23,15 +32,34 @@ export function UnifiedWorldExperience() {
     }
   }, []);
 
+  // Handle direct hash navigation on initial load (e.g. /#destination-contact)
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const hash = window.location.hash;
+      if (hash) {
+        const id = hash.replace("#", "");
+        const el = document.getElementById(id);
+        if (el) {
+          setTimeout(() => {
+            el.scrollIntoView({ behavior: "auto", block: "start" });
+          }, 80);
+        }
+      }
+    }
+  }, []);
+
   return (
-    <UnifiedWorldCanvas
-      selectedService={selectedService}
-      onSelectService={setSelectedService}
-      selectedNode={selectedNode}
-      onSelectNode={setSelectedNode}
-      selectedMethodologyStage={methodologyStage}
-      onSelectMethodologyStage={setMethodologyStage}
-    >
+    <div className="relative w-full">
+      {/* Floating HUD Destination Waypoint Controller on Home */}
+      <WorldNavigatorHUD
+        activeDestination={activeDestination}
+        hasActiveSelection={Boolean(selectedNode || selectedService)}
+        onSelectDestination={(destId) => {
+          scrollToSection(WORLD_DESTINATIONS[destId].sectionId);
+        }}
+        onResetSelection={resetToOverview}
+      />
+
       {/* Destination A: Entrance */}
       <EntranceOverlay
         onExploreServices={() => scrollToSection("destination-services")}
@@ -42,7 +70,7 @@ export function UnifiedWorldExperience() {
       {/* Destination B: Services Pavilion */}
       <ServicesOverlay
         selectedService={selectedService}
-        onSelectService={setSelectedService}
+        onSelectService={focusService}
       />
 
       {/* Destination C: Methodology Conduits */}
@@ -54,7 +82,7 @@ export function UnifiedWorldExperience() {
       {/* Destination D: Intelligence Atlas */}
       <AtlasOverlay
         selectedNode={selectedNode}
-        onSelectNode={setSelectedNode}
+        onSelectNode={focusNode}
       />
 
       {/* Destination E: Research Domains */}
@@ -62,6 +90,6 @@ export function UnifiedWorldExperience() {
 
       {/* Destination F: Contact Terminus */}
       <ContactOverlay />
-    </UnifiedWorldCanvas>
+    </div>
   );
 }

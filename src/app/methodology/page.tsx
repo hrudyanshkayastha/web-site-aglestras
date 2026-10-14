@@ -19,7 +19,6 @@ import {
   Sparkles,
 } from "lucide-react";
 import { epistemicStandards, intelligenceStages, sampleBriefData, IntelligenceStage } from "@/data/methodology";
-import { AmbientLivingCanvas } from "@/components/visuals/AmbientLivingCanvas";
 import { LivingKnowledgeSystem } from "@/components/visuals/LivingKnowledgeSystem";
 
 const stageIcons: Record<string, React.ElementType> = {
@@ -37,9 +36,7 @@ export default function MethodologyPage() {
   const ActiveIcon = stageIcons[activeStage.step] || Compass;
 
   return (
-    <div className="relative pt-32 pb-24 md:pt-40 md:pb-32 bg-[#041F1B] text-[#F4F2EA] min-h-screen overflow-hidden">
-      {/* Shared Ambient Living Canvas in Background */}
-      <AmbientLivingCanvas opacity={0.6} particleCount={44} />
+    <div className="relative pt-32 pb-24 md:pt-40 md:pb-32 bg-gradient-to-b from-transparent via-[#041F1B]/40 to-[#041F1B]/80 text-[#F4F2EA] min-h-screen overflow-hidden">
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-10 space-y-20">
         {/* Page Hero */}

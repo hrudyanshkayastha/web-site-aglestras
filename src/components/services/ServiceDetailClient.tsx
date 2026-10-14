@@ -24,7 +24,6 @@ import {
   Sparkles,
 } from "lucide-react";
 import { ServiceItem } from "@/data/services";
-import { AmbientLivingCanvas } from "@/components/visuals/AmbientLivingCanvas";
 import { ServiceMotifVisual } from "@/components/visuals/ServiceMotifVisual";
 
 interface ServiceDetailClientProps {
@@ -52,9 +51,7 @@ export function ServiceDetailClient({
   const [activeTab, setActiveTab] = useState<"triad" | "workflow" | "deliverable">("triad");
 
   return (
-    <div className="relative pt-28 pb-24 md:pt-36 md:pb-32 bg-[#041F1B] text-[#F4F2EA] min-h-screen overflow-hidden">
-      {/* Ambient Shared World Canvas in Background */}
-      <AmbientLivingCanvas opacity={0.55} particleCount={42} />
+    <div className="relative pt-28 pb-24 md:pt-36 md:pb-32 bg-gradient-to-b from-transparent via-[#041F1B]/40 to-[#041F1B]/80 text-[#F4F2EA] min-h-screen overflow-hidden">
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-10 space-y-16">
         {/* Navigation Breadcrumb */}
