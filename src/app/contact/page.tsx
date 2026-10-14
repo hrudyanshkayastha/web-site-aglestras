@@ -93,8 +93,27 @@ Transmitted directly to AGLETRAS Research Operations.`;
     window.location.href = mailtoUrl;
   };
 
-  const handleCopyBrief = () => {
-    navigator.clipboard.writeText(generateEmailBodyText());
+  const handleCopyBrief = async () => {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(generateEmailBodyText());
+      } else {
+        throw new Error("Clipboard API unavailable");
+      }
+    } catch {
+      // Fallback for unfocused document, iframe, or restricted headless contexts
+      try {
+        const textarea = document.createElement("textarea");
+        textarea.value = generateEmailBodyText();
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+      } catch {}
+    }
     setCopied(true);
     setTimeout(() => setCopied(false), 3000);
   };

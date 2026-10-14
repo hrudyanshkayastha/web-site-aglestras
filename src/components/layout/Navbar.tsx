@@ -107,8 +107,10 @@ export function Navbar() {
 
           <button
             type="button"
+            id="mobile-nav-toggle"
+            data-testid="mobile-nav-toggle"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 rounded-lg text-[#C5D9D2] hover:text-[#FFFFFF] hover:bg-[#073B32]/50 border border-[#B7E4D5]/20 focus:outline-none"
+            className="lg:hidden p-2 rounded-lg text-[#C5D9D2] hover:text-[#FFFFFF] hover:bg-[#073B32]/50 border border-[#B7E4D5]/20 focus:outline-none cursor-pointer"
             aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={mobileMenuOpen}
           >
@@ -119,7 +121,7 @@ export function Navbar() {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-x-0 top-[69px] bg-[#041F1B]/98 border-b border-[#B7E4D5]/20 backdrop-blur-xl px-6 py-8 shadow-2xl transition-all">
+        <div className="lg:hidden fixed inset-x-0 top-[69px] z-50 bg-[#041F1B]/98 border-b border-[#B7E4D5]/20 backdrop-blur-xl px-6 py-8 shadow-2xl transition-all">
           <nav className="flex flex-col space-y-4" aria-label="Mobile Navigation">
             {navigationItems.map((item) => (
               <Link
