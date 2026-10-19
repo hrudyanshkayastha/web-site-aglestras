@@ -17,10 +17,10 @@ export const epistemicStandards: EpistemicStandard[] = [
     type: "FACT",
     label: "FACT",
     definition:
-      "Information directly verified through primary, authoritative public records or official filings. Must be attributable to a specific source.",
+      "Directly supported by evidence and verifiable through official filings or primary public records.",
     example:
       "Entity registered in California Secretary of State registry on March 14, 2021 with filing ID C4718290.",
-    confidenceRange: "Primary Record Attributed — High Confidence",
+    confidenceRange: "Primary Record Attributed — Directly Supported",
     colorScheme: {
       bg: "bg-emerald-950/40",
       border: "border-emerald-500/30",
@@ -32,10 +32,10 @@ export const epistemicStandards: EpistemicStandard[] = [
     type: "INDICATOR",
     label: "INDICATOR",
     definition:
-      "An observable, timestamped technical or behavioral signal with contextual relevance to the investigation objective.",
+      "A signal requiring contextual interpretation to assess its relevance and significance.",
     example:
       "Lookalike domain 'auth-agletras-secure[.]com' registered via privacy proxy 48 hours following corporate brand announcement.",
-    confidenceRange: "Empirically Observable — Direct Telemetry",
+    confidenceRange: "Empirically Observable — Contextual Signal",
     colorScheme: {
       bg: "bg-teal-950/40",
       border: "border-teal-500/30",
@@ -47,10 +47,10 @@ export const epistemicStandards: EpistemicStandard[] = [
     type: "INFERENCE",
     label: "INFERENCE",
     definition:
-      "A logical analytical deduction drawn from the correlation of multiple distinct indicators and verified facts.",
+      "A reasoned conclusion from available evidence, distinct indicators, and established facts.",
     example:
       "Infrastructure clustering and matching SSL certificates suggest domain is intended for phishing campaigns against corporate employees.",
-    confidenceRange: "Corroborated Analysis — Evaluative Assessment",
+    confidenceRange: "Corroborated Analysis — Reasoned Conclusion",
     colorScheme: {
       bg: "bg-amber-950/30",
       border: "border-amber-500/30",
@@ -62,10 +62,10 @@ export const epistemicStandards: EpistemicStandard[] = [
     type: "ASSUMPTION",
     label: "ASSUMPTION",
     definition:
-      "An explicitly stated working hypothesis or operating condition required to proceed with analysis, pending empirical verification.",
+      "A proposition that remains unverified and is held as a working hypothesis pending empirical testing.",
     example:
       "Assumed that target corporate entity operates as a single operational parent rather than decentralized autonomous franchises.",
-    confidenceRange: "Operational Hypothesis — Requires Empirical Testing",
+    confidenceRange: "Working Proposition — Remains Unverified",
     colorScheme: {
       bg: "bg-slate-900/60",
       border: "border-slate-500/30",
@@ -75,12 +75,12 @@ export const epistemicStandards: EpistemicStandard[] = [
   },
   {
     type: "UNRESOLVED",
-    label: "UNRESOLVED",
+    label: "UNKNOWN / UNRESOLVED",
     definition:
-      "An identified knowledge gap or open investigative question that could not be resolved within current public boundaries.",
+      "Information that cannot currently be established within accessible public boundaries.",
     example:
       "Beneficial owner behind offshore holding vehicle remains obscured behind nominee directors in non-public jurisdiction.",
-    confidenceRange: "Identified Gap — Boundary Explicitly Disclosed",
+    confidenceRange: "Identified Gap — Cannot Currently Be Established",
     colorScheme: {
       bg: "bg-rose-950/30",
       border: "border-rose-500/30",
@@ -120,27 +120,62 @@ export interface IntelligenceStage {
 export const intelligenceStages: IntelligenceStage[] = [
   {
     step: "01",
-    phase: "Define Objective",
-    shortLabel: "Define",
-    title: "Question & Scope Definition",
-    visualMotif: "Calibrated Scope Stela & Directional Reticle Prism",
+    phase: "Understand Requirement",
+    shortLabel: "Requirement",
+    title: "Understand the Requirement",
+    visualMotif: "Directional Reticle & Question Inscription Stela",
     summary:
-      "Define the precise business or threat question. Establish legal boundaries, geographic jurisdictions, and approved sources.",
+      "Establish the client's question, objective, and desired outcome.",
     purpose:
-      "Transform ambiguous commercial questions or security inquiries into tightly scoped, testable research hypotheses under agreed legal authorizations.",
+      "Establish the client's question, objective, and desired outcome before initiating any collection.",
     whatHappens:
-      "Analysts decompose client objectives into primary research questions, define jurisdictional and entity boundaries, secure requisite subject authorizations, and formalize a Statement of Work.",
+      "Analysts engage with the client to dissect their core business inquiry, determine the factual decisions depending on the findings, and establish clear criteria for success.",
     inputs:
-      "Client investigative brief, target corporate identifiers, trademark registrations, jurisdictional constraints, statutory compliance mandates.",
+      "Client business inquiry, target context, operational objectives, and required decision timelines.",
     verificationChecks:
-      "Confirm 100% public access legality, ensure non-intrusive scope, and establish agreed evidentiary confidence thresholds.",
+      "Confirm requirement clarity, ensure question feasibility within unclassified open domains, and establish evidentiary threshold.",
     expectedArtifact:
-      "Approved Research Protocol Charter & Jurisdictional Scope Document.",
+      "Client Requirement Brief & Inquiry Charter",
     evidenceQualityAssessment:
-      "Evaluate whether the inquiry can be answered through lawful, unclassified public domains; identify prerequisite source registries and determine necessary confidence thresholds.",
+      "Assess whether the business question can be addressed through unclassified, lawful public-source intelligence.",
     outputAdvancingInvestigation:
-      "Formalized Research Scope Document, evidentiary taxonomy, and approved source catalog specifying lawful discovery parameters.",
-    deliverableOutcome: "Formalized Statement of Work and research taxonomy.",
+      "Deconstructed research questions and defined outcome benchmarks.",
+    deliverableOutcome: "Formal inquiry charter and objective definition.",
+    businessServiceLink: {
+      id: "osint-investigative-research",
+      name: "OSINT Investigation",
+      href: "/services/osint-investigative-research",
+    },
+    workflowAutomationPotential: {
+      automationType: "HUMAN_LEAD",
+      title: "Human Strategic Consultation",
+      description:
+        "Senior intelligence specialists define the core problem with the client to ensure accurate scoping.",
+    },
+  },
+  {
+    step: "02",
+    phase: "Define Scope",
+    shortLabel: "Scope",
+    title: "Define the Scope",
+    visualMotif: "Calibrated Jurisdictional Perimeter Stela",
+    summary:
+      "Agree on targets, permitted sources, boundaries, deliverables, and authorization requirements.",
+    purpose:
+      "Establish strict boundaries, approved sources, legal compliance, and deliverables under explicit mutual agreement.",
+    whatHappens:
+      "Agree on specific entity names, identifier parameters, approved public databases, non-intrusive boundaries, and required client authorizations.",
+    inputs:
+      "Target corporate identifiers, trademark registrations, jurisdictional constraints, and client authorization documents.",
+    verificationChecks:
+      "Verify 100% public access legality, ensure zero intrusive methods, and establish explicit statement of work boundaries.",
+    expectedArtifact:
+      "Approved Statement of Work (SOW) & Jurisdictional Scope Charter",
+    evidenceQualityAssessment:
+      "Identify relevant statutory registers and establish permitted source catalog.",
+    outputAdvancingInvestigation:
+      "Formalized boundary charter specifying permitted sources, exclusions, and deliverables.",
+    deliverableOutcome: "Signed Scope of Investigation and authorization protocol.",
     businessServiceLink: {
       id: "business-due-diligence",
       name: "Business Due Diligence",
@@ -148,104 +183,69 @@ export const intelligenceStages: IntelligenceStage[] = [
     },
     workflowAutomationPotential: {
       automationType: "HUMAN_LEAD",
-      title: "Human Strategic Scoping",
+      title: "Formal Scoping & Compliance Review",
       description:
-        "Human analysts define the legal parameters and question boundaries. Automation potential is limited to structured intake questionnaires and conflict checks.",
+        "Legal and scope verification ensuring full compliance with relevant jurisdictions.",
     },
   },
   {
-    step: "02",
-    phase: "Permitted Collection",
+    step: "03",
+    phase: "Collect Information",
     shortLabel: "Collect",
-    title: "Lawful Public Harvesting",
-    visualMotif: "Telemetry Ingestion Funnel & Sensor Needle Array",
+    title: "Lawful Information Collection",
+    visualMotif: "Telemetry Ingestion Funnel & Sensor Array",
     summary:
-      "Passive harvesting across authorized public sources: registries, passive DNS, transparency logs, indexed filings, and open repositories.",
+      "Research relevant public sources and approved client-provided material.",
     purpose:
-      "Systematically gather verifiable, point-in-time public records and passive telemetry without engaging in unauthorized access or active network probing.",
+      "Systematically gather verifiable, point-in-time public records and passive telemetry without intrusive probing.",
     whatHappens:
-      "Automated scripts and human researchers extract records from statutory corporate registries, certificate transparency logs, passive DNS databases, court registers, and indexed public repositories.",
+      "Collect records from statutory company registries, certificate transparency logs, passive DNS databases, regulatory gazettes, and approved client documents.",
     inputs:
-      "RFC 6962 Certificate Transparency logs, Passive DNS time-series, BGP routing tables, statutory company house registers, gazettes.",
+      "Public corporate filings, gazettes, WHOIS records, SSL/TLS certificate logs, and client-provided reference files.",
     verificationChecks:
-      "Enforce passive-only constraints; verify source reachability; compute SHA-256 capture hashes with universal UTC timestamps.",
+      "Enforce passive-only collection; verify source accessibility; generate SHA-256 capture hashes with universal UTC timestamps.",
     expectedArtifact:
-      "Raw Evidence Vault containing cryptographically hashed, immutable public records and historical telemetry archives.",
+      "Raw Evidence Vault with cryptographically timestamped public source captures",
     evidenceQualityAssessment:
-      "Verify source accessibility and integrity; generate cryptographic SHA-256 capture hashes with universal UTC timestamps for every retrieved document and artifact.",
+      "Verify authenticity of source feeds and ensure captures maintain immutable chain of custody.",
     outputAdvancingInvestigation:
-      "Raw Evidence Vault containing cryptographically hashed, immutable public records, historical archives, and telemetry artifacts.",
-    deliverableOutcome: "Raw artifact archive with cryptographic capture hashes.",
+      "Sanitized raw evidence collection indexed for correlation.",
+    deliverableOutcome: "Raw artifact repository with source attribution and capture hashes.",
     businessServiceLink: {
       id: "osint-investigative-research",
-      name: "OSINT Investigative Research",
+      name: "OSINT Investigation",
       href: "/services/osint-investigative-research",
     },
     workflowAutomationPotential: {
       automationType: "HYBRID_PIPELINE",
       title: "Automated Ingestion Pipelines",
       description:
-        "Repeatable collection pipelines ingest RFC 6962 CT logs and passive DNS in real time, freeing analysts to focus on anomaly verification.",
-    },
-  },
-  {
-    step: "03",
-    phase: "Verify",
-    shortLabel: "Verify",
-    title: "Evidence Filtering & Provenance",
-    visualMotif: "Dual Counter-Rotating Cryptographic Crucible",
-    summary:
-      "Assess reliability, corroborate findings, and validate source authenticity while separating facts from noise.",
-    purpose:
-      "Separate authoritative signal from deceptive noise, outdated records, homoglyphs, and AI-generated hallucinations.",
-    whatHappens:
-      "Records are parsed, deduplicated, and attributed to specific primary issuers. Analysts confirm document registration numbers, evaluate temporal relevance, and discard fabricated or unverified claims.",
-    inputs:
-      "Raw scraped files, registrar records, WHOIS archives, historical snapshots, corporate charter records.",
-    verificationChecks:
-      "Multi-source corroboration; adversarial noise elimination; discard unverified rumors; grade source reliability.",
-    expectedArtifact:
-      "Sanitized Evidence Register with 4-tier epistemic tags, cryptographic hashes, and primary citations.",
-    evidenceQualityAssessment:
-      "Classify every validated artifact under the 4-Tier Epistemic Standard (Fact, Indicator, Inference, Unverified); compute source authority ratings.",
-    outputAdvancingInvestigation:
-      "Sanitized Evidence Register with attributed primary citations, capture metadata, and verified historical timestamps.",
-    deliverableOutcome: "Sanitized data tables and validated primary sources.",
-    businessServiceLink: {
-      id: "recruitment-verification",
-      name: "Recruitment Verification",
-      href: "/services/recruitment-verification",
-    },
-    workflowAutomationPotential: {
-      automationType: "HYBRID_PIPELINE",
-      title: "Deterministic Verification Engines",
-      description:
-        "Automated cryptographic hash comparisons and registrar sanity filters eliminate 90% of noise, while analysts verify questionable anomalies.",
+        "Scheduled collectors query approved public endpoints, freeing analysts for verification.",
     },
   },
   {
     step: "04",
-    phase: "Correlation",
+    phase: "Organize & Correlate",
     shortLabel: "Correlate",
-    title: "Relational Topology & Graph Linkage",
-    visualMotif: "Relational Topology Nexus & Orbital Conduits",
+    title: "Organize and Correlate Records",
+    visualMotif: "Relational Topology Nexus & Link Conduits",
     summary:
-      "Connecting disparate data points across infrastructure, corporate affiliations, and digital footprints to identify structural relationships.",
+      "Structure records, cross-reference data points, and identify patterns.",
     purpose:
-      "Link isolated data points into cohesive relationship graphs that reveal hidden connections, corporate control, or adversary infrastructure clusters.",
+      "Normalize unstructured data into relational models and cross-reference identifiers across sources.",
     whatHappens:
-      "Entities, directors, domain registrations, IP subnets, and corporate cross-holdings are ingested into relational link graphs to discover direct and indirect paths of association.",
+      "Normalize entity names, dates, addresses, and digital indicators. Ingest findings into relational link charts to surface shared ownership or common infrastructure.",
     inputs:
-      "Verified domain records, server IP allocations, shared TLS certificate SANs, corporate director registries, historical WHOIS contacts.",
+      "Normalized registry extracts, director lists, domain histories, IP allocations, and corporate filings.",
     verificationChecks:
-      "Distinguish statutory corporate ownership from coincidental shared cloud hosting; confirm entity resolution paths.",
+      "Cross-reference duplicate records, resolve entity aliases, and test relationship graph edges.",
     expectedArtifact:
-      "Interactive 3D Entity Relationship Topology and multi-hop association matrix.",
+      "Relational Link Chart & Normalized Entity Data Schema",
     evidenceQualityAssessment:
-      "Test graph edge validity; distinguish verified contractual or statutory links from coincidental shared virtual addresses or generic infrastructure overlaps.",
+      "Distinguish statutory legal relationships from coincidental shared virtual addresses or generic cloud hosting.",
     outputAdvancingInvestigation:
-      "Dimensional Entity Relationship Graph mapping correlated individuals, parent companies, staging hosts, and corporate lineages.",
-    deliverableOutcome: "Visual node-link graph mapping correlated entities.",
+      "Multi-node relationship model connecting target entities, assets, and events.",
+    deliverableOutcome: "Visual node-link graph mapping correlated findings.",
     businessServiceLink: {
       id: "brand-impersonation-research",
       name: "Brand Impersonation Research",
@@ -253,34 +253,69 @@ export const intelligenceStages: IntelligenceStage[] = [
     },
     workflowAutomationPotential: {
       automationType: "HYBRID_PIPELINE",
-      title: "Graph Correlation & Entity Clustering",
+      title: "Entity Resolution & Graph Clustering",
       description:
-        "Graph algorithms automatically identify co-located infrastructure clusters, nominee director overlaps, and lookalike domain permutations.",
+        "Graph algorithms identify co-located infrastructure, nominee overlaps, and domain permutations.",
     },
   },
   {
     step: "05",
-    phase: "Analytical Review",
-    shortLabel: "Analyze",
-    title: "Human Intelligence Review",
+    phase: "Analyze & Verify",
+    shortLabel: "Verify",
+    title: "Analyze and Verify",
+    visualMotif: "Dual Counter-Rotating Cryptographic Crucible",
+    summary:
+      "Check evidence, corroborate where possible, and identify gaps or inconsistencies.",
+    purpose:
+      "Check evidence across independent records, corroborate factual claims, and isolate inconsistencies or gaps.",
+    whatHappens:
+      "Analysts test every observation against independent public primary sources, identify circular reporting, and evaluate confidence levels under our 5-Tier Epistemic Standard.",
+    inputs:
+      "Correlated relationship records, primary document extracts, and source authority ratings.",
+    verificationChecks:
+      "Multi-source corroboration check; require independent sources for key assertions; explicitly identify unresolved gaps.",
+    expectedArtifact:
+      "Sanitized Epistemic Evidence Register with 5-Tier confidence tags",
+    evidenceQualityAssessment:
+      "Classify findings strictly as Fact, Indicator, Inference, Assumption, or Unresolved.",
+    outputAdvancingInvestigation:
+      "Sanitized findings register graded by confidence and corroborated evidence.",
+    deliverableOutcome: "Evaluated evidence matrix with transparent epistemic classifications.",
+    businessServiceLink: {
+      id: "recruitment-verification",
+      name: "Recruitment Verification",
+      href: "/services/recruitment-verification",
+    },
+    workflowAutomationPotential: {
+      automationType: "HUMAN_LEAD",
+      title: "Analytical Verification Oversight",
+      description:
+        "Human analysts evaluate nuance, credibility, and contradictory evidence that algorithms miss.",
+    },
+  },
+  {
+    step: "06",
+    phase: "Formulate Conclusions",
+    shortLabel: "Conclusions",
+    title: "Formulate Conclusions",
     visualMotif: "Epistemic Plinth & Multi-Tier Spectrum Prisms",
     summary:
-      "Human analysts review algorithmic patterns, test competing hypotheses, assign confidence ratings, and separate facts from inferences.",
+      "Distinguish verified facts from indicators, inferences, assumptions, and unresolved questions.",
     purpose:
-      "Apply rigorous cognitive evaluation and structured analytic techniques to challenge assumptions, weigh evidence, and eliminate algorithmic bias.",
+      "Synthesize analytical deductions while strictly preserving the boundary between verified facts and inferences.",
     whatHappens:
-      "Senior intelligence researchers perform Analysis of Competing Hypotheses (ACH), formulate alternative explanations, identify negative evidence, and document remaining knowledge gaps.",
+      "Senior intelligence researchers perform Analysis of Competing Hypotheses (ACH), test alternative explanations, search for contradictory evidence, and formulate objective conclusions.",
     inputs:
-      "Correlated relationship graph, timeline telemetry, epistemic evidence register, adversary capability baselines.",
+      "Draft findings register, preliminary inferences, relationship maps, and unresolved questions log.",
     verificationChecks:
-      "Challenge cognitive bias; verify that inferences have at least two independent corroborating indicators; document explicit unknown boundaries.",
+      "Adversarial review; challenge potential cognitive biases; ensure no inference is presented as a confirmed fact.",
     expectedArtifact:
-      "Peer-Reviewed Analytical Synthesis and Evaluative Threat Assessment.",
+      "Peer-Reviewed Analytical Conclusions & Validated Hypotheses Matrix",
     evidenceQualityAssessment:
-      "Peer review findings against epistemic criteria; ensure no unverified inference is presented as empirical fact and disclose all methodological limitations.",
+      "Ensure all conclusions distinguish verified facts from indicators, inferences, and assumptions.",
     outputAdvancingInvestigation:
-      "Peer-Reviewed Analytical Synthesis detailing confirmed findings, evaluated threats, and quantified confidence levels.",
-    deliverableOutcome: "Peer-reviewed intelligence synthesis and defensive findings.",
+      "Peer-validated intelligence synthesis cleared for reporting.",
+    deliverableOutcome: "Objective findings and reasoned conclusions with documented confidence.",
     businessServiceLink: {
       id: "external-threat-intelligence",
       name: "Cyber Threat Intelligence",
@@ -288,44 +323,79 @@ export const intelligenceStages: IntelligenceStage[] = [
     },
     workflowAutomationPotential: {
       automationType: "HUMAN_LEAD",
-      title: "Senior Human Intelligence Evaluation",
+      title: "Senior Analyst Analytical Judgment",
       description:
-        "Human analysts apply critical judgment, adversarial empathy, and contextual domain expertise that machines cannot replicate.",
+        "Senior human intelligence oversight to eliminate hallucinations and confirm context.",
     },
   },
   {
-    step: "06",
-    phase: "Deliver",
-    shortLabel: "Deliver",
-    title: "Decision-Ready Intelligence",
-    visualMotif: "Crystalline Transmission Monolith & Ascending Beacon",
+    step: "07",
+    phase: "Prepare Structured Report",
+    shortLabel: "Report",
+    title: "Prepare a Structured Report",
+    visualMotif: "Crystalline Documentation Monolith",
     summary:
-      "Present findings, source references, confidence assessments, limitations, and next steps in an organized report or technical deliverable.",
+      "Present findings with sources, limitations, confidence, and recommended next steps.",
     purpose:
-      "Synthesize technical observations and relational findings into clear, defensible, actionable briefs tailored to executive decision-makers.",
+      "Synthesize verified findings into a structured, decision-ready intelligence dossier tailored to decision-makers.",
     whatHappens:
-      "Analysts author an executive brief containing clear business takeaways, tabular evidence registers, full citation links, defensive recommendations, and scope disclaimers.",
+      "Authors compile an executive synthesis, structured finding tables, primary source citations with timestamps, visual relationship charts, actionable recommendations, and explicit scope disclaimers.",
     inputs:
-      "Final verified findings, epistemic scorecard, high-resolution topology map, strategic defensive mitigations.",
+      "Peer-reviewed findings, epistemic scorecard, entity relationship graphs, and defensive recommendations.",
     verificationChecks:
-      "Senior analyst sign-off; citation check: every key observation must trace back to a verifiable SHA-256 hashed source artifact.",
+      "Complete citation check: every material assertion must link to an attributed primary source and state its confidence rating.",
     expectedArtifact:
-      "Executive Intelligence Brief, Machine-Readable STIX/JSON Export, and Proactive Risk Advisory.",
+      "Executive Intelligence Report & Source Citation Appendix",
     evidenceQualityAssessment:
-      "Final editorial and legal compliance review ensuring complete traceability, transparent disclaimers, and zero unsupported superlatives.",
+      "Final editorial and legal review ensuring full traceability, limitations disclosure, and zero unverified superlatives.",
     outputAdvancingInvestigation:
-      "Delivered Intelligence Brief Dossier ready for board-level risk decisions, transaction closing, or security remediation.",
-    deliverableOutcome: "Actionable Intelligence Brief ready for executive decisions.",
+      "Complete intelligence deliverable formatted for executive clarity.",
+    deliverableOutcome: "Structured Intelligence Report with full source attribution and clear limitations.",
     businessServiceLink: {
       id: "research-automation",
       name: "Research Automation & Pipelines",
       href: "/services/research-automation",
     },
     workflowAutomationPotential: {
-      automationType: "AUTOMATED_MONITOR",
-      title: "Continuous Monitoring & Feed Export",
+      automationType: "HYBRID_PIPELINE",
+      title: "Structured Brief Generation",
       description:
-        "Automated monitoring can continuously track identified assets, alerting human analysts when new telemetry or infrastructure changes emerge.",
+        "Templates and schema engines automate tabular layouts, leaving narrative synthesis to analysts.",
+    },
+  },
+  {
+    step: "08",
+    phase: "Review Findings",
+    shortLabel: "Review",
+    title: "Review Findings with the Client",
+    visualMotif: "Ascending Beacon & Executive Delivery Terminus",
+    summary:
+      "Walk through the report, answer questions, and discuss further research if needed.",
+    purpose:
+      "Deliver the findings securely, brief stakeholders on key takeaways, and discuss further research if needed.",
+    whatHappens:
+      "Walk through the completed report with the client, clarify technical findings and limitations, answer executive questions, and address feedback or next-phase scoping.",
+    inputs:
+      "Completed Intelligence Report, executive summary slides, and source documentation.",
+    verificationChecks:
+      "Confirm secure client receipt, address client questions, and record feedback.",
+    expectedArtifact:
+      "Client Debriefing & Final Project Sign-Off Document",
+    evidenceQualityAssessment:
+      "Ensure client fully understands confidence levels, documented limitations, and actionable next steps.",
+    outputAdvancingInvestigation:
+      "Informed client decision and documented project completion.",
+    deliverableOutcome: "Secure brief delivery and executive debriefing consultation.",
+    businessServiceLink: {
+      id: "osint-investigative-research",
+      name: "OSINT Investigation",
+      href: "/services/osint-investigative-research",
+    },
+    workflowAutomationPotential: {
+      automationType: "HUMAN_LEAD",
+      title: "Executive Debrief Consultation",
+      description:
+        "Direct communication between lead researchers and client decision-makers.",
     },
   },
 ];

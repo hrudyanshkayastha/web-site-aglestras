@@ -4,7 +4,7 @@ import { ContactPageClient } from "@/components/contact/ContactPageClient";
 export const metadata: Metadata = {
   title: "Contact & Scope Formulator — AGLETRAS",
   description:
-    "Direct cryptographic brief generation and official inquiry channels for external threat intelligence, corporate due diligence, and OSINT investigations.",
+    "Direct research inquiry brief generator and official communication channels for OSINT investigation, business due diligence, recruitment verification, brand protection, cyber threat intelligence, and research automation.",
 };
 
 export default function ContactPage() {

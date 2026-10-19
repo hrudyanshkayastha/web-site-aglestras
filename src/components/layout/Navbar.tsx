@@ -8,9 +8,11 @@ import { Menu, X, ArrowUpRight } from "lucide-react";
 
 const navigationItems = [
   { name: "Services", href: "/services" },
-  { name: "Methodology", href: "/methodology" },
   { name: "Research", href: "/research" },
-  { name: "About", href: "/about" },
+  { name: "Solutions", href: "/services#solutions" },
+  { name: "Our Approach", href: "/methodology" },
+  { name: "About Us", href: "/about" },
+  { name: "Insights", href: "/research#insights" },
   { name: "Contact", href: "/contact" },
 ];
 
@@ -69,13 +71,14 @@ export function Navbar() {
 
         {/* Desktop Navigation */}
         <nav
-          className="hidden lg:flex items-center space-x-8"
+          className="hidden lg:flex items-center space-x-7"
           aria-label="Main Navigation"
         >
           {navigationItems.map((item) => {
+            const itemPath = item.href.split("#")[0];
             const isActive =
               pathname === item.href ||
-              (item.href !== "/" && pathname.startsWith(item.href));
+              (!item.href.includes("#") && itemPath !== "/" && pathname.startsWith(itemPath));
             return (
               <Link
                 key={item.name}
@@ -101,7 +104,7 @@ export function Navbar() {
             href="/contact"
             className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs uppercase tracking-widest font-mono font-medium text-[#041F1B] bg-[#B7E4D5] hover:bg-[#C8EFE2] transition-all duration-200 shadow-[0_2px_12px_rgba(47,168,133,0.2)] hover:shadow-[0_4px_20px_rgba(47,168,133,0.35)]"
           >
-            <span>Discuss Engagement</span>
+            <span>Get Started</span>
             <ArrowUpRight size={14} />
           </Link>
 
@@ -140,7 +143,7 @@ export function Navbar() {
                 onClick={() => setMobileMenuOpen(false)}
                 className="w-full flex items-center justify-center gap-2 py-3 rounded-full text-xs uppercase tracking-widest font-mono font-medium text-[#041F1B] bg-[#B7E4D5]"
               >
-                <span>Discuss an Engagement</span>
+                <span>Get Started</span>
                 <ArrowUpRight size={14} />
               </Link>
             </div>

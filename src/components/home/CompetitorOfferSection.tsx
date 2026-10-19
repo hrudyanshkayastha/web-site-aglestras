@@ -25,7 +25,7 @@ export function CompetitorOfferSection() {
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#073b32]/90 border border-[#34d399]/40 text-xs font-mono text-[#34d399] tracking-wider shadow-md">
             <span className="w-2 h-2 rounded-full bg-[#34d399] animate-pulse" />
-            <span>PRIMARY COMMERCIAL OFFER // INITIAL SERVICE ENGAGEMENT</span>
+            <span>SECTION 05 // PRIMARY COMMERCIAL OFFER</span>
           </div>
 
           <h2 className="text-editorial-hero text-[#f4f2ea] tracking-tight">
@@ -174,7 +174,7 @@ export function CompetitorOfferSection() {
                   href="/contact"
                   className="w-full py-3.5 px-6 rounded-full text-xs font-mono uppercase tracking-widest font-semibold text-[#041f1b] bg-[#34d399] hover:bg-[#b7e4d5] transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#041f1b]/50"
                 >
-                  <span>Request Competitor Scope</span>
+                  <span>Request a Research Consultation</span>
                   <ArrowUpRight size={14} />
                 </Link>
 

@@ -78,28 +78,38 @@ export function Footer() {
             </h4>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <Link href="/" className="hover:text-[#FFFFFF] transition-colors">
-                  Overview
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="hover:text-[#FFFFFF] transition-colors">
-                  About Agletras
-                </Link>
-              </li>
-              <li>
-                <Link href="/methodology" className="hover:text-[#FFFFFF] transition-colors">
-                  Methodology & Epistemics
+                <Link href="/services" className="hover:text-[#FFFFFF] transition-colors">
+                  Services
                 </Link>
               </li>
               <li>
                 <Link href="/research" className="hover:text-[#FFFFFF] transition-colors">
-                  Research Domains
+                  Research
+                </Link>
+              </li>
+              <li>
+                <Link href="/services#solutions" className="hover:text-[#FFFFFF] transition-colors">
+                  Solutions
+                </Link>
+              </li>
+              <li>
+                <Link href="/methodology" className="hover:text-[#FFFFFF] transition-colors">
+                  Our Approach
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="hover:text-[#FFFFFF] transition-colors">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link href="/research#insights" className="hover:text-[#FFFFFF] transition-colors">
+                  Insights
                 </Link>
               </li>
               <li>
                 <Link href="/contact" className="hover:text-[#FFFFFF] transition-colors">
-                  Initiate Engagement
+                  Contact
                 </Link>
               </li>
             </ul>
@@ -113,11 +123,10 @@ export function Footer() {
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link
-                  href="/services/external-threat-intelligence"
+                  href="/services/osint-investigative-research"
                   className="hover:text-[#FFFFFF] transition-colors flex items-center justify-between"
                 >
-                  <span>Cyber Threat Intelligence</span>
-                  <span className="text-[10px] font-mono text-[#2FA885] uppercase">Priority</span>
+                  <span>OSINT Investigation</span>
                 </Link>
               </li>
               <li>
@@ -132,17 +141,17 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/services/brand-impersonation-research" className="hover:text-[#FFFFFF] transition-colors">
-                  Brand Impersonation & Scams
+                  Brand Impersonation & Scam Research
+                </Link>
+              </li>
+              <li>
+                <Link href="/services/external-threat-intelligence" className="hover:text-[#FFFFFF] transition-colors">
+                  Cyber Threat Intelligence
                 </Link>
               </li>
               <li>
                 <Link href="/services/research-automation" className="hover:text-[#FFFFFF] transition-colors">
                   Research Automation & Pipelines
-                </Link>
-              </li>
-              <li>
-                <Link href="/services/osint-investigative-research" className="hover:text-[#FFFFFF] transition-colors">
-                  OSINT Investigation
                 </Link>
               </li>
             </ul>

@@ -24,11 +24,13 @@ import { LivingKnowledgeSystem } from "@/components/visuals/LivingKnowledgeSyste
 
 const stageIcons: Record<string, React.ElementType> = {
   "01": Compass,
-  "02": Database,
-  "03": CheckCircle2,
+  "02": Shield,
+  "03": Database,
   "04": Network,
-  "05": ShieldCheck,
-  "06": FileText,
+  "05": CheckCircle2,
+  "06": ShieldCheck,
+  "07": FileText,
+  "08": ArrowUpRight,
 };
 
 export function MethodologyPageClient() {
@@ -70,17 +72,17 @@ export function MethodologyPageClient() {
           </div>
         </div>
 
-        {/* The 6-Stage Intelligence Lifecycle — Connected Visual Pathway */}
+        {/* The 8-Stage Intelligence Lifecycle — Connected Visual Pathway */}
         <div className="space-y-10">
           <div className="border-b border-[#B7E4D5]/15 pb-4">
             <span className="font-mono text-xs uppercase tracking-widest text-[#2FA885] font-semibold block mb-1">
-              Methodological Progression
+              Methodological Progression // 8 Sequential Steps
             </span>
-            <h2 className="text-2xl sm:text-3xl font-editorial font-semibold text-[#F4F2EA]">
-              Define → Collect → Verify → Correlate → Analyze → Deliver
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-editorial font-semibold text-[#F4F2EA]">
+              Understand → Scope → Collect → Correlate → Verify → Conclude → Report → Review
             </h2>
             <p className="text-xs font-mono text-[#8DA99E] mt-1">
-              Follow the connected visual pathway below. Select any stage to inspect its purpose, execution, quality controls, and output.
+              Follow our 8-step research workflow below. Select any step to inspect its purpose, execution, quality controls, and output.
             </p>
           </div>
 
@@ -97,8 +99,8 @@ export function MethodologyPageClient() {
             {/* Mobile Vertical Spine */}
             <div className="lg:hidden absolute top-6 bottom-6 left-[28px] w-[2px] bg-gradient-to-b from-[#2FA885]/30 via-[#2FA885]/70 to-[#2FA885]/30 z-0 pointer-events-none" />
 
-            {/* 6 Stage Buttons Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 relative z-10">
+            {/* 8 Stage Buttons Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 relative z-10">
               {intelligenceStages.map((stage, idx) => {
                 const Icon = stageIcons[stage.step] || Compass;
                 const isActive = idx === activeStepIndex;
@@ -109,7 +111,7 @@ export function MethodologyPageClient() {
                     key={stage.step}
                     type="button"
                     onClick={() => setActiveStepIndex(idx)}
-                    className={`p-4 rounded-2xl border text-left transition-all duration-200 cursor-pointer flex flex-col justify-between space-y-3 backdrop-blur-md ${
+                    className={`p-3 sm:p-3.5 rounded-2xl border text-left transition-all duration-200 cursor-pointer flex flex-col justify-between space-y-2 backdrop-blur-md ${
                       isActive
                         ? "bg-[#073B32] border-[#2FA885] shadow-[0_0_24px_rgba(47,168,133,0.4)] scale-[1.02]"
                         : isPassed
@@ -118,21 +120,21 @@ export function MethodologyPageClient() {
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1.5">
                         <span className="w-5 h-5 rounded-full bg-[#041F1B] border border-[#2FA885]/50 flex items-center justify-center text-[10px] font-mono font-bold text-[#2FA885]">
                           {stage.step}
                         </span>
-                        <span className="font-mono text-xs text-[#2FA885] font-semibold">
-                          {stage.phase.split(" ")[0]}
+                        <span className="font-mono text-[11px] text-[#2FA885] font-semibold truncate">
+                          {stage.shortLabel}
                         </span>
                       </div>
-                      <Icon size={16} className={isActive ? "text-[#B7E4D5]" : "text-[#8DA99E]"} />
+                      <Icon size={14} className={isActive ? "text-[#B7E4D5]" : "text-[#8DA99E]"} />
                     </div>
                     <div>
-                      <h3 className="font-editorial text-sm font-semibold text-[#F4F2EA]">
+                      <h3 className="font-editorial text-xs sm:text-sm font-semibold text-[#F4F2EA] line-clamp-1">
                         {stage.title}
                       </h3>
-                      <span className="text-[10px] font-mono text-[#8DA99E] block truncate mt-0.5">
+                      <span className="text-[9px] font-mono text-[#8DA99E] block truncate mt-0.5">
                         {stage.outputAdvancingInvestigation.split(" ")[0]} Output
                       </span>
                     </div>

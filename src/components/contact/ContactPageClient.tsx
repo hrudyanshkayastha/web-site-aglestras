@@ -394,6 +394,37 @@ Transmitted directly to AGLETRAS Research Operations.`;
           </div>
         </div>
 
+        {/* Engagement Process Card */}
+        <div className="p-8 rounded-3xl bg-[#041F1B] border border-[#2FA885]/20 space-y-4">
+          <div className="flex items-center gap-2 text-[#2FA885]">
+            <Sparkles size={18} />
+            <h3 className="text-sm font-mono uppercase tracking-wider font-semibold">
+              Engagement Process
+            </h3>
+          </div>
+          <p className="text-xs text-[#C5D9D2] font-light leading-relaxed">
+            All client engagements begin with an initial consultation to understand your specific research questions and define an appropriate, lawful scope:
+          </p>
+          <ol className="space-y-2.5 text-xs font-mono text-[#8DA99E]">
+            <li className="flex items-start gap-2.5">
+              <span className="text-[#2FA885] font-bold shrink-0">1.</span>
+              <span><strong className="text-[#F4F2EA]">Share Requirement:</strong> Share your research requirement or business challenge.</span>
+            </li>
+            <li className="flex items-start gap-2.5">
+              <span className="text-[#2FA885] font-bold shrink-0">2.</span>
+              <span><strong className="text-[#F4F2EA]">Initial Consultation:</strong> Initial consultation and scope definition.</span>
+            </li>
+            <li className="flex items-start gap-2.5">
+              <span className="text-[#2FA885] font-bold shrink-0">3.</span>
+              <span><strong className="text-[#F4F2EA]">Formal Proposal:</strong> Formal proposal with methodology and timeline.</span>
+            </li>
+            <li className="flex items-start gap-2.5">
+              <span className="text-[#2FA885] font-bold shrink-0">4.</span>
+              <span><strong className="text-[#F4F2EA]">Intelligence Delivery:</strong> Research execution and structured intelligence delivery.</span>
+            </li>
+          </ol>
+        </div>
+
         {/* Ethical Commitments Box */}
         <div className="p-8 rounded-3xl bg-[#041F1B] border border-[#2FA885]/20 space-y-4">
           <div className="flex items-center gap-2 text-[#2FA885]">

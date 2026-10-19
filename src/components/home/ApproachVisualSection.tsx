@@ -159,7 +159,7 @@ export function ApproachVisualSection() {
             </h2>
 
             <p className="text-base sm:text-lg text-[#cbd5d1] font-light leading-relaxed">
-              Research is only valuable when it is systematic, lawful, and verified. Our five-stage epistemic progression transforms ambiguous public signals into clear, defensible business decisions.
+              Agletras defines the question, identifies relevant lawful sources, collects information, checks evidence, compares findings, and prepares a structured report for clear, defensible business decisions.
             </p>
           </div>
 
@@ -167,7 +167,7 @@ export function ApproachVisualSection() {
             href="/methodology"
             className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[#073b32]/80 hover:bg-[#073b32] border border-[#34d399]/30 text-xs font-mono text-[#b7e4d5] hover:text-[#f4f2ea] transition-all shrink-0 group self-start md:self-auto"
           >
-            <span>Full 6-Stage Epistemic Lifecycle</span>
+            <span>Full 8-Step Research Methodology</span>
             <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform text-[#34d399]" />
           </Link>
         </div>

@@ -4,7 +4,7 @@ import { MethodologyPageClient } from "@/components/methodology/MethodologyPageC
 export const metadata: Metadata = {
   title: "Research Methodology & Epistemic Framework — AGLETRAS",
   description:
-    "Explore the Agletras 6-stage epistemic intelligence lifecycle (Define, Collect, Verify, Correlate, Analyze, Deliver) and our 5-tier certainty standard.",
+    "Explore the Agletras 8-step research methodology and our evidence classification standards for clear, defensible business decisions.",
 };
 
 export default function MethodologyPage() {

@@ -5,7 +5,7 @@ import { ServicesCatalogClient } from "@/components/services/ServicesCatalogClie
 export const metadata: Metadata = {
   title: "Services & Capabilities Catalog — AGLETRAS",
   description:
-    "Explore AGLETRAS research intelligence capabilities: Cyber Threat Intelligence, Business Due Diligence, Recruitment Verification, Brand Protection, Research Automation, and OSINT Investigation.",
+    "Explore Agletras research intelligence capabilities: OSINT Investigation, Business Due Diligence, Recruitment Verification, Brand Impersonation & Scam Research, Cyber Threat Intelligence, and Research Automation & Pipelines.",
 };
 
 const SERVICE_DISPLAY_ORDER = [

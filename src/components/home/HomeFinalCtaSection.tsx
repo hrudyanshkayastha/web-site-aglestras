@@ -52,7 +52,7 @@ export function HomeFinalCtaSection() {
           </h2>
 
           <p className="text-base sm:text-xl text-[#cbd5d1] font-light leading-relaxed">
-            Whether you need a high-confidence Competitor Intelligence Report on three to five rivals, independent due diligence on a prospective partner, or a passive external exposure assessment, our researchers are ready to help.
+            Describe the specific business question or commercial risk you need investigated. Whether you need a competitor intelligence report covering three to five rivals, independent due diligence on a prospective partner, or external exposure research, our analysts are ready to help.
           </p>
         </div>
 
@@ -62,7 +62,7 @@ export function HomeFinalCtaSection() {
             href="/contact"
             className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#34d399] hover:bg-[#2fa885] text-[#020b08] font-semibold text-sm font-mono uppercase tracking-wider transition-all shadow-[0_0_30px_rgba(52,211,153,0.35)] hover:shadow-[0_0_40px_rgba(52,211,153,0.5)] flex items-center justify-center gap-2 group cursor-pointer"
           >
-            <span>Discuss Your Research Scope</span>
+            <span>Discuss Your Research Requirement</span>
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </Link>
 
@@ -70,7 +70,7 @@ export function HomeFinalCtaSection() {
             href="/services"
             className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#073b32]/80 hover:bg-[#073b32] border border-[#34d399]/30 text-[#f4f2ea] font-medium text-sm font-mono uppercase tracking-wider transition-all flex items-center justify-center gap-2 hover:border-[#34d399]/60"
           >
-            <span>Explore All 6 Capabilities</span>
+            <span>Explore Our Services</span>
             <ArrowUpRight size={16} className="text-[#34d399]" />
           </Link>
         </div>
@@ -81,7 +81,7 @@ export function HomeFinalCtaSection() {
             <div className="text-left space-y-1">
               <div className="flex items-center gap-2 font-mono text-xs text-[#8da99e]">
                 <Clock size={13} className="text-[#34d399]" />
-                <span>24-Hour Review Turnaround</span>
+                <span>Direct Confidential Scope Review</span>
               </div>
               <div className="text-sm font-medium text-[#f4f2ea]">
                 Direct Confidential Inquiry Channel:

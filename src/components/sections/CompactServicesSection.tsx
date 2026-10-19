@@ -4,12 +4,13 @@ import { servicesData } from "@/data/services";
 
 export function CompactServicesSection() {
   const iconMap: Record<string, React.ElementType> = {
-    "external-threat-intelligence": ShieldCheck,
+    "osint-investigative-research": Network,
     "business-due-diligence": Search,
     "recruitment-verification": Users,
     "brand-impersonation-research": AlertTriangle,
+    "external-threat-intelligence": ShieldCheck,
+    "research-automation": Workflow,
     "research-automation-pipelines": Workflow,
-    "osint-investigative-research": Network,
   };
 
   return (
@@ -37,7 +38,7 @@ export function CompactServicesSection() {
             href="/services"
             className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#073B32] hover:text-[#2FA885] font-semibold transition-colors shrink-0"
           >
-            <span>Explore Full Specifications</span>
+            <span>Explore Our Services</span>
             <ArrowUpRight size={15} />
           </Link>
         </div>

@@ -138,6 +138,90 @@ export function ResearchPageClient() {
           </p>
         </div>
 
+        {/* What Research Means at Agletras */}
+        <div className="p-8 sm:p-12 rounded-3xl bg-[#073B32]/35 border border-[#2FA885]/40 shadow-2xl backdrop-blur-xl space-y-8 relative overflow-hidden">
+          <div className="space-y-3 border-b border-[#B7E4D5]/15 pb-6">
+            <span className="font-mono text-xs uppercase tracking-widest text-[#2FA885] font-semibold block">
+              Core Principles // Epistemic Foundation
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-editorial font-semibold text-[#F4F2EA]">
+              What Research Means at Agletras
+            </h2>
+            <p className="text-sm text-[#C5D9D2] font-light max-w-3xl leading-relaxed">
+              At Agletras, research is not passive browsing or unstructured aggregation. It is a systematic, hypothesis-driven discipline focused on delivering structured, verifiable findings that support informed business decisions.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+            {[
+              {
+                num: "01",
+                title: "Define the Business Question",
+                desc: "Establish the client's commercial question, factual criteria, and decision context before research commences.",
+              },
+              {
+                num: "02",
+                title: "Identify Relevant, Lawful Sources",
+                desc: "Map authorized public records, statutory registries, official publications, and lawful unclassified data sources.",
+              },
+              {
+                num: "03",
+                title: "Collect and Organize Information",
+                desc: "Systematically gather relevant public records and organize disparate data points into structured investigative repositories.",
+              },
+              {
+                num: "04",
+                title: "Compare and Corroborate Sources",
+                desc: "Cross-reference observations across independent publications and registries to assess consistency and corroboration.",
+              },
+              {
+                num: "05",
+                title: "Identify Relationships and Inconsistencies",
+                desc: "Examine corporate networks, ownership links, timeline anomalies, and contradictory evidence across sources.",
+              },
+              {
+                num: "06",
+                title: "Evaluate Evidence and Alternative Explanations",
+                desc: "Challenge cognitive assumptions, test competing hypotheses, and eliminate single-source hearsay.",
+              },
+              {
+                num: "07",
+                title: "Document Confidence and Unresolved Questions",
+                desc: "Clearly distinguish confirmed facts from indicators and inferences, while documenting knowledge gaps and research boundaries.",
+              },
+              {
+                num: "08",
+                title: "Deliver Structured Findings and Practical Next Steps",
+                desc: "Author decision-ready executive reports with source citations, clear limitations, and objective guidance.",
+              },
+            ].map((principle) => (
+              <div
+                key={principle.num}
+                className="p-5 rounded-2xl bg-[#041F1B]/90 border border-[#B7E4D5]/15 space-y-1.5 hover:border-[#2FA885]/40 transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-xs font-bold text-[#2FA885] px-2 py-0.5 rounded bg-[#073B32]">
+                    {principle.num}
+                  </span>
+                  <h3 className="font-editorial text-sm sm:text-base font-semibold text-[#F4F2EA]">
+                    {principle.title}
+                  </h3>
+                </div>
+                <p className="text-xs text-[#C5D9D2] font-light leading-relaxed pl-8">
+                  {principle.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="p-4 rounded-xl bg-[#031714] border border-[#B7E4D5]/10 text-xs font-mono text-[#8DA99E] flex items-start gap-2.5">
+            <span className="text-[#2FA885] font-bold mt-0.5">ℹ</span>
+            <span>
+              <strong>Epistemic Integrity Notice:</strong> Public information can be incomplete, outdated, misleading, or unavailable. Agletras does not imply that every source is authoritative or that every finding can be independently verified. Where data is restricted, contradictory, or absent from lawful public records, we explicitly document the investigative boundary rather than speculate.
+            </span>
+          </div>
+        </div>
+
         {/* Category 1: Ongoing Research Domains */}
         <div className="space-y-8">
           <div className="border-b border-[#B7E4D5]/15 pb-4">
@@ -333,23 +417,121 @@ export function ResearchPageClient() {
           </div>
         </div>
 
-        {/* Closing CTA */}
-        <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-[#073B32] via-[#041F1B] to-[#073B32] border border-[#B7E4D5]/25 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl relative overflow-hidden">
-          <div className="space-y-2 relative z-10">
-            <h3 className="text-2xl font-editorial font-semibold text-[#F4F2EA]">
-              Collaborate on an Intelligence Research Question
-            </h3>
-            <p className="text-sm text-[#C5D9D2] font-light max-w-xl">
-              We partner with organizations to build specialized data collection pipelines and explore complex threat domains.
+        {/* Practical Business Insights (Navigation Target: /research#insights) */}
+        <div id="insights" className="space-y-8 scroll-mt-28">
+          <div className="border-b border-[#B7E4D5]/15 pb-4">
+            <span className="font-mono text-xs uppercase tracking-widest text-[#2FA885] font-semibold block mb-1">
+              Practical Insights // Executive Guidance
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-editorial font-semibold text-[#F4F2EA]">
+              Answers to Critical Business Questions
+            </h2>
+            <p className="text-sm text-[#C5D9D2] font-light mt-1">
+              Clear, evidence-backed perspectives for founders, business owners, consultants, and decision-makers.
             </p>
           </div>
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-xs uppercase tracking-widest font-mono font-medium text-[#041F1B] bg-[#B7E4D5] hover:bg-[#C8EFE2] transition-all shrink-0 relative z-10 shadow-lg shadow-[#041F1B]/50 hover:shadow-[0_4px_24px_rgba(47,168,133,0.3)]"
-          >
-            <span>Initiate Research Inquiry</span>
-            <ArrowUpRight size={14} />
-          </Link>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                question: "How to check if a potential business partner is genuine",
+                insight:
+                  "Look beyond pitch decks and company marketing. Examine official statutory registries for incorporation dates, active directorships, registered office reality, and cross-holdings. Cross-reference court gazettes, public dispute registers, and regulatory filings to uncover undisclosed liabilities before signing agreements.",
+                serviceLink: "/services/business-due-diligence",
+                serviceName: "Business Due Diligence",
+              },
+              {
+                question: "How to protect an e-commerce brand from lookalike scams",
+                insight:
+                  "Fraudulent copycats exploit customer trust with permuted domains, lookalike social handles, and cloned checkout pages. Monitor certificate transparency logs for new SSL registrations containing your trademarks, check for active mail exchanger (MX) records, and document technical registrar evidence for takedowns.",
+                serviceLink: "/services/brand-impersonation-research",
+                serviceName: "Brand Impersonation & Scam Research",
+              },
+              {
+                question: "What to verify before hiring key personnel",
+                insight:
+                  "In remote and senior executive hiring, self-reported resumes frequently contain inflated titles, unverified tenures, or omitted affiliations. With candidate consent, verify claims against contemporaneous corporate announcements, public patent registrations, open-source code repositories, and statutory records.",
+                serviceLink: "/services/recruitment-verification",
+                serviceName: "Recruitment Verification",
+              },
+              {
+                question: "How to know if your company’s public information is exposing you to risk",
+                insight:
+                  "Companies frequently leave test environments, expired certificates, unauthenticated staging subdomains, and misplaced API tokens observable on the public internet. Passive attack surface reconnaissance identifies these exterior blind spots without invasive network penetration.",
+                serviceLink: "/services/external-threat-intelligence",
+                serviceName: "Cyber Threat Intelligence",
+              },
+              {
+                question: "What public records can reveal about a competitor",
+                insight:
+                  "Lawful open-source information provides remarkable visibility into competitor strategy. Public trademark filings reveal upcoming brand launches; archived hiring listings reveal technical investments; and corporate filings uncover regional expansion and supplier relationships.",
+                serviceLink: "/services/osint-investigative-research",
+                serviceName: "OSINT Investigation",
+              },
+              {
+                question: "How to streamline research without drowning in tabs and duplicate files",
+                insight:
+                  "Manual research across government gazettes, registries, and domain feeds leads to analyst fatigue and missed updates. Custom open-source data pipelines automate collection, normalize disparate schemas, eliminate duplicate records, and generate structured executive digests.",
+                serviceLink: "/services/research-automation",
+                serviceName: "Research Automation & Pipelines",
+              },
+            ].map((item, idx) => (
+              <div
+                key={idx}
+                className="p-7 rounded-3xl bg-[#073B32]/30 border border-[#B7E4D5]/20 backdrop-blur-md flex flex-col justify-between space-y-4 hover:border-[#2FA885]/50 transition-all duration-300 group shadow-lg"
+              >
+                <div className="space-y-3">
+                  <div className="w-8 h-8 rounded-lg bg-[#041F1B] border border-[#2FA885]/35 flex items-center justify-center text-[#2FA885] text-xs font-mono font-bold">
+                    0{idx + 1}
+                  </div>
+                  <h3 className="font-editorial text-lg font-semibold text-[#F4F2EA] leading-snug group-hover:text-[#B7E4D5] transition-colors">
+                    {item.question}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-[#C5D9D2] font-light leading-relaxed">
+                    {item.insight}
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-[#B7E4D5]/10">
+                  <Link
+                    href={item.serviceLink}
+                    className="inline-flex items-center gap-1.5 text-xs font-mono text-[#2FA885] hover:text-[#B7E4D5] transition-colors"
+                  >
+                    <span>Relevant: {item.serviceName}</span>
+                    <ArrowRight size={12} />
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Closing CTA */}
+        <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-[#073B32] via-[#041F1B] to-[#073B32] border border-[#B7E4D5]/25 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl relative overflow-hidden">
+          <div className="space-y-2 relative z-10 max-w-xl">
+            <h3 className="text-2xl font-editorial font-semibold text-[#F4F2EA]">
+              Discuss Your Research Requirement
+            </h3>
+            <p className="text-sm text-[#C5D9D2] font-light">
+              Explore our services or request a consultation tailored to your specific commercial questions. We define clear scope boundaries and deliver evidence-backed findings.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-4 shrink-0 relative z-10">
+            <Link
+              href="/services"
+              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-xs uppercase tracking-widest font-mono font-medium text-[#F4F2EA] bg-[#073B32] hover:bg-[#0a4d40] border border-[#B7E4D5]/30 transition-all"
+            >
+              <span>Explore Our Services</span>
+              <ArrowRight size={14} className="text-[#2FA885]" />
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-xs uppercase tracking-widest font-mono font-semibold text-[#041F1B] bg-[#B7E4D5] hover:bg-[#C8EFE2] transition-all shadow-lg shadow-[#041F1B]/50 hover:shadow-[0_4px_24px_rgba(47,168,133,0.3)]"
+            >
+              <span>Request a Research Consultation</span>
+              <ArrowUpRight size={14} />
+            </Link>
+          </div>
         </div>
       </div>
     </div>

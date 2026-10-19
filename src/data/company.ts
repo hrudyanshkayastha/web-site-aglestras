@@ -9,27 +9,28 @@ export const companyData = {
   },
   positioning: {
     eyebrow: "EVIDENCE-FIRST RESEARCH INTELLIGENCE",
-    tagline: "Turn Information Into Intelligence.",
+    tagline: "Researching Information. Engineering Intelligence.",
     subheading:
-      "Agletras helps organizations investigate digital threats, assess exposure, verify information, and turn fragmented open-source data into structured, actionable intelligence.",
-    corePhilosophy: "From business questions to evidence-backed decisions.",
+      "Agletras researches public information, evaluates evidence, connects relevant findings, and delivers structured intelligence to help businesses make better-informed decisions.",
+    corePhilosophy: "Researching Information. Engineering Intelligence.",
+    stage: "An emerging, bootstrapped research startup founded in Nashik, Maharashtra, with planned expansion to Mumbai and Pune.",
     longTermVision:
       "A Research Intelligence Operating System that transforms fragmented information into structured, traceable, decision-ready intelligence.",
     initialPriority:
-      "External Threat Intelligence / Cyber-Threat OSINT & Digital Attack Surface Analysis.",
+      "OSINT Investigations, Business Due Diligence, and Cyber Threat Intelligence for regional and growing enterprises.",
   },
   trustPillars: [
     {
-      title: "AI-Assisted Processing",
-      description: "Automated ingestion, normalization, and pattern extraction across massive public data streams.",
+      title: "Evidence-First Research",
+      description: "Every finding is anchored in verifiable public evidence, not conjecture or unverified marketing claims.",
     },
     {
-      title: "Evidence-First Rigor",
-      description: "Every material assertion links to primary public sources, timestamped records, and confidence scores.",
+      title: "Source Transparency",
+      description: "Full attribution and timestamped citation trails allowing clients to independently trace every finding to its primary origin.",
     },
     {
-      title: "Human-Reviewed Findings",
-      description: "Rigorous analytical oversight by intelligence specialists to filter noise, eliminate hallucinations, and validate context.",
+      title: "Human Analytical Judgment",
+      description: "Experienced human analysts review all automated pattern detection to eliminate noise, verify context, and ensure decision-grade rigor.",
     },
   ],
   contacts: {
@@ -37,6 +38,7 @@ export const companyData = {
     alternativeEmail: "hello@agletras.com",
     registeredOwnerEmail: "pranavbpawar13@gmail.com", // Disclosed from official MSME certificate
     jurisdiction: "Nashik, Maharashtra, India",
+    regionalExpansion: "Nashik (Founding Base) · Expanding to Mumbai & Pune",
     domain: "https://agletras.com",
     socials: {
       github: "https://github.com/Agletras",
@@ -45,24 +47,34 @@ export const companyData = {
   },
   principles: [
     {
-      label: "Lawful & Ethical Boundaries",
+      label: "Evidence-First Research",
       description:
-        "All investigations strictly leverage publicly accessible open-source intelligence (OSINT) and client-authorized data. We never engage in unauthorized network intrusion, credential theft, or surveillance.",
+        "Every finding is anchored in empirical public evidence. We prioritize primary records and rigorous documentation over assumptions, speculation, or unverified claims.",
     },
     {
-      label: "Traceable Epistemic Standards",
+      label: "Source Transparency",
       description:
-        "We distinguish verified Facts from Indicators, Inferences, Assumptions, and Unresolved hypotheses with transparent confidence assessments.",
+        "We provide transparent citation trails, timestamps, and confidence assessments for every material statement, ensuring clients can trace findings back to original records.",
     },
     {
-      label: "Human Analytical Governance",
+      label: "Human Review & Analytical Judgment",
       description:
-        "AI accelerates pattern detection, but seasoned human intelligence researchers examine nuance, verify edge cases, and author actionable conclusions.",
+        "Technology and pipelines accelerate collection, but human researchers govern all analysis, challenging assumptions, eliminating false signals, and evaluating nuance.",
     },
     {
-      label: "Strict Scope & Confidentiality",
+      label: "Facts vs. Inferences Distinction",
       description:
-        "Every engagement operates under a defined Statement of Work (SOW), non-disclosure terms, and explicit boundaries protecting all stakeholders.",
+        "We strictly differentiate verified primary Facts from observable Indicators, logical Inferences, working Assumptions, and Unresolved investigative gaps.",
+    },
+    {
+      label: "Lawful, Publicly Accessible Information Only",
+      description:
+        "All investigations are conducted strictly within lawful public domains and client-authorized data. We never conduct network intrusions, credential harvesting, or invasive surveillance.",
+    },
+    {
+      label: "Defined Scope & Client Confidentiality",
+      description:
+        "Every engagement operates under a defined Statement of Work, strict mutual non-disclosure terms, and explicit boundaries that protect client confidentiality.",
     },
   ],
 };

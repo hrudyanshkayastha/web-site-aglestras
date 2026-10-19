@@ -79,6 +79,112 @@ export function ServicesCatalogClient({ services }: ServicesCatalogClientProps) 
           </p>
         </div>
 
+        {/* Solutions by Problem Group (Navigation Target: /services#solutions) */}
+        <div id="solutions" className="space-y-8 scroll-mt-28">
+          <div className="border-b border-[#B7E4D5]/15 pb-4">
+            <span className="font-mono text-xs uppercase tracking-widest text-[#2FA885] font-semibold block mb-1">
+              Solutions by Problem Group // Applied Intelligence
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-editorial font-semibold text-[#F4F2EA]">
+              Solving Practical Business Challenges
+            </h2>
+            <p className="text-sm text-[#C5D9D2] font-light mt-1">
+              Select your business objective to explore the tailored research and intelligence capabilities that address it.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                title: "Small Marketing Agencies & Business Consultants",
+                description:
+                  "Competitive market intelligence, brand monitoring, and due diligence on prospective partners or enterprise clients to safeguard reputation and pitch strategy.",
+                services: [
+                  { label: "OSINT Investigation", href: "/services/osint-investigative-research" },
+                  { label: "Business Due Diligence", href: "/services/business-due-diligence" },
+                ],
+              },
+              {
+                title: "E-Commerce & Direct-to-Consumer (D2C) Brands",
+                description:
+                  "Brand impersonation detection, scam website tracking, counterfeit monitoring, and digital supply chain visibility to preserve customer trust and revenue.",
+                services: [
+                  { label: "Brand Impersonation & Scam Research", href: "/services/brand-impersonation-research" },
+                ],
+              },
+              {
+                title: "B2B Startups & Sales Consultants",
+                description:
+                  "Account research, decision-maker verification, competitor tracking, and market landscape mapping to qualify target relationships before outreach.",
+                services: [
+                  { label: "OSINT Investigation", href: "/services/osint-investigative-research" },
+                  { label: "Recruitment Verification", href: "/services/recruitment-verification" },
+                ],
+              },
+              {
+                title: "Boutique Firms & Law Firms",
+                description:
+                  "Public-record due diligence, corporate registry research, asset verification support, and open-source litigation research to strengthen advisory casework.",
+                services: [
+                  { label: "Business Due Diligence", href: "/services/business-due-diligence" },
+                  { label: "OSINT Investigation", href: "/services/osint-investigative-research" },
+                ],
+              },
+              {
+                title: "Cyber Threat Intelligence Teams",
+                description:
+                  "External threat intelligence, attack surface research, threat actor infrastructure tracking, and credential exposure research for defensive decision-making.",
+                services: [
+                  { label: "Cyber Threat Intelligence", href: "/services/external-threat-intelligence" },
+                ],
+              },
+              {
+                title: "Organizations Needing Repeatable Workflows",
+                description:
+                  "Automated data collection pipelines, repetitive research workflows, and custom reporting templates that eliminate manual gathering, human error, and duplicate effort.",
+                services: [
+                  { label: "Research Automation & Pipelines", href: "/services/research-automation" },
+                ],
+              },
+            ].map((sol, idx) => (
+              <div
+                key={idx}
+                className="p-6 rounded-2xl bg-[#073B32]/35 border border-[#B7E4D5]/20 backdrop-blur-md flex flex-col justify-between space-y-4 hover:border-[#2FA885]/50 transition-all duration-300 group shadow-lg"
+              >
+                <div className="space-y-2">
+                  <div className="w-7 h-7 rounded-lg bg-[#041F1B] border border-[#2FA885]/35 flex items-center justify-center text-[#2FA885] text-xs font-mono font-bold">
+                    0{idx + 1}
+                  </div>
+                  <h3 className="font-editorial text-lg font-semibold text-[#F4F2EA] group-hover:text-[#B7E4D5] transition-colors">
+                    {sol.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-[#C5D9D2] font-light leading-relaxed">
+                    {sol.description}
+                  </p>
+                </div>
+
+                <div className="pt-3 border-t border-[#B7E4D5]/10 space-y-1.5">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-[#8DA99E] block">
+                    Tailored Capabilities:
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    {sol.services.map((svc, sIdx) => (
+                      <Link
+                        key={sIdx}
+                        href={svc.href}
+                        className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-mono bg-[#041F1B] text-[#B7E4D5] hover:text-[#FFFFFF] hover:border-[#2FA885] border border-[#B7E4D5]/20 transition-all"
+                      >
+                        <span>{svc.label}</span>
+                        <ArrowRight size={11} className="text-[#2FA885]" />
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Category Filter Pills & 3D Pavilion Bridge */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#B7E4D5]/15 pb-6">
           <div className="flex flex-wrap items-center gap-2">
@@ -295,6 +401,34 @@ export function ServicesCatalogClient({ services }: ServicesCatalogClientProps) 
               );
             })}
           </AnimatePresence>
+        </div>
+
+        {/* Closing CTA */}
+        <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-[#073B32] via-[#041F1B] to-[#073B32] border border-[#B7E4D5]/25 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl relative overflow-hidden">
+          <div className="space-y-2 relative z-10 max-w-xl">
+            <h3 className="text-2xl font-editorial font-semibold text-[#F4F2EA]">
+              Discuss Your Research Requirement
+            </h3>
+            <p className="text-sm text-[#C5D9D2] font-light">
+              Contact our intelligence specialists to discuss your specific question, scope boundaries, and receive a structured Statement of Work.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-4 shrink-0 relative z-10">
+            <Link
+              href="/methodology"
+              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-xs uppercase tracking-widest font-mono font-medium text-[#F4F2EA] bg-[#073B32] hover:bg-[#0a4d40] border border-[#B7E4D5]/30 transition-all"
+            >
+              <span>Our Approach</span>
+              <ArrowRight size={14} className="text-[#2FA885]" />
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-xs uppercase tracking-widest font-mono font-semibold text-[#041F1B] bg-[#B7E4D5] hover:bg-[#C8EFE2] transition-all shadow-lg shadow-[#041F1B]/50 hover:shadow-[0_4px_24px_rgba(47,168,133,0.3)]"
+            >
+              <span>Request a Research Consultation</span>
+              <ArrowUpRight size={14} />
+            </Link>
+          </div>
         </div>
       </div>
     </div>

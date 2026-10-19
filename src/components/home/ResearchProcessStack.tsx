@@ -147,7 +147,7 @@ export function ResearchProcessStack() {
           </p>
         </div>
 
-        {/* Sticky Card Stack Container (Ethiack StepCard Mechanism) */}
+        {/* Sticky Card Stack Container (Progressive Step Card Stack) */}
         <div className="space-y-8 relative">
           {PROCESS_STEPS.map((step, index) => {
             const Icon = step.icon;

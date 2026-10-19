@@ -50,7 +50,7 @@ const INTELLIGENCE_TAGS: IntelligenceTag[] = [
     citation: "CERTIFICATE_TRANSPARENCY_LOGS",
     finding: "Newly registered typosquat domain imitating client brand discovered with active MX records staging a spear-phishing campaign.",
     serviceHref: "/services/brand-impersonation-research",
-    serviceTitle: "Brand Impersonation Research",
+    serviceTitle: "Brand Impersonation & Scam Research",
     xDesktop: 78,
     yDesktop: 30,
     xMobile: 52,
@@ -509,7 +509,7 @@ export function LivingTreeCanvas() {
         </div>
       )}
 
-      {/* Overlaid Interactive Intelligence Tags (Ethiack InfectionTag Homage) */}
+      {/* Overlaid Interactive Intelligence Tags */}
       <div className="absolute inset-0 pointer-events-none z-20">
         {INTELLIGENCE_TAGS.map((tag) => {
           const isSelected = activeTagId === tag.id;

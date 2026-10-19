@@ -43,7 +43,7 @@ const AUDIENCES = [
   },
   {
     priority: "04",
-    title: "Boutique Law Firms & Legal Counsel",
+    title: "Boutique Firms & Law Firms",
     tagline: "Lawful, defensible open-source fact-finding.",
     benefit: "Support litigation, commercial arbitration, and transaction due diligence with structured evidence dossiers traceable to primary public sources.",
     typicalProject: "Entity relationship mapping, public court record audits, and asset footprint analysis.",
@@ -52,7 +52,7 @@ const AUDIENCES = [
   },
   {
     priority: "05",
-    title: "Threat Intelligence & Security Teams",
+    title: "Cyber Threat Intelligence Teams",
     tagline: "Extend your external visibility without adding headcount.",
     benefit: "Augment internal security operations with passive digital attack-surface discovery, lookalike domain tracking, and threat actor infrastructure telemetry.",
     typicalProject: "External digital footprint audits and adversary campaign monitoring.",
@@ -135,7 +135,7 @@ export function PriorityAudiencesSection() {
                     href="/contact"
                     className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-[#34d399] hover:text-[#b7e4d5] transition-colors"
                   >
-                    <span>Discuss Requirements</span>
+                    <span>Discuss Your Research Requirement</span>
                     <ArrowRight size={13} />
                   </Link>
                 </div>

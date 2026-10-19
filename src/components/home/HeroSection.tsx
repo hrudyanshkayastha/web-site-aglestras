@@ -33,34 +33,32 @@ export function HeroSection() {
 
           {/* Non-Technical, Clear Headline */}
           <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-editorial text-[#f4f2ea] tracking-tight leading-tight">
-            Clear Intelligence for <br className="sm:hidden" />
+            Researching Information. <br className="sm:hidden" />
             <span className="italic font-normal text-[#34d399]">
-              Critical Decisions.
+              Engineering Intelligence.
             </span>
           </h1>
 
           {/* Concise Business-Focused Explanation */}
           <p className="text-base sm:text-lg md:text-xl text-[#cbd5d1] max-w-2xl mx-auto font-light leading-relaxed">
-            We investigate public records, verify evidence, and map business relationships.
-            From competitor positioning to external digital exposure, Agletras provides documented,
-            decision-ready findings so business leaders can move forward with confidence.
+            We investigate publicly available information, connect relevant findings, and turn complex research into clear intelligence for better business decisions.
           </p>
 
           {/* Two Clear Calls to Action */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
             <Link
-              href="#services"
+              href="/services"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-semibold tracking-wide text-[#041f1b] bg-[#34d399] hover:bg-[#b7e4d5] transition-all shadow-[0_4px_24px_rgba(52,211,153,0.3)] hover:shadow-[0_6px_32px_rgba(52,211,153,0.45)]"
             >
-              <span>Explore Services</span>
+              <span>Explore Our Services</span>
               <ArrowRight size={16} />
             </Link>
 
             <Link
-              href="#competitor-offer"
+              href="/contact"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-medium tracking-wide text-[#f4f2ea] bg-[#073b32]/80 hover:bg-[#073b32] border border-[#b7e4d5]/30 hover:border-[#b7e4d5]/60 transition-all shadow-md"
             >
-              <span>Competitor Intelligence Report</span>
+              <span>Discuss Your Research Requirement</span>
               <ArrowUpRight size={16} className="text-[#34d399]" />
             </Link>
           </div>
@@ -77,7 +75,7 @@ export function HeroSection() {
             </div>
             <div className="flex items-center gap-1.5">
               <Compass size={14} className="text-[#34d399]" />
-              <span>Nashik · Mumbai · Pune · Global</span>
+              <span>Nashik · Mumbai · Pune</span>
             </div>
           </div>
         </div>

@@ -43,7 +43,7 @@ const BUSINESS_LINES: BusinessLine[] = [
   {
     id: "bi",
     code: "LINE 01",
-    name: "Business Intelligence",
+    name: "Competitor Intelligence",
     headline: "Understand Your Market & Competitors to Make High-Confidence Decisions",
     summary:
       "We research corporate registers, market disclosures, pricing structures, and commercial relationships so you never have to guess what competitors, suppliers, or acquisition targets are doing.",
@@ -55,9 +55,9 @@ const BUSINESS_LINES: BusinessLine[] = [
       "Company ownership, director networks, and affiliate background research",
     ],
     audience: [
-      "Small marketing agencies benchmarking client competitors",
-      "E-commerce & direct-to-consumer (D2C) brand founders",
-      "B2B startups and sales consultants targeting enterprise accounts",
+      "Small marketing agencies & business consultants (competitor information & client-ready reports)",
+      "E-commerce & direct-to-consumer (D2C) brands (market positioning & public pricing tracking)",
+      "B2B startups & sales consultants (prospect research & company intelligence)",
     ],
     sampleDeliverable: {
       title: "Executive Competitor Intelligence Matrix",
@@ -75,7 +75,7 @@ const BUSINESS_LINES: BusinessLine[] = [
   {
     id: "osint",
     code: "LINE 02",
-    name: "Investigative OSINT",
+    name: "Investigative Research",
     headline: "Lawful Public-Source Research to Verify Facts & Document Evidence",
     summary:
       "We use hypothesis-driven open-source intelligence methods to investigate specific business questions, verify credentials, uncover undisclosed affiliations, and document verifiable findings.",
@@ -87,9 +87,9 @@ const BUSINESS_LINES: BusinessLine[] = [
       "Corporate relationship mapping and secondary affiliation tracing",
     ],
     audience: [
-      "Boutique law firms seeking lawful evidence and entity verification",
-      "Corporate leaders and HR managers verifying key executive appointments",
-      "Brand owners combating rogue websites and cloned social profiles",
+      "Boutique firms and law firms (scoped public-record & business research)",
+      "Business consultants (company research, corporate relationships & public-record checks)",
+      "E-commerce & D2C brands (suspicious websites, fake profiles & brand impersonation research)",
     ],
     sampleDeliverable: {
       title: "Evidence-Backed Investigative Dossier",
@@ -107,7 +107,7 @@ const BUSINESS_LINES: BusinessLine[] = [
   {
     id: "cyber",
     code: "LINE 03",
-    name: "Cybersecurity Intelligence",
+    name: "Digital Exposure Research",
     headline: "Understand External Digital Exposure & Anticipate Emerging Threats",
     summary:
       "We examine publicly observable digital footprints, certificate transparency telemetry, and threat indicators to help security and IT teams identify external staging before incidents happen.",
@@ -119,9 +119,9 @@ const BUSINESS_LINES: BusinessLine[] = [
       "Repeatable research automation and scheduled intelligence pipelines",
     ],
     audience: [
-      "Threat intelligence teams and Security Operations Centers (SOC)",
-      "CISOs, IT Directors, and security-conscious startup founders",
-      "Organizations preparing for audits or evaluating external perimeter hygiene",
+      "Cyber threat intelligence teams (public cyber-threat indicators & external digital-risk research)",
+      "Technology startups & founders (external perimeter hygiene & staging discovery)",
+      "Growing enterprises evaluating digital exposure across Nashik, Mumbai, and Pune",
     ],
     sampleDeliverable: {
       title: "External Threat Intelligence & Perimeter Brief",
@@ -153,7 +153,7 @@ export function ThreeBusinessLinesSection() {
         <div className="max-w-3xl space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#073b32]/80 border border-[#34d399]/30 text-xs font-mono text-[#b7e4d5]">
             <span className="w-1.5 h-1.5 rounded-full bg-[#34d399] animate-pulse" />
-            <span>SECTION 03 // THREE BUSINESS LINES</span>
+            <span>SECTION 04 // THREE BUSINESS LINES</span>
           </div>
 
           <h2 className="text-editorial-title text-[#f4f2ea]">

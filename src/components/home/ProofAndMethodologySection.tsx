@@ -127,7 +127,7 @@ export function ProofAndMethodologySection() {
             </div>
 
             <p className="text-sm text-[#cbd5d1] font-light leading-relaxed">
-              Every deliverable strictly separates <span className="text-[#34d399] font-medium">Confirmed Facts [A1]</span> from <span className="text-[#b7e4d5] font-medium">Observed Indicators [B2]</span> and <span className="text-[#cbd5d1] font-medium">Analytical Inferences [C3]</span>, giving executives crystal clarity on certainty.
+              Every deliverable strictly separates <span className="text-[#34d399] font-medium">FACTS</span> (supported by evidence), <span className="text-[#b7e4d5] font-medium">INDICATORS</span> (relevant observations), and <span className="text-[#cbd5d1] font-medium">INFERENCES</span> from <span className="text-[#a1b8b0] font-medium">ASSUMPTIONS</span> and <span className="text-amber-300 font-medium">UNKNOWN / UNRESOLVED</span> gaps.
             </p>
 
             <div className="pt-2 border-t border-[#34d399]/15 flex items-center gap-2 font-mono text-xs text-[#8da99e]">

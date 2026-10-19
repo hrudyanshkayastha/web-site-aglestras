@@ -25,29 +25,28 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "AGLETRAS — Research Intelligence & External Threat OSINT",
+    default: "AGLETRAS — Researching Information. Engineering Intelligence.",
     template: "%s | AGLETRAS",
   },
   description:
-    "Agletras transforms fragmented open-source information into structured, evidence-backed decisions. Specializing in external cyber threat intelligence, digital attack-surface discovery, and business risk investigation.",
+    "Agletras researches public information, evaluates evidence, connects relevant findings, and delivers structured intelligence to help businesses make better-informed decisions.",
   metadataBase: new URL("https://agletras.com"),
   keywords: [
     "AGLETRAS",
     "Research Intelligence",
-    "External Threat Intelligence",
-    "OSINT",
-    "Open-Source Intelligence",
-    "Digital Attack Surface",
-    "Brand Impersonation Research",
+    "OSINT Investigation",
     "Business Due Diligence",
+    "Recruitment Verification",
+    "Brand Impersonation Research",
     "Cyber Threat Intelligence",
+    "Research Automation",
     "Evidence-Backed Intelligence",
   ],
   authors: [{ name: "Agletras Research Team" }],
   openGraph: {
-    title: "AGLETRAS — Turn Information Into Intelligence",
+    title: "AGLETRAS — Researching Information. Engineering Intelligence.",
     description:
-      "Evidence-first research intelligence. Transforming fragmented public information into structured, traceable, decision-ready intelligence.",
+      "Agletras researches public information, evaluates evidence, connects relevant findings, and delivers structured intelligence to help businesses make better-informed decisions.",
     url: "https://agletras.com",
     siteName: "AGLETRAS",
     locale: "en_US",

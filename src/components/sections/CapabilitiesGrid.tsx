@@ -6,7 +6,7 @@ import { ArrowUpRight, ChevronDown, ChevronUp, Check, AlertCircle } from "lucide
 import { servicesData, ServiceItem } from "@/data/services";
 
 export function CapabilitiesGrid() {
-  const [expandedId, setExpandedId] = useState<string | null>("external-threat-intelligence");
+  const [expandedId, setExpandedId] = useState<string | null>("osint-investigative-research");
   const allServices = servicesData;
 
   const toggleExpand = (id: string) => {

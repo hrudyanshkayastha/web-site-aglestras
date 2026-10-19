@@ -26,11 +26,13 @@ import { intelligenceStages, IntelligenceStage } from "@/data/methodology";
 
 const stageIconMap: Record<string, React.ElementType> = {
   "01": Compass,
-  "02": Database,
-  "03": CheckCircle2,
+  "02": Shield,
+  "03": Database,
   "04": Network,
-  "05": ShieldCheck,
-  "06": FileText,
+  "05": CheckCircle2,
+  "06": ShieldCheck,
+  "07": FileText,
+  "08": ArrowUpRight,
 };
 
 interface MethodologyOverlayProps {
@@ -62,14 +64,14 @@ export function MethodologyOverlay({
 
   const handlePrevStage = () => {
     if (currentStage === null || currentStage <= 1) {
-      handleSelect(6);
+      handleSelect(intelligenceStages.length);
     } else {
       handleSelect(currentStage - 1);
     }
   };
 
   const handleNextStage = () => {
-    if (currentStage === null || currentStage >= 6) {
+    if (currentStage === null || currentStage >= intelligenceStages.length) {
       handleSelect(1);
     } else {
       handleSelect(currentStage + 1);
@@ -121,7 +123,7 @@ export function MethodologyOverlay({
       <div className="w-full max-w-3xl mx-auto pointer-events-auto space-y-3 text-center">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#031714]/85 border border-[#B7E4D5]/30 text-xs font-mono text-[#B7E4D5] uppercase tracking-wider backdrop-blur-md shadow-lg">
           <span className="w-1.5 h-1.5 rounded-full bg-[#2FA885] animate-pulse" />
-          <span>Destination 03 // 6-Stage Epistemic Pathway</span>
+          <span>Destination 03 // 8-Step Epistemic Pathway</span>
         </div>
 
         {/* Collapsible Headline (Hides smoothly when a stage is focused to maximize 3D spatial visibility) */}
@@ -134,18 +136,18 @@ export function MethodologyOverlay({
               transition={{ duration: 0.25 }}
               className="space-y-2 overflow-hidden"
             >
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-editorial font-semibold text-[#F4F2EA] drop-shadow-[0_4px_20px_rgba(2,15,12,0.9)]">
-                Define → Collect → Verify → Correlate → Analyze → Deliver
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-editorial font-semibold text-[#F4F2EA] drop-shadow-[0_4px_20px_rgba(2,15,12,0.9)]">
+                Understand → Scope → Collect → Correlate → Verify → Conclude → Report → Review
               </h2>
 
               <p className="text-xs sm:text-sm text-[#C5D9D2] max-w-xl mx-auto font-light leading-relaxed drop-shadow-[0_2px_10px_rgba(2,15,12,0.9)]">
-                Intelligence without provenance is conjecture. Explore our 6 connected architectural stages below. Click any monument or checkpoint to inspect its inputs, verification controls, and expected deliverables.
+                Intelligence without provenance is conjecture. Explore our 8 connected architectural stages below. Click any monument or checkpoint to inspect its inputs, verification controls, and expected deliverables.
               </p>
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Floating 6-Stage Conduit Stepper Dock */}
+        {/* Floating 8-Stage Conduit Stepper Dock */}
         <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 pt-2" role="toolbar" aria-label="Methodology stage selector">
           {intelligenceStages.map((stage, idx) => {
             const stepNum = idx + 1;
@@ -191,7 +193,7 @@ export function MethodologyOverlay({
               data-action="reset-overview"
               onClick={() => handleSelect(null)}
               className="inline-flex items-center gap-1 px-3 py-1.5 sm:py-2 rounded-xl bg-[#073B32] text-[#B7E4D5] hover:text-[#FFFFFF] border border-[#B7E4D5]/30 text-xs font-mono transition-all shrink-0 cursor-pointer shadow-md backdrop-blur-md"
-              title="Return to 6-stage panoramic overview (Esc)"
+              title="Return to 8-stage panoramic overview (Esc)"
             >
               <RotateCcw size={12} className="text-[#2FA885]" />
               <span>Overview</span>
@@ -235,7 +237,7 @@ export function MethodologyOverlay({
                       STAGE {activeStageData.step} // {activeStageData.phase.toUpperCase()}
                     </span>
                     <span className="text-[11px] font-mono text-[#8DA99E]">
-                      3D Stage 0{currentStage}/06 Active & Locked
+                      3D Stage 0{currentStage}/08 Active & Locked
                     </span>
                   </div>
                 </div>
@@ -245,7 +247,7 @@ export function MethodologyOverlay({
                   data-action="close-dossier"
                   onClick={() => handleSelect(null)}
                   className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#073B32]/70 hover:bg-[#073B32] text-[#B7E4D5] hover:text-[#FFFFFF] border border-[#B7E4D5]/25 text-xs font-mono transition-all cursor-pointer"
-                  title="Return to 6-stage overview (Esc)"
+                  title="Return to 8-stage overview (Esc)"
                 >
                   <span>Overview</span>
                   <X size={12} />

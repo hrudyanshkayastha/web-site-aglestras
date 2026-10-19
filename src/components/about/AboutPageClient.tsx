@@ -190,11 +190,11 @@ export function AboutPageClient() {
                 An Evidence-First Research Intelligence Practice
               </h2>
               <p className="text-sm text-[#C5D9D2] font-light leading-relaxed">
-                Agletras is a specialized research enterprise founded to bridge the critical gap between vast, chaotic public data and high-stakes executive decisions. We combine open-source intelligence (OSINT) methodologies, cybersecurity telemetry, and automated data pipelines to provide organizations with clear, empirically substantiated findings.
+                Agletras is an emerging, bootstrapped research startup founded in Nashik, Maharashtra, with planned expansion to Mumbai and Pune. We bridge the critical gap between vast, chaotic public data and high-stakes executive decisions by combining open-source intelligence (OSINT) methodologies, cybersecurity telemetry, and repeatable data pipelines.
               </p>
             </div>
             <div className="pt-4 border-t border-[#B7E4D5]/10 text-xs font-mono text-[#8DA99E]">
-              Governed strictly by lawful open-source research and explicit client authorizations.
+              MSME-Registered in Nashik, Maharashtra · Strictly lawful public sources & authorized client data.
             </div>
           </div>
 
@@ -209,7 +209,7 @@ export function AboutPageClient() {
               <ul className="space-y-2 text-xs sm:text-sm text-[#C5D9D2] font-light">
                 <li className="flex items-start gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#2FA885] mt-2 shrink-0" />
-                  <span><strong>Perimeter Blind Spots:</strong> Adversaries staging lookalike domains and harvesting infrastructure before phishing campaigns.</span>
+                  <span><strong>Perimeter Blind Spots:</strong> Adversaries staging lookalike domains, credential exposures, and harvesting infrastructure before attacks.</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#2FA885] mt-2 shrink-0" />
@@ -647,7 +647,7 @@ export function AboutPageClient() {
                 href="/contact"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-xs uppercase tracking-widest font-mono font-semibold text-[#041F1B] bg-[#B7E4D5] hover:bg-[#C8EFE2] transition-all shadow-lg shadow-[#041F1B]/60 hover:shadow-[0_4px_24px_rgba(47,168,133,0.4)] cursor-pointer"
               >
-                <span>Discuss Your Requirements</span>
+                <span>Discuss Your Research Requirement</span>
                 <ArrowUpRight size={15} />
               </Link>
             </div>
